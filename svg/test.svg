@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="745"
+   height="1053"
+   id="svg4783"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4785" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="375"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="873"
+     inkscape:window-height="664"
+     inkscape:window-x="86"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata4788">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect4791"
+       width="477.14285"
+       height="417.14285"
+       x="68.571426"
+       y="120.93361" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path4793"
+       sodipodi:cx="291.42856"
+       sodipodi:cy="320.93362"
+       sodipodi:rx="111.42857"
+       sodipodi:ry="108.57143"
+       d="m 402.85713,320.93362 a 111.42857,108.57143 0 1 1 -222.85715,0 111.42857,108.57143 0 1 1 222.85715,0 z" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="202.85715"
+       y="178.07648"
+       id="text4795"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4797"
+         x="202.85715"
+         y="178.07648">Foo Bar</tspan></text>
+    <path
+       sodipodi:type="star"
+       style="fill:#ffff00;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path4799"
+       sodipodi:sides="5"
+       sodipodi:cx="251.42857"
+       sodipodi:cy="286.64789"
+       sodipodi:r1="56.279186"
+       sodipodi:r2="28.139593"
+       sodipodi:arg1="1.152572"
+       sodipodi:arg2="1.7808905"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 274.28572,338.07646 -28.72571,-23.90773 -35.97967,10.10989 13.86087,-34.70767 -20.73341,-31.09456 37.2922,2.45721 23.16571,-29.32739 9.18698,36.22631 35.05061,12.96924 -31.61434,19.93188 z"
+       inkscape:transform-center-x="-3.6269754"
+       inkscape:transform-center-y="-1.8065542"
+       transform="translate(0,40)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#ffff00;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path4801"
+       sodipodi:sides="5"
+       sodipodi:cx="311.42856"
+       sodipodi:cy="238.07648"
+       sodipodi:r1="28.571428"
+       sodipodi:r2="14.285714"
+       sodipodi:arg1="0.92729522"
+       sodipodi:arg2="1.5556137"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 328.57142,260.93362 -16.92598,-8.57308 -16.65788,9.08301 2.92306,-18.74678 -13.78602,-13.03579 18.73253,-3.01307 8.13766,-17.13957 8.65427,16.8846 18.81537,2.44296 -13.38389,13.44833 z"
+       inkscape:transform-center-x="0.1340427"
+       inkscape:transform-center-y="-2.600532"
+       transform="translate(37.142857,40)" />
+  </g>
+</svg>
