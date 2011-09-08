@@ -50,15 +50,21 @@ We will:
 
 *** notes
 
-suggest primarily using unix targets for ease-of-development.  
+suggest primarily using unix targets for ease-of-development.
+[avsm] Start with unix-socket, introduce the HTTP layer, get a web server started early
+[avsm] Then move to unix-direct and show the lower-layers of the stack.
+[avsm] Finally, compile up a xen backend...
 
 how is xen best used- will there be a local dom0 available for demo?  
+[avsm] Yes, Dave and I will both bring laptops with debian-testing running Xen, and hand out user/pass combinations to attendees
 
 or just use EC2?  if so, how to manage?
+[avsm] I'll preconfigure my personal EC2 keys on my laptop, so users can upload kernels via it.
 
 tuntap- what's the spec of the vm image to be used, presume it includes tuntap
 support, do we need to talk explicitly about tuntap, or just use the
 unix-direct target?
+[avsm] it should include tuntap support, but I havent tested this. hrm.
 
 *** storyboard
 
