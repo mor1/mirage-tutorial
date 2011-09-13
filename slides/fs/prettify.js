@@ -113,6 +113,9 @@ window['PR']
   var JSCRIPT_KEYWORDS = COMMON_KEYWORDS +
       "debugger eval export function get null set undefined var with " +
       "Infinity NaN ";
+  var OCAML_KEYWORDS = "let lwt open with match and type class module begin end " +
+      "function fun for if else class constraint type include inherit method mutable " +
+      "or true then val when with while";
   var PERL_KEYWORDS = "caller delete die do dump elsif eval exit foreach for " +
       "goto if import last local my next no our print package redo require " +
       "sub undef unless until use wantarray while BEGIN END ";
@@ -126,8 +129,8 @@ window['PR']
   var SH_KEYWORDS = FLOW_CONTROL_KEYWORDS + "case done elif esac eval fi " +
       "function in local set then until ";
   var ALL_KEYWORDS = (
-      CPP_KEYWORDS + CSHARP_KEYWORDS + JSCRIPT_KEYWORDS + PERL_KEYWORDS +
-      PYTHON_KEYWORDS + RUBY_KEYWORDS + SH_KEYWORDS);
+      CPP_KEYWORDS + CSHARP_KEYWORDS + JSCRIPT_KEYWORDS + OCAML_KEYWORDS +
+      PERL_KEYWORDS + PYTHON_KEYWORDS + RUBY_KEYWORDS + SH_KEYWORDS);
 
   // token style names.  correspond to css classes
   /** token style for a string literal */
