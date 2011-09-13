@@ -413,6 +413,10 @@ pre {
   overflow: hidden;
 }
 
+tt {
+  font-color: #000050;
+}
+
 code {
   font-size: 95%;
   font-family: 'Droid Sans Mono', 'Courier New', monospace;
