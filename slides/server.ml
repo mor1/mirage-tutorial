@@ -20,7 +20,7 @@ let main () =
     |None ->
       if Http.Request.path req = "/" then (
         let headers = ["content-type","text/html"] in
-        Http.Server.respond ~body:Slides.body ~headers () 
+        Http.Server.respond ~body:Content.body ~headers () 
       ) else
         Http.Server.respond_not_found ~url:(Http.Request.path req) ()
   in 
