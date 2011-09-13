@@ -1,9 +1,31 @@
 open Cow
+open Printf
 
-let slides = <:html<
+type layout =
+ |Regular
+ |Faux_widescreen
+ |Widescreen
+
+let layout_to_string = function
+ |Regular -> "layout-regular"
+ |Faux_widescreen -> "layout-faux-widescreen"
+ |Widescreen -> "layout-widescreen"
+
+type presentation = {
+  layout: layout;
+}
+
+let presentation = {
+  layout = Regular;
+}
+
+let slides p =
+  let template = "template-default" in
+  let classes = sprintf "slides %s %s" (layout_to_string p.layout) template in
+<:html<
 <html>
   <head>
-    <title>Presentation</title>
+    <title>Mirage Tutorial</title>
     <script type="text/javascript" src="slides.js">&nbsp; </script>
   </head>
   
@@ -12,7 +34,7 @@ let slides = <:html<
 
   <body>
 
-    <section class='slides layout-regular template-default'>
+    <section class="$str:classes$">
       
       <article class='biglogo'>
       </article>
@@ -338,4 +360,4 @@ let slides = <:html<
   </body>
 </html>
 >>
-let body = Xml.to_string slides
+let body = Xml.to_string (slides presentation)

@@ -3,22 +3,26 @@ open Printf
 
 let port = 80
 
+let get_file filename =
+  OS.Devices.with_kv_ro "fs" (fun kv_ro ->
+    match_lwt kv_ro#read filename with
+    |None -> return None
+    |Some k -> Bitstring_stream.string_of_stream k >|= (fun x -> Some x)
+  )
+ 
 let main () =
   Log.info "Server" "listening to HTTP on port %d" port;
-  lwt js = OS.Devices.with_kv_ro "fs" (fun kv_ro ->
-    match_lwt kv_ro#read "slides.js" with
-    |None -> assert false
-    |Some k -> Bitstring_stream.string_of_stream k) in
   let callback conn_id req =
     printf "%s\n%!" (Http.Request.path req);
-    match Http.Request.path req with
-    |"/slides.js" ->
-      Http.Server.respond ~body:js ~headers:["content-type","text/javascript"] ()
-    |"/"|"" ->
-      let headers = ["content-type","text/html"] in
-      Http.Server.respond ~body:Slides.body ~headers () 
-    |_ ->
-      Http.Server.respond_not_found ~url:(Http.Request.path req) ()
+    match_lwt get_file (Http.Request.path req) with
+    |Some body ->
+      Http.Server.respond ~body ()
+    |None ->
+      if Http.Request.path req = "/" then (
+        let headers = ["content-type","text/html"] in
+        Http.Server.respond ~body:Slides.body ~headers () 
+      ) else
+        Http.Server.respond_not_found ~url:(Http.Request.path req) ()
   in 
   let exn_handler exn =
     Log.info "Server" "EXN %s" (Printexc.to_string exn);
