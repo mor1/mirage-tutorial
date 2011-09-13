@@ -67,5 +67,16 @@ let slides = [
     </ul>
     <div class="red">avsm: split this up into multiple slides with diagrams</div>
   >>
+};
+{ styles=[];
+  content = <:html<
+   <h3>Motivation</h3>
+   <ul>
+     <li><b>Portability</b>: minimise platform dependencies, leverage functional programming</li>
+     <li><b>Security</b>: replace millions of lines of C with safer/smaller OCaml</li>
+     <li><b>"Fat-free"</b>: layers of legacy software, compile out the layers for energy efficiency and performance</li>
+   </ul>
+    <div class="red">avsm: split this up into multiple slides with diagrams (from HotCloud paper perhaps)</div>
+  >>
 }
 ]
