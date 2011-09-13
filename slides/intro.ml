@@ -52,5 +52,20 @@ let slides = [
      <li>Git checkout of <a href="http://github.com/avsm/mirage/">http://github.com/avsm/mirage</a></li>
     </ul>
   >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Mirage: an Application Synthesis Framework</h3>
+    <p>Write code in OCaml, and the system generates specialised outputs for:</p>
+    <ul>
+      <li><b>UNIX</b> binaries that use kernel sockets (like existing languages)</li>
+      <li>UNIX alternative that uses <tt>tuntap</tt> and <tt>mmap</tt> to implement networking and filesystems in OCaml.</li>
+      <li><b>Xen</b> microkernels that run directly against the hypervisor (no Linux underneath).</li>
+      <li><b>Javascript</b> executables that run under <tt>node.js</tt></li>
+      <li>...and easy to add more (OCamlJava, OCamlPIC?)</li>
+    </ul>
+    <div class="red">avsm: split this up into multiple slides with diagrams</div>
+  >>
 }
 ]
