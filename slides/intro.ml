@@ -12,14 +12,16 @@ let slides = [
      <li>
        <b>Dr. Anil Madhavapeddy</b>,<br />
        <div style="font-size: 80%">
-       Senior Research Fellow, Systems Research Group, University of Cambridge.<br />
+       Senior Research Fellow,<br />
+       Computer Laboratory, University of Cambridge.<br />
        <a href="http://anil.recoil.org/">http://anil.recoil.org</a>
        </div>
      </li>
        
      <li><b>Dr. David Scott</b>,<br />
        <div style="font-size: 80%">
-       XenServer Platform Architect, Citrix and Xen.org.<br />
+       XenServer Platform Architect,<br />
+       Citrix and Xen.org.<br />
        <a href="http://dave.recoil.org/">http://dave.recoil.org</a>
        </div>
      </li>

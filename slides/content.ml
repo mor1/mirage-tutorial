@@ -6,7 +6,13 @@ let rt = ">>"
 
 let p1 = {
   styles=[Title];
-  content= <:html< Building a Functional OS <br />CUFP 2011, Tokyo, Japan >>;
+  content= <:html<
+   <h1>Building a Functional Operating System</h1>
+   <br />
+   Tutorial T3<br />
+   Commercial Users of Function Programming (CUFP),<br />
+   Tokyo, Japan
+  >>;
 }
 
 let p2 = {
