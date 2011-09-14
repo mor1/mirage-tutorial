@@ -1,7 +1,7 @@
 open Lwt
 open Printf
 
-let port = 80
+let port = 8000
 
 let get_file filename =
   OS.Devices.with_kv_ro "fs" (fun kv_ro ->
