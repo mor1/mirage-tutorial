@@ -29,8 +29,8 @@ let slides = [
      </li>
      <li><b>Dr. Thomas Gazagnaire</b>,
        <div style="font-size: 80%">
-       Consultant, OCamlPro.<br />
-       <a href="http://thomas.gazagnaire.org/">http://thomas.gazagnaire.org</a>
+       CTO, OCamlPro.<br />
+       <a href="http://thomas.gazagnaire.org/">http://gazagnaire.org</a>
        </div>
      </li>
     </ul>
