@@ -118,6 +118,7 @@ $str:dl$ mir-build node/hello.js
 $str:dl$ mir-build unix-direct/hello.bin
 $str:dl$ mir-build unix-socket/hello.bin
 </pre></section>
+     <p>This builds various binaries from the same <tt>hello.ml</tt> file. We will introduce other options as the tutorial proceeds.</p>
   >>
 }
 ]
