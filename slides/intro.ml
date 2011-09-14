@@ -120,5 +120,12 @@ $str:dl$ mir-build unix-socket/hello.bin
 </pre></section>
      <p>This builds various binaries from the same <tt>hello.ml</tt> file. We will introduce other options as the tutorial proceeds.</p>
   >>
+};
+{
+  styles=[];
+  content= <:html<
+   
+     <object type="image/svg+xml" width="100%" height="100%" style="float:left" data="xcp.svg"><span/></object>
+  >>
 }
 ]
