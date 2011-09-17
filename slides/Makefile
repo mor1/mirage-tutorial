@@ -1,6 +1,6 @@
 all:
 	cd fs && mir-crunch -name fs . > ../crunch_fs.ml
-	mir-build unix-socket/server.bin
+	mir-build -j 5 unix-socket/server.bin
 	./_build/unix-socket/server.bin
 
 clean:

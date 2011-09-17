@@ -41,7 +41,7 @@ let main () =
    >>
 }
   
-let articles = [ p1 ] @ Intro.slides @ [ p2 ] 
+let articles = [ p1 ] @ Intro.slides @ Lwt_tutorial.slides @ [ p2 ] 
 
 let presentation = {
   topic="Mirage CUFP 2011 Tutorial";
