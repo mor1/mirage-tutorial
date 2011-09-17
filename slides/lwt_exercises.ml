@@ -15,23 +15,6 @@ let slides = [
     <p>Raphael Proust, Balraj Singh and Anil Madhavapeddy</p>
   >>
 };
-{
-  styles=[];
-  content= <:html<
-    <h3>Lightweight Threads</h3>
-    <ul>
-     <li>Mirage is <b>event-driven</b> with no preemption</li>
-     <li><tt>Lwt</tt> transforms event callbacks into straight-line code</li>
-     <li>Maximises portability across platforms, but takes some getting used to</li>
-    </ul>
-    <p>Lets try some examples for 10 minutes!<br />
-    All are in <tt>mirage-tutorial.git/examples/lwt</tt>, and you build them by:</p>
-    <section><pre class="noprettyprint">
-$str:dl$ mir-build unix-socket/sleep.bin
-$str:dl$ ./_build/unix-socket/sleep.bin
-    </pre></section>
-  >>
-};
 { 
   styles=[];
   content= <:html<

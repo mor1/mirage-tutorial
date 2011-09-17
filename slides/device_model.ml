@@ -25,5 +25,19 @@ let slides = [
     </ul>
   >>
 };
+{
+  styles=[];
+  content= <:html<
+    <h3>type OS.Devices.blkif</h3>
+    <p>Abstract object for read/write, with UNIX direct and Xen implementations, same signature.</p>
+  >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Xen Block Interface</h3>
+    <p>Explain rings and such here?</p>
+  >>
+};
 ]
 

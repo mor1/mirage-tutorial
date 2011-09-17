@@ -35,7 +35,20 @@ $str:dl$ ./_build/unix-socket/sleep.bin
 { 
   styles=[];
   content= <:html<
-    <h3>LWT Examples Go Here</h3>
+    <h3>bind/return</h3>
+  >>
+};
+{ 
+  styles=[];
+  content= <:html<
+    <h3>the lwt syntax extension</h3>
+  >>
+};
+{ 
+  styles=[];
+  content= <:html<
+    <h3>how threads wake up</h3>
+    <p>walk through an OS.Time.sleep and what it looks like from the system perspective.</p>
   >>
 }
 ]
