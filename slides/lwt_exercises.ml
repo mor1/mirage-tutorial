@@ -8,9 +8,9 @@ let dl = "$"
 let slides = [
 { styles=[];
   content= <:html<
-    <h1>Lightweight Threading
+    <h1>Lwt Exercises
     <br />
-     <small>using the Lwt library</small>
+     <small>cool cooperative concurrency</small>
     </h1>
     <p>Raphael Proust, Balraj Singh and Anil Madhavapeddy</p>
   >>

@@ -40,8 +40,16 @@ let main () =
 </pre></section>
    >>
 }
-  
-let articles = [ p1 ] @ Intro.slides @ Lwt_tutorial.slides @ [ p2 ] 
+
+let footer = {
+  styles=[];
+  content= <:html<
+    <h1>The End
+    <br /><small>now stand around the watercooler and discuss things</small>
+    </h1>
+  >>
+}
+let articles = [ p1 ] @ Intro.slides @ Whatis.slides @ Lwt_tutorial.slides @ Lwt_exercises.slides @ Device_model.slides @ [ footer ] 
 
 let presentation = {
   topic="Mirage CUFP 2011 Tutorial";
