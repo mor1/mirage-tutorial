@@ -1,7 +1,7 @@
 open Lwt
 open Printf
 
-let port = 80
+let port = 8000
 
 let get_file filename =
   OS.Devices.with_kv_ro "fs" (fun kv_ro ->
@@ -20,7 +20,8 @@ let main () =
     |None ->
       if Http.Request.path req = "/" then (
         let headers = ["content-type","text/html"] in
-        Http.Server.respond ~body:Content.body ~headers () 
+        let body = Content.body in
+        Http.Server.respond ~body ~headers () 
       ) else
         Http.Server.respond_not_found ~url:(Http.Request.path req) ()
   in 

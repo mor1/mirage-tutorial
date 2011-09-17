@@ -4,7 +4,7 @@ open Slides
 
 let rt = ">>"
 
-let p1 = {
+let header =[ {
   styles=[Title];
   content= <:html<
    <h1>Building a Functional Operating System</h1>
@@ -13,7 +13,7 @@ let p1 = {
    Commercial Users of Function Programming (CUFP),<br />
    Tokyo, Japan
   >>;
-}
+}]
 
 let p2 = {
   styles=[Fill];
@@ -40,8 +40,29 @@ let main () =
 </pre></section>
    >>
 }
-  
-let articles = [ p1 ] @ Intro.slides @ [ p2 ] 
+
+let footer = [{
+  styles=[];
+  content= <:html<
+    <h1>The End
+    <br /><small>now stand around the watercooler and discuss things</small>
+    </h1>
+  >>
+}]
+let articles = List.flatten [
+  header;
+  Intro.slides;
+  Whatis.slides;
+  Lwt_tutorial.slides;
+  Lwt_exercises.slides;
+  Device_model.slides;
+  Device_exercises.slides;
+  Miragep4.slides;
+  Network_model.slides;
+  Website.slides;
+  Cloud.slides;
+  footer;
+]
 
 let presentation = {
   topic="Mirage CUFP 2011 Tutorial";
