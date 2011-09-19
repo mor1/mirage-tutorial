@@ -14,8 +14,8 @@ let main () =
   Log.info "Server" "finding the static kv_ro block device";
   lwt static = OS.Devices.find_kv_ro "static" >>=
     function
-    |None -> Printf.printf "fatal error, static kv_ro not found\n%!"; exit 1
-    |Some x -> return x in
+    | None   -> Printf.printf "fatal error, static kv_ro not found\n%!"; exit 1
+    | Some x -> return x in
   Log.info "Server" "found static kv_ro";
   let callback = Dispatch.t static in
   let spec = {

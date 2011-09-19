@@ -1,24 +1,20 @@
-open Printf
-open Log
 open Lwt
 open Regexp
-
-let content_type_xhtml = ["content-type","text/html"]
-let content_type_css = [ "content-type", "text/css" ]
 
 (* Dynamic Dispatch *)
 module Dynamic = struct
 
   let dyn ?(headers=[]) req body =
-    printf "Dispatch: dynamic URL %s\n%!" (Http.Request.path req);
+    Log.info "HTTP" "Dispatch: dynamic URL %s\n%!" (Http.Request.path req);
     lwt body = body in
     let status = `OK in
     Http.Server.respond ~body ~headers ~status ()
 
+  let content_type_xhtml = ["content-type","text/html"]
+
   let dyn_xhtml req xhtml =
     dyn ~headers:content_type_xhtml req (return (Cow.Html.to_string xhtml))
 
-  (* dispatch non-file URLs *)
   let dispatch req =
     function
     | [] | [""]
@@ -30,7 +26,7 @@ end
 (* handle exceptions with a 500 *)
 let exn_handler exn =
   let body = Printexc.to_string exn in
-  error "HTTP" "ERROR: %s" body;
+  Log.error "HTTP" "ERROR: %s" body;
   return ()
 
 let rec remove_empty_tail = function
@@ -44,9 +40,7 @@ let string_of_stream s =
 (* main callback function *)
 let t static conn_id req =
   let path = Http.Request.path req in
-  let path_elem =
-    remove_empty_tail (Re.split_delim (Re.from_string "/") path)
-  in
+  let path_elem = remove_empty_tail (Re.split_delim (Re.from_string "/") path) in
 
   (* determine if it is static or dynamic content *)
   match_lwt static#read path with
