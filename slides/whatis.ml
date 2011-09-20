@@ -17,6 +17,9 @@ let slides = [
     
   >>
 };
+{ styles=[Fill];
+  content= svg "backends.svg"
+};
 {
   styles=[];
   content= <:html<

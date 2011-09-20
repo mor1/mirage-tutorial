@@ -488,22 +488,12 @@ article.fill img {
   z-index: -1;
 }
 
-article.fill object {
-  position: absolute;
-  left: 0;
-  top: 0;
-  min-width: 100%;
-  min-height: 100%;
-
-  border-radius: 10px;
-  -o-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-
-  z-index: -1;
+img.centered {
+  margin: 0 auto;
+  display: block;
 }
 
-img.centered {
+object.centered {
   margin: 0 auto;
   display: block;
 }

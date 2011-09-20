@@ -75,3 +75,9 @@ let slides p =
   </body>
 </html>
 >>
+
+(* Helper function to generate SVG tag *)
+let svg fname =
+  <:html<
+    <object class="centered" data=$str:fname$ type="image/svg+xml" height="600px">&nbsp;</object>
+  >>
