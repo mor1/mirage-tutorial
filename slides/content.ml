@@ -57,8 +57,8 @@ let articles = List.flatten [
   Lwt_exercises.slides;
   Device_model.slides;
   Device_exercises.slides;
-  Miragep4.slides;
   Network_model.slides;
+  Miragep4.slides;
   Website.slides;
   Cloud.slides;
   footer;

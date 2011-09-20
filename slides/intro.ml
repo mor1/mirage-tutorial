@@ -85,11 +85,6 @@ let slides = [
          <td>Activity</td>
          <td>15 mins</td>
       </tr>
-      <tr style=$str:pres$>
-         <td>Syntax Extensions</td>
-         <td>Presentation</td>
-         <td>5 mins</td>
-      </tr>
       <tr style=$str:rest$>
          <td colspan="2">Tea Break</td>
          <td>30 mins</td>
@@ -98,6 +93,11 @@ let slides = [
          <td>Networking</td>
          <td>Presentation</td>
          <td>10 mins</td>
+      </tr>
+      <tr style=$str:pres$>
+         <td>Syntax Extensions</td>
+         <td>Presentation</td>
+         <td>5 mins</td>
       </tr>
       <tr style=$str:activity$>
          <td>Build Your Website</td>
