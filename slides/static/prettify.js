@@ -87,7 +87,7 @@ window['PR']
 (function () {
   // Keyword lists for various languages.
   var FLOW_CONTROL_KEYWORDS =
-      "break continue do else for if return while ";
+      "break continue do else for if while "; /* return */
   var C_KEYWORDS = FLOW_CONTROL_KEYWORDS + "auto case char const default " +
       "double enum extern float goto int long register short signed sizeof " +
       "static struct switch typedef union unsigned void volatile ";
@@ -108,7 +108,7 @@ window['PR']
       "object out override orderby params partial readonly ref sbyte sealed " +
       "stackalloc string select uint ulong unchecked unsafe ushort var ";
   var COFFEE_KEYWORDS = "all and by catch class else extends false finally " +
-      "for if in is isnt loop new no not null of off on or return super then " +
+      "for if in is isnt loop new no not null of off on or super then " + /* return */
       "true try unless until when while yes ";
   var JSCRIPT_KEYWORDS = COMMON_KEYWORDS +
       "debugger eval export function get null set undefined var with " +
@@ -193,7 +193,7 @@ window['PR']
           "||=", "~" /* handles =~ and !~ */,
           "break", "case", "continue", "delete",
           "do", "else", "finally", "instanceof",
-          "return", "throw", "try", "typeof"
+          /* "return",*/ "throw", "try", "typeof"
           ];
       var pattern = '(?:^^|[+-]';
       for (var i = 0; i < preceders.length; ++i) {
