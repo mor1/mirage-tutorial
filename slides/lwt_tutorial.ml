@@ -91,7 +91,8 @@ val Lwt.join : unit Lwt.t list -> unit Lwt.t
     let __pa_lwt_0 = OS.Time.sleep 2.0 in
     Lwt.bind __pa_lwt_0 (fun () -> 
       (OS.Console.log "Wake up sleep.ml!\n";
-       Lwt.return ())
+       Lwt.return ()
+      )
     )
   )</pre>
 >>
@@ -99,15 +100,22 @@ val Lwt.join : unit Lwt.t list -> unit Lwt.t
 { 
   styles=[];
   content= <:html<
-    <h3>the lwt syntax extension</h3>
+    <h3>Behind the Scenes</h3>
+    <p>The scheduler is itself written in OCaml, but is operating system specific. To consider UNIX:</p>
+    <ul>
+      <li>Scheduler: <tt><a href="http://github.com/avsm/mirage/blob/master/lib/os/unix/main.ml">mirage/lib/os/unix/main.ml</a></tt></li>
+      <li>OCaml: <tt><a href="http://github.com/avsm/mirage/blob/master/lib/os/runtime_unix/evtchn_stubs.c">mirage/lib/os/unix/evtchn_stubs.c</a></tt></li>
+    </ul>
+    <pre>
+let t,u = Lwt.task () in // t sleeps forever
+Lwt.wakeup u "foo";      // and u can wake it up  
+t                        // value of t is "foo" </pre>
+<p>The outside world wakes up sleeping threads via the <tt>Lwt.wakeup</tt> mechanism:</p>
+<ul>
+<li>Timeouts are stored in an efficient <a href="https://github.com/avsm/mirage/blob/master/lib/os/unix/time.ml">priority queue</a></li>
+<li>I/O is woken up by <tt>select</tt>, <tt>kqueue</tt> or <tt>epoll</tt></li>
+</ul>
   >>
 };
-{ 
-  styles=[];
-  content= <:html<
-    <h3>how threads wake up</h3>
-    <p>walk through an OS.Time.sleep and what it looks like from the system perspective.</p>
-  >>
-}
 ]
 
