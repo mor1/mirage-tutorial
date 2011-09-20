@@ -3,8 +3,15 @@ open Printf
 
 let port = 8000
 
+let ip =
+  let open Net.Nettypes in
+  ( ipv4_addr_of_tuple (10l,0l,0l,2l),
+    ipv4_addr_of_tuple (255l,255l,255l,0l),
+   [ipv4_addr_of_tuple (10l,0l,0l,1l)]
+  )
+
 let get_file filename =
-  OS.Devices.with_kv_ro "fs" (fun kv_ro ->
+  OS.Devices.with_kv_ro "static" (fun kv_ro ->
     match_lwt kv_ro#read filename with
     |None -> return None
     |Some k -> Bitstring_stream.string_of_stream k >|= (fun x -> Some x)
@@ -40,6 +47,7 @@ let main () =
   Log.info "Server" "Starting server";
   Net.Manager.create (fun mgr interface id ->
     let src = None, port in
+    Net.Manager.configure interface (`IPv4 ip) >>
     Http.Server.listen mgr (`TCPv4 (src, spec))
   )
 
