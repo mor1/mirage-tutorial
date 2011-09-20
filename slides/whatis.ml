@@ -43,36 +43,4 @@ let slides = [
     <div class="red">avsm: split this up into multiple slides with diagrams (from HotCloud paper perhaps)</div>
   >>
 };
-{ styles=[];
-  content= <:html<
-   <h3>Run This Tutorial</h3>
-<pre class="noprettyprint">
-$str:dl$ git clone http://github.com/avsm/mirage-tutorial
-$str:dl$ cd mirage-tutorial/slides
-$str:dl$ make
-</pre>
-<p>You can run it as a UNIX socket application, UNIX tuntap over the TCP stack, or a Xen VM.</p>
-<p><b>Is anyone here running Xen?</b></p>
-  >>
-};
-{ styles=[];
-  content= <:html<
-    <h3>Hello Mirage World (ii)</h3>
-    <p><tt>mir-build</tt> is a wrapper over <tt>ocamlbuild</tt>.<br />
-     Output files are in <tt>_build/</tt> and source is never modified.</p>
-    <ul>
-      <li><tt>mir-build -clean</tt> will remove all built files</li>
-      <li><tt>mir-build -j 5</tt> runs a parallel build.</li>
-    </ul>
-    <p>Mirage also has extra rules. Prepend the backend name to your target:</p>
-    <section><pre class="noprettyprint">
-$str:dl$ mir-build xen/hello.xen
-$str:dl$ mir-build node/hello.js
-$str:dl$ mir-build unix-direct/hello.bin
-$str:dl$ mir-build unix-socket/hello.bin
-</pre></section>
-     <p>This builds various binaries from the same <tt>hello.ml</tt> file. We will introduce other options as the tutorial proceeds.</p>
-  >>
-};
-
 ]
