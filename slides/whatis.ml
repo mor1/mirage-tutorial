@@ -30,6 +30,16 @@ backends 1;
 backends 2;
 backends 3;
 backends 4;
+{ styles=[];
+  content = <:html<
+   <h3>Motivation</h3>
+   <ul>
+     <li><b>Portability</b>: minimise platform dependencies, leverage functional programming</li>
+     <li><b>Security</b>: replace millions of lines of C with safer/smaller OCaml</li>
+     <li><b>"Fat-free"</b>: compile out the layers for energy efficiency and performance</li>
+   </ul>
+  >>
+};
 modules 1;
 modules 2;
 modules 3;
@@ -60,34 +70,22 @@ modules 4;
   >>
 };
 { styles=[];
-  content = <:html<
-   <h3>Motivation</h3>
-   <ul>
-     <li><b>Portability</b>: minimise platform dependencies, leverage functional programming</li>
-     <li><b>Security</b>: replace millions of lines of C with safer/smaller OCaml</li>
-     <li><b>"Fat-free"</b>: compile out the layers for energy efficiency and performance</li>
-   </ul>
-  >>
-};
-{ styles=[];
   content= <:html<
-   <h3>Recap: Run This Tutorial</h3>
-<p>The tutorial is itself written in Mirage, so build it by:</p>
-<pre class="noprettyprint">
-$str:dl$ git clone http://github.com/avsm/mirage-tutorial
-$str:dl$ cd mirage-tutorial/slides
-$str:dl$ make
-</pre>
-<p>You can run it in many different combinations. The default is UNIX sockets. <b>Is anyone here running Xen?</b></p>
-<table>
-<tr><th>Target</th><th>Backend</th><th>Storage</th><th>Network</th> </tr>
-<tr><td>run-socket_crunch</td><td>UNIX</td><td>Builtin</td><td>Sockets</td></tr>
-<tr><td>run-socket_fs</td><td>UNIX</td><td>UNIX filesystem</td><td>Sockets</td></tr>
-<tr><td>run-direct_crunch</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
-<tr><td>run-direct_fs</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
-<tr><td>run-xen_crunch</td><td>Xen</td><td>Builtin</td><td>Xennet+OCaml</td></tr>
-<tr><td>run-xen_fs</td><td>Xen</td><td>Xenblock+OCaml</td><td>Xennet+OCaml</td></tr>
-</table>
+    <h3>Basic Mirage Commands</h3>
+    <p><tt>mir-build</tt> is a wrapper over <tt>ocamlbuild</tt>.<br />
+     Output files are in <tt>_build/</tt> and source is never modified.</p>
+    <ul>
+      <li><tt>mir-build -clean</tt> will remove all built files</li>
+      <li><tt>mir-build -j 5</tt> runs a parallel build.</li>
+    </ul>
+    <p>Mirage also has extra rules. Prepend the backend name to your target:</p>
+    <section><pre class="noprettyprint">
+$str:dl$ mir-build xen/hello.xen
+$str:dl$ mir-build node/hello.js
+$str:dl$ mir-build unix-direct/hello.bin
+$str:dl$ mir-build unix-socket/hello.bin
+</pre></section>
+     <p>All of this build-time synthesis is wrapped by the powerful <tt>ocamlbuild</tt>, which supports dynamic dependencies.</p>
   >>
 };
 
