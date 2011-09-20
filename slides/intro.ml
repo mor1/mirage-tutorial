@@ -161,18 +161,27 @@ $str:dl$ make install
 { styles=[];
   content= <:html<
    <h3>Run This Tutorial</h3>
+<p>The tutorial is itself written in Mirage, so build it by:</p>
 <pre class="noprettyprint">
 $str:dl$ git clone http://github.com/avsm/mirage-tutorial
 $str:dl$ cd mirage-tutorial/slides
 $str:dl$ make
 </pre>
-<p>You can run it as a UNIX socket application, UNIX tuntap over the TCP stack, or a Xen VM.</p>
-<p><b>Is anyone here running Xen?</b></p>
+<p>You can run it in many different combinations. The default is UNIX sockets. <b>Is anyone here running Xen?</b></p>
+<table>
+<tr><th>Target</th><th>Backend</th><th>Storage</th><th>Network</th> </tr>
+<tr><td>run-socket_crunch</td><td>UNIX</td><td>Builtin</td><td>Sockets</td></tr>
+<tr><td>run-socket_fs</td><td>UNIX</td><td>Disk image</td><td>Sockets</td></tr>
+<tr><td>run-direct_crunch</td><td>UNIX</td><td>Disk+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-direct_fs</td><td>UNIX</td><td>Disk+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-xen_crunch</td><td>Xen</td><td>Builtin</td><td>Xennet+OCaml</td></tr>
+<tr><td>run-xen_fs</td><td>Xen</td><td>Xenblock+OCaml</td><td>Xennet+OCaml</td></tr>
+</table>
   >>
 };
 { styles=[];
   content= <:html<
-    <h3>Hello Mirage World (ii)</h3>
+    <h3>Basic Mirage Commands</h3>
     <p><tt>mir-build</tt> is a wrapper over <tt>ocamlbuild</tt>.<br />
      Output files are in <tt>_build/</tt> and source is never modified.</p>
     <ul>
