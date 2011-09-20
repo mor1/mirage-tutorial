@@ -3,7 +3,8 @@ open Cow
 open Printf
 open Slides
 
-let rt = ">>" (* required to embed it in html p4 as cant put that token directly there *)
+let lt = "<"
+let gt = ">"
 let dl = "$"
 let slides = [
 { styles=[];
@@ -18,17 +19,35 @@ let slides = [
 {
   styles=[];
   content= <:html<
-    <h3>Challenge</h3>
+    <h3>Synthesising Devices</h3>
     <ul>
-      <li>Current kernels provide rich interfaces for interacting with storage devices
-        <ul>
-        <li>low-level: Unix block devices (/dev/sda)</li>
-        <li>high-level: Unix filesystems</li>
-        </ul>
-      </li>
-      <li>We need similar interfaces in Mirage!</li>
+      <li>So far, we can sleep and output to the console.</li>
+      <li>Need a generic way to plug in I/O devices.</li>
+      <li>But would like to do so both <i>statically</i> at compile-time, and <i>dynamically</i> from the environment</li>
+      <li>A case where <b>OCaml Objects</b> are very useful!</li>
     </ul>
   >>
+};
+{ styles=[];
+  content= <:html<
+<h3>Device Tree</h3>
+<p>Defined in <a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.ml"><tt>lib/os/unix/devices.ml</tt></a>:</p>
+<pre>
+type entry = {
+  provider : provider;
+  id : string;
+  depends : entry list;
+  node : device;
+} and device =
+  | Blkif of blkif
+  | Kv_RO of kv_ro
+and provider =
+$str:lt$ create : deps:entry list -> cfg:(string * string) list
+    -> id -> entry Lwt.t;
+  id : string;
+  plug : plug Lwt_mvar.t;
+  unplug : id Lwt_mvar.t $str:gt$</pre>
+>>
 };
 {
   styles=[];
