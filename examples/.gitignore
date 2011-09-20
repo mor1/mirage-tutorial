@@ -1,3 +1,4 @@
 myocamlbuild.ml
 http/filesystem_static.ml
+devices/filesystem_static.ml
 *.img
