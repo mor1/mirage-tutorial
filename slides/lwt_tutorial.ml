@@ -5,6 +5,18 @@ open Slides
 
 let rt = ">>" (* required to embed it in html p4 as cant put that token directly there *)
 let dl = "$"
+
+let threads num =
+  let fname = "unix_threads" ^ (string_of_int num) ^ ".svg" in
+{
+  styles=[Fill];
+  content= <:html<
+    <section>
+    <object data=$str:fname$ type="image/svg+xml">&nbsp;</object>
+    </section>
+  >>
+}
+
 let slides = [
 { styles=[];
   content= <:html<
@@ -117,5 +129,10 @@ t                        // value of t is "foo" </pre>
 </ul>
   >>
 };
+threads 1;
+threads 2;
+threads 3;
+threads 4;
+threads 5;
+threads 6;
 ]
-
