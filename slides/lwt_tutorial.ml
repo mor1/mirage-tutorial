@@ -24,7 +24,7 @@ let slides = [
          they cannot make progress, and then sleep until woken up.</li>
      <li><tt>Lwt</tt> wraps event callbacks to maintain the illusion of straight-line code.</li>
     </ul>
-    <p>Lets look at some examples.
+    <p>Let's look at some examples.
     They are all in<br /> <a href="https://github.com/avsm/mirage-tutorial/tree/master/">mirage-tutorial/examples/01-lwt</a>, and you build them by:</p>
     <section><pre class="noprettyprint">
 $str:dl$ mir-build unix-socket/sleep.bin
@@ -46,9 +46,9 @@ val bind : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
 </pre></section> 
 <p><tt>Lwt.bind t f</tt> creates a thread which waits for <tt>t</tt> to terminate, then pass the result to <tt>f</tt>. If <tt>t</tt> is a sleeping thread, then <tt>bind t f</tt> will sleep too, until <t>t terminates</t>.</p>
 <section><pre>
-val Lwt.join : unit Lwt.t list -> unit Lwt.t
+val join : unit Lwt.t list -> unit Lwt.t
 </pre></section> 
-<p><tt>Lwt.join</tt> takes a list of threads and wait for all of them to terminate.</p>
+<p><tt>Lwt.join</tt> takes a list of threads and waits for them all to terminate.</p>
   >>
 };
 { 
