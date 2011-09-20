@@ -63,15 +63,14 @@ let x = List.flatten [
       <pre>let x title = $html$&#60;h1>$dl$title$dl$&#60;/h1>content$cl$</pre>
       This expands to
       <pre>
-let x title = List.flatten [
-  [ `El ((("", "h1"), []), title) ];
-  [ `Data "content" ]
-]</pre></li>
+let x title = List.flatten
+  [ [ `El ((("", "h1"), []), title) ];
+    [ `Data "content" ] ]</pre></li>
       
       <li>Typed templates
       <pre>
-let f i = $html$This is an int : $dl$int:i$dl$!$cl$
-let f s = $html$This is a string : $dl$string:i$dl$!$cl$</pre></li>
+let f (i : int) = $html$This is an int : $dl$int:i$dl$!$cl$
+let f (s : string) = $html$This is a string : $dl$string:s$dl$!$cl$</pre></li>
    </ul>
   >>
 };
@@ -89,10 +88,10 @@ let y = Cow.Css.unroll (
   Cow.Css.Props [
     Cow.Css.Decl (
       [[ Cow.Css.Str "h1" ]],
-      ( [ Cow.Css.Prop ("background-color", [ [ Cow.Css.Str "blue" ] ]) ] @
-        [ Cow.Css.Decl (
-          [[ Cow.Css.Str "a" ]],
-          [ Cow.Css.Prop ("color", [ [ Cow.Css.Str "red" ] ]) ]) ]))
+      ([ Cow.Css.Prop ("background-color", [[ Cow.Css.Str "blue" ]]) ] @
+       [ Cow.Css.Decl (
+         [[ Cow.Css.Str "a" ]],
+         [ Cow.Css.Prop ("color", [ [ Cow.Css.Str "red" ]]) ]) ]))
   ])</pre></li></ul>
 >>
 };
