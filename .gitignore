@@ -1,4 +1,5 @@
 _build
 .*.swp
+*.img
 slides/myocamlbuild.ml
-slides/crunch_fs.ml
+slides/filesystem_static.ml
