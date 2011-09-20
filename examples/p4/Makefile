@@ -1,4 +1,4 @@
-TARGETS = simple_html simple_css
+TARGETS = simple_html simple_css static_html
 
 PP  = $(TARGETS:%=%.pp.ml)
 BIN = $(TARGETS:%=unix-socket/%.bin)
