@@ -52,15 +52,15 @@ $str:dl$ ./_build/unix-socket/sleep.bin</pre></section>
 <section><pre>
 val return : 'a -> 'a Lwt.t
 </pre></section> 
-<p><tt>Lwt.return v</tt> builds a thread that returns with value <tt>v</tt>.</p>
+  <p><tt><a href="http://ocsigen.org/lwt/api/Lwt#VALreturn">Lwt.return</a> v</tt> builds a thread that returns with value <tt>v</tt>.</p>
 <section><pre>
 val bind : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
 </pre></section> 
-<p><tt>Lwt.bind t f</tt> creates a thread which waits for <tt>t</tt> to terminate, then pass the result to <tt>f</tt>. If <tt>t</tt> is a sleeping thread, then <tt>bind t f</tt> will sleep too, until <t>t terminates</t>.</p>
+<p><tt><a href="http://ocsigen.org/lwt/api/Lwt#VALbind">Lwt.bind</a> t f</tt> creates a thread which waits for <tt>t</tt> to terminate, then pass the result to <tt>f</tt>. If <tt>t</tt> is a sleeping thread, then <tt>bind t f</tt> will sleep too, until <t>t terminates</t>.</p>
 <section><pre>
 val join : unit Lwt.t list -> unit Lwt.t
 </pre></section> 
-<p><tt>Lwt.join</tt> takes a list of threads and waits for them all to terminate.</p>
+<p><tt><a href="http://ocsigen.org/lwt/api/Lwt#VALjoin">Lwt.join</a></tt> takes a list of threads and waits for them all to terminate.</p>
   >>
 };
 { 
@@ -122,7 +122,7 @@ val join : unit Lwt.t list -> unit Lwt.t
 let t,u = Lwt.task () in // t sleeps forever
 Lwt.wakeup u "foo";      // and u can wake it up  
 t                        // value of t is "foo" </pre>
-<p>The outside world wakes up sleeping threads via the <tt>Lwt.wakeup</tt> mechanism:</p>
+<p>The outside world wakes up sleeping threads via the <tt><a href="http://ocsigen.org/lwt/api/Lwt#VALwakeup">Lwt.wakeup</a></tt> mechanism:</p>
 <ul>
 <li>Timeouts are stored in an efficient <a href="https://github.com/avsm/mirage/blob/master/lib/os/unix/time.ml">priority queue</a></li>
 <li>I/O is woken up by <tt>select</tt>, <tt>kqueue</tt> or <tt>epoll</tt></li>
