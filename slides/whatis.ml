@@ -45,21 +45,14 @@ let slides = [
 };
 { styles=[];
   content= <:html<
-   <h3>Hello Mirage World (i)</h3>
-   <p>Lets write some code that simply sleeps for a second, and outputs a string to the console.</p><br />
-     <p>In a new directory, create <tt>hello.ml</tt>:</p>
-     <section><pre>
-let main () =
-  OS.Time.sleep 1.0 $str:rt$
-  OS.Console.log_s "Hello Mirage World!" $str:rt$
-  OS.Time.sleep 1.0
-</pre></section>
-     <p>Now, build a UNIX binary:</p>
-<section><pre class="noprettyprint">
-$str:dl$ mir-build unix-socket/hello.bin
-$str:dl$ ./_build/unix-socket/hello.bin
-Hello Mirage World!
-</pre></section>
+   <h3>Run This Tutorial</h3>
+<pre class="noprettyprint">
+$str:dl$ git clone http://github.com/avsm/mirage-tutorial
+$str:dl$ cd mirage-tutorial/slides
+$str:dl$ make
+</pre>
+<p>You can run it as a UNIX socket application, UNIX tuntap over the TCP stack, or a Xen VM.</p>
+<p><b>Is anyone here running Xen?</b></p>
   >>
 };
 { styles=[];

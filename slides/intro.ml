@@ -134,7 +134,8 @@ let slides = [
     <h3>Software Required</h3>
     <ul>
      <li>A 64-bit UNIX (Linux or MacOS X)</li>
-     <li>OCaml 3.12.0</li>
+     <li>OCaml 3.12.0 (with <tt>make world opt.opt</tt> to have the native code compilers)</li>
+     <li><tt>tuntap</tt> (default on Linux, <a href="http://tuntaposx.sourceforge.net/">download</a> on MacOS X)</li>
      <li>Git checkout of <a href="http://github.com/avsm/mirage/">http://github.com/avsm/mirage</a></li>
     </ul>
   >>
