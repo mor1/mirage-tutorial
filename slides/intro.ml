@@ -171,9 +171,9 @@ $str:dl$ make
 <table>
 <tr><th>Target</th><th>Backend</th><th>Storage</th><th>Network</th> </tr>
 <tr><td>run-socket_crunch</td><td>UNIX</td><td>Builtin</td><td>Sockets</td></tr>
-<tr><td>run-socket_fs</td><td>UNIX</td><td>Disk image</td><td>Sockets</td></tr>
-<tr><td>run-direct_crunch</td><td>UNIX</td><td>Disk+OCaml</td><td>Tuntap+OCaml</td></tr>
-<tr><td>run-direct_fs</td><td>UNIX</td><td>Disk+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-socket_fs</td><td>UNIX</td><td>UNIX filesystem</td><td>Sockets</td></tr>
+<tr><td>run-direct_crunch</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-direct_fs</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
 <tr><td>run-xen_crunch</td><td>Xen</td><td>Builtin</td><td>Xennet+OCaml</td></tr>
 <tr><td>run-xen_fs</td><td>Xen</td><td>Xenblock+OCaml</td><td>Xennet+OCaml</td></tr>
 </table>

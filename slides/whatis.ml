@@ -6,6 +6,15 @@ open Slides
 let rt = ">>" (* required to embed it in html p4 as cant put that token directly there *)
 let dl = "$"
 
+let backends num =
+  { styles=[Fill];
+    content= svg (sprintf "backends%d.svg" num)
+  }
+let modules num =
+  { styles=[Fill];
+    content= svg (sprintf "modules%d.svg" num)
+  }
+
 let slides = [
 { styles=[];
   content= <:html<
@@ -17,9 +26,14 @@ let slides = [
     
   >>
 };
-{ styles=[Fill];
-  content= svg "backends.svg"
-};
+backends 1;
+backends 2;
+backends 3;
+backends 4;
+modules 1;
+modules 2;
+modules 3;
+modules 4;
 {
   styles=[];
   content= <:html<
