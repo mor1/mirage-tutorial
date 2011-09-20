@@ -37,16 +37,26 @@ modules 4;
 {
   styles=[];
   content= <:html<
-    <h3>Mirage: an Application Synthesis Framework</h3>
-    <p>Write code in OCaml, and the system generates specialised outputs for:</p>
+    <h3>Show Me The Code!</h3>
     <ul>
-      <li><b>UNIX</b> binaries that use kernel sockets (like existing languages)</li>
-      <li>UNIX alternative that uses <tt>tuntap</tt> and <tt>mmap</tt> to implement networking and filesystems in OCaml.</li>
-      <li><b>Xen</b> microkernels that run directly against the hypervisor (no Linux underneath).</li>
-      <li><b>Javascript</b> executables that run under <tt>node.js</tt></li>
-      <li>...and easy to add more (OCamlJava, OCamlPIC?)</li>
+      <li><a href="http://github.com/avsm/mirage/tree/master/lib"><tt>lib/</tt></a> - core libraries</li>
+      <ul>
+        <li><a href="http://github.com/avsm/mirage/tree/master/lib/std"><tt>lib/std</tt></a> - Standard library</li>
+        <li><a href="http://github.com/avsm/mirage/tree/master/lib/os"><tt>lib/os</tt></a> - OS alternatives</li>
+        <ul>
+          <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix"><tt>lib/os/unix</tt></a> - UNIX platform</li>
+          <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/xen"><tt>lib/os/xen</tt></a> - Xen platform</li>
+        </ul>
+        <li><a href="http://github.com/avsm/mirage/tree/master/lib/net"><tt>lib/net</tt></a> - Net alternatives</li>
+        <ul>
+          <li><a href="http://github.com/avsm/mirage/tree/master/lib/net/direct"><tt>lib/net/direct</tt></a> - Ethernet to TCP/IP stack</li>
+          <li><a href="http://github.com/avsm/mirage/tree/master/lib/net/socket"><tt>lib/net/socket</tt></a> - Socket stack</li>
+        </ul>
+        <li><a href="http://github.com/avsm/mirage/tree/master/lib/block"><tt>lib/block</tt></a> - Block alternatives</li>
+      </ul>
+      <li><a href="http://github.com/avsm/mirage/tree/master/lib/http"><tt>lib/http</tt></a> - HTTP client/server</li>
+      <li><a href="http://github.com/avsm/mirage/tree/master/syntax"><tt>syntax/</tt></a> - camlp4 extensions</li>
     </ul>
-    <div class="red">avsm: split this up into multiple slides with diagrams</div>
   >>
 };
 { styles=[];
@@ -55,9 +65,30 @@ modules 4;
    <ul>
      <li><b>Portability</b>: minimise platform dependencies, leverage functional programming</li>
      <li><b>Security</b>: replace millions of lines of C with safer/smaller OCaml</li>
-     <li><b>"Fat-free"</b>: layers of legacy software, compile out the layers for energy efficiency and performance</li>
+     <li><b>"Fat-free"</b>: compile out the layers for energy efficiency and performance</li>
    </ul>
-    <div class="red">avsm: split this up into multiple slides with diagrams (from HotCloud paper perhaps)</div>
   >>
 };
+{ styles=[];
+  content= <:html<
+   <h3>Recap: Run This Tutorial</h3>
+<p>The tutorial is itself written in Mirage, so build it by:</p>
+<pre class="noprettyprint">
+$str:dl$ git clone http://github.com/avsm/mirage-tutorial
+$str:dl$ cd mirage-tutorial/slides
+$str:dl$ make
+</pre>
+<p>You can run it in many different combinations. The default is UNIX sockets. <b>Is anyone here running Xen?</b></p>
+<table>
+<tr><th>Target</th><th>Backend</th><th>Storage</th><th>Network</th> </tr>
+<tr><td>run-socket_crunch</td><td>UNIX</td><td>Builtin</td><td>Sockets</td></tr>
+<tr><td>run-socket_fs</td><td>UNIX</td><td>UNIX filesystem</td><td>Sockets</td></tr>
+<tr><td>run-direct_crunch</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-direct_fs</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-xen_crunch</td><td>Xen</td><td>Builtin</td><td>Xennet+OCaml</td></tr>
+<tr><td>run-xen_fs</td><td>Xen</td><td>Xenblock+OCaml</td><td>Xennet+OCaml</td></tr>
+</table>
+  >>
+};
+
 ]
