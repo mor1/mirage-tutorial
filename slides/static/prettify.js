@@ -733,7 +733,7 @@ window['PR']
 
   /** returns a function that produces a list of decorations from source text.
     *
-    * This code treats ", ', and ` as string delimiters, and \ as a string
+    * This code treats " and ' as string delimiters, and \ as a string
     * escape.  It does not recognize perl's qq() style strings.
     * It has no special handling for double delimiter escapes as in basic, or
     * the tripled delimiters used in python, but should work on those regardless
@@ -756,8 +756,8 @@ window['PR']
     } else if (options['multiLineStrings']) {
       // 'multi-line-string', "multi-line-string"
       shortcutStylePatterns.push(
-          [PR_STRING,  /^(?:\'(?:[^\\\']|\\[\s\S])*(?:\'|$)|\"(?:[^\\\"]|\\[\s\S])*(?:\"|$)|\`(?:[^\\\`]|\\[\s\S])*(?:\`|$))/,
-           null, '\'"`']);
+          [PR_STRING,  /^(?:\'(?:[^\\\']|\\[\s\S])*(?:\'|$)|\"(?:[^\\\"]|\\[\s\S])*(?:\"|$))/,
+           null, '\'"']);
     } else {
       // 'single-line-string', "single-line-string"
       shortcutStylePatterns.push(
@@ -843,7 +843,7 @@ window['PR']
          null, '0123456789'],
         // Don't treat escaped quotes in bash as starting strings.  See issue 144.
         [PR_PLAIN,       /^\\[\s\S]?/, null],
-        [PR_PUNCTUATION, /^.[^\s\w\.$@\'\"\`\/\#\\]*/, null]);
+        [PR_PUNCTUATION, /^.[^\s\w\.$@\'\"\/\#\\]*/, null]);
 
     return createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns);
   }
