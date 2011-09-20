@@ -19,9 +19,10 @@ let slides = [
   styles=[];
   content= <:html<
     <h3>Heads or Tails?</h3>
-    <p>Write a program that spins off two threads, each of which sleep for some amount of time,
-    say 1 and 2 seconds and then one prints "Heads", the other "Tails".</p>
-    <p>After both have finished, it prints "Finished" and exits.</p>
+    <p>Write a program that spins off two threads, each of which sleeps for some amount of time,
+      say 1 and 2 seconds respectively, and then one prints "Heads",
+              and the other "Tails".</p>
+             <p>After both have finished, the program prints "Finished" and exits.</p>
 <pre class="noprettyprint">
 $str:dl$ cd mirage-tutorial/examples/01-lwt
 $str:dl$ vim mysleep.ml
@@ -39,7 +40,8 @@ $str:dl$ make mysleep
   styles=[];
   content= <:html<
     <h3>Echo Server</h3>
-    <p>Write an echo server, reading from a dummy input generator and, for each input it reads, writes it to the console. The server should stop listening after 10 inputs are received.</p>
+  <p>Write an echo server that reads from a dummy input generator and
+  writes each input read to the console. The server should stop listening after 10 inputs are received.</p>
 <pre class="noprettyprint">
 $str:dl$ cd mirage-tutorial/examples/01-lwt
 $str:dl$ vim myecho1.ml
