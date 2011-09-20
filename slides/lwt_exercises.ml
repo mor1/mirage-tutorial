@@ -22,17 +22,17 @@ let slides = [
     <p>Write a program that spins off two threads, each of which sleeps for some amount of time,
       say 1 and 2 seconds respectively, and then one prints "Heads",
               and the other "Tails".</p>
-             <p>After both have finished, the program prints "Finished" and exits.</p>
+             <p>After both have finished, print "Finished" and exits.</p>
 <pre class="noprettyprint">
 $str:dl$ cd mirage-tutorial/examples/01-lwt
 $str:dl$ vim mysleep.ml
 $str:dl$ make mysleep
 # answer is in sleep.ml
 </pre>
-<p>Useful functions to know:</p>
 <ul>
+<li><tt>OS.Time.sleep tm</tt> will sleep for <tt>tm</tt> seconds.</li>
 <li><tt>OS.Console.log</tt> and <tt>OS.Console.log_s</tt> (the Lwt version) print a string to console.</li>
-<li><tt>Lwt.choose</tt> is used to wait for multiple threads to finish.</li>
+<li><a href="http://ocsigen.org/lwt/api/Lwt#VALchoose"><tt>Lwt.choose</tt></a> waits for multiple threads to finish.</li>
 </ul>
   >>
 };
