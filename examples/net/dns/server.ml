@@ -1,9 +1,10 @@
 open Lwt 
 open Printf
 
-let ipaddr = Net.Nettypes.ipv4_addr_of_tuple (0l,0l,0l,0l)
-(* let ipaddr = Net.Nettypes.ipv4_addr_of_tuple (10l,0l,0l,2l) *)
-let port = 53
+(* Note: ipaddr is ignored in UNIX socket mode, only used
+   by the direct stack *)
+let ipaddr = Net.Nettypes.ipv4_addr_of_tuple (10l,0l,0l,2l)
+let port = 5555
 
 let main () =
   Log.info "Server" "finding static kv_ro block device";
@@ -22,7 +23,7 @@ let main () =
 
   Log.info "Server" "starting server, port %d" port;
   Net.Manager.create (fun mgr interface id ->
-    let src = (Some ipaddr, port) in
+    let src = None, port in (* listen on all addresses *)
     let ip = Net.Nettypes.(
       (ipaddr,
        ipv4_addr_of_tuple (255l,255l,255l,0l),
