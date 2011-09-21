@@ -78,6 +78,49 @@ rings 5;
 { styles=[];
   content= <:html<
     <h3>Xen Shared Rings</h3>
+    <p>The interface for $github "lib/os/xen/ring.mli" "OS.Ring"$ is quite generic.</p>
+<pre>
+type sring
+
+module Front : sig
+  // 'a is the response type, and 'b is the request id 
+  type ('a,'b) t
+
+  val init : sring:sring -> ('a,'b) t
+  val slot : ('a,'b) t -> int -> Bitstring.t
+  val nr_ents : ('a,'b) t -> int
+  val get_free_requests : ('a,'b) t -> int
+  val next_req_id: ('a,'b) t -> int
+  val ack_responses : ('a,'b) t -> (Bitstring.t -> unit) -> unit
+  val push_requests : ('a,'b) t -> unit
+  val push_requests_and_check_notify : ('a,'b) t -> bool
+end
+</pre>
+  <p>The source code has more comments!</p>
+  >>
+};
+{ styles=[];
+  content= <:html<
+    <h3>Building Xen Devices using Rings</h3>
+    <p>The $github "lib/os/xen/ring.ml" "OS.Ring"$ module is used to build the device drivers themselves,
+    such as the $github "lib/os/xen/blkif.ml" "OS.Blkif"$. The protocol is implemented in OCaml, so you can
+    read it quite easily.</p>
+<pre>
+module Req : sig
+  type op = Read | Write | Write_barrier | Flush | Unknown of int
+  type seg = { gref : int32; first_sector : int; last_sector : int; }
+  type t = {
+    op : op;
+    handle : int;
+    id : int64;
+    sector : int64;
+    segs : seg array;
+  }
+end
+module Res : sig
+  type rsp = OK | Error | Not_supported | Unknown of int
+  type t = { op : Req.op; st : rsp; }
+end</pre>
   >>
 };
 {
@@ -85,14 +128,46 @@ rings 5;
   content= <:html<
     <h3>Synthesising Devices</h3>
     <ul>
-      <li>So far, we can sleep and output to the console.</li>
-      <li>Need a generic way to plug in I/O devices.</li>
-      <li>But would like to do so both <i>statically</i> at compile-time, and <i>dynamically</i> from the environment</li>
+      <li>So far, we can sleep and output to the console and have low-level devices (via sockets or pages).</li>
+      <li>We need a generic way to plug in I/O devices.</li>
+      <li>Would like to do so both <i>statically</i> at compile-time, and <i>dynamically</i> from the environment</li>
       <li>A case where <b>OCaml Objects</b> are very useful!</li>
     </ul>
   >>
 };
 
+{
+  styles=[];
+  content= <:html<
+    <h3>Providers</h3>
+    <ul>
+      <li>These are device managers that plugging and unplugging devices from the environment.</li>
+      <li>Each provider registers at application startup, and communicates with the $github "os/unix/devices.ml" "device manager"$
+       via <tt><a href="http://ocsigen.org/lwt/api/Lwt_mvar">Lwt_mvar</a></tt> mailboxes).</li>
+      <li>There are two provider types for this tutorial:</li>
+      <ul>
+         <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.mli"><tt>OS.Devices.blkif</tt></a> for r/w block devices</li>
+         <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.mli"><tt>OS.Devices.kv_ro</tt></a> for r/o key/value store</li>
+      </ul>
+    </ul>
+  >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Block Devices</h3>
+    <p>Abstract object type for reading and writing sectors</p>
+    <section><pre>
+type blkif = &lt;
+  id: string;
+  read_page: int64 -> Bitstring.t Lwt.t;
+  sector_size: int;
+  ppname: string;
+  destroy: unit;
+&gt;
+    </pre></section>
+>>
+};
 { styles=[];
   content= <:html<
 
@@ -150,56 +225,17 @@ $str:lt$ create : deps:entry list -> cfg:(string * string) list
 {
   styles=[];
   content= <:html<
-    <h3>Providers</h3>
+    <h3>Types of Block Devices</h3>
+    <p>To add a block device, we just need a provider that implements the <tt>blkif</tt> and <tt>provider</tt> object interfaces.  These providers are available:</p>
     <ul>
-      <li>These are device managers that plugging and unplugging devices from the environment.</li>
-      <li>Each provider registers at application startup, and communicates with the device manager
-       (<a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.ml"><tt>lib/os/unix/devices.ml</tt></a>)
-       via <tt><a href="http://ocsigen.org/lwt/api/Lwt_mvar">Lwt_mvar</a></tt> mailboxes).</li>
-      <li>There are two provider types for this tutorial:</li>
-      <ul>
-         <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.mli"><tt>OS.Devices.blkif</tt></a> for r/w block devices</li>
-         <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.mli"><tt>OS.Devices.kv_ro</tt></a> for r/o key/value store</li>
-      </ul>
+      <li>$github "lib/os/xen/blkif.ml" "OS(Xen).Blkif"$</li>
+      <li>$github "lib/os/unix/blkif.ml" "OS(UNIX).Blkif"$</li>
     </ul>
-  >>
-};
-{
-  styles=[];
-  content= <:html<
-    <h3>Block Devices</h3>
-    <p>Abstract object type for reading and writing sectors</p>
-    <section><pre>
-type blkif = &lt;
-  id: string;
-  read_page: int64 -> Bitstring.t Lwt.t;
-  sector_size: int;
-  ppname: string;
-  destroy: unit;
-&gt;
-    </pre></section>
->>
-};
-{
-  styles=[];
-  content= <:html<
-    <h3>Xen Block Interface: overview</h3>
     <ul>
-    <li>Xen devices have <b>servers</b> (&quot;backends&quot;) and <b>clients</b> (&quot;frontends&quot;)</li>
-    <li>Xen devices connect via a shared <b>directory service</b> (&quot;xenstore&quot;)</li>
-    <li>Xen devices use <b>shared memory</b> and <b>interrupts</b> (&quot;event channels&quot;) for communication</li>
+      <li>$github "lib/block/socket/simpleKV.ml" "Block(Socket).SimpleKV"$</li>
+      <li>$github "lib/block/direct/simpleKV.ml" "Block(Direct).SimpleKV"$</li>
+      <li>built-in key-value store RAMdisk, via <tt>mir-crunch</tt>:</li>
     </ul>
-  >>
-};
-{
-  styles=[];
-  content= <:html<
-    <h3>Xen Block Interface: connection</h3>
-    <ol>
-    <li>Control software writes &quot;backend&quot; and &quot;frontend&quot; information into xenstore.</li>
-    <li>The backend and frontend both see the information, and learn about each other.</li>
-    <li>Now that they have been introduced, they set up shared memory and event channels for future signalling.</li>
-    </ol>
   >>
 };
 {
