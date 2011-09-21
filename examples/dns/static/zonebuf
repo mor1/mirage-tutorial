@@ -12,4 +12,4 @@ www.openmirage.org. 604800 IN SOA  (
         IN  NS     ns2.www.openmirage.org.
 ns1     IN  A      184.72.217.237
 ns2     IN  A      204.236.217.197
-@       IN  TXT    \"I wish I were a llama in Peru!\"
+@       IN  TXT    "I wish I were a llama in Peru!"
