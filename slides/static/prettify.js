@@ -113,7 +113,7 @@ window['PR']
   var JSCRIPT_KEYWORDS = COMMON_KEYWORDS +
       "debugger eval export function get null set undefined var with " +
       "Infinity NaN ";
-  var OCAML_KEYWORDS = "let lwt open with match and type class module begin end " +
+  var OCAML_KEYWORDS = "let match_lwt for_lwt while_lwt lwt open with match and type class module begin end " +
       "function fun for if else class constraint type include inherit method mutable " +
       "or true then val when with while";
   var PERL_KEYWORDS = "caller delete die do dump elsif eval exit foreach for " +
@@ -128,9 +128,9 @@ window['PR']
       "retry self super then true undef unless until when yield BEGIN END ";
   var SH_KEYWORDS = FLOW_CONTROL_KEYWORDS + "case done elif esac eval fi " +
       "function in local set then until ";
-  var ALL_KEYWORDS = (
-      CPP_KEYWORDS + CSHARP_KEYWORDS + JSCRIPT_KEYWORDS + OCAML_KEYWORDS +
-      PERL_KEYWORDS + PYTHON_KEYWORDS + RUBY_KEYWORDS + SH_KEYWORDS);
+  var ALL_KEYWORDS = ( OCAML_KEYWORDS );
+//      CPP_KEYWORDS + CSHARP_KEYWORDS + JSCRIPT_KEYWORDS + OCAML_KEYWORDS +
+//      PERL_KEYWORDS + PYTHON_KEYWORDS + RUBY_KEYWORDS + SH_KEYWORDS);
 
   // token style names.  correspond to css classes
   /** token style for a string literal */
@@ -850,7 +850,7 @@ window['PR']
 
   var decorateSource = sourceDecorator({
         'keywords': ALL_KEYWORDS,
-        'hashComments': true,
+        'hashComments': false,
         'cStyleComments': true,
         'multiLineStrings': true,
         'regexLiterals': true

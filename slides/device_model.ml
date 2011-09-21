@@ -184,7 +184,7 @@ type blkif = &lt;
   content= <:html<
     <h3>Providers</h3>
     <ul>
-      <li>These are device managers that plugging and unplugging devices from the environment.</li>
+      <li>These are device managers that manage plugging and unplugging devices from the environment.</li>
       <li>Each provider registers at application startup, and communicates with the $github "os/unix/devices.ml" "device manager"$
        via <tt><a href="http://ocsigen.org/lwt/api/Lwt_mvar">Lwt_mvar</a></tt> mailboxes).</li>
       <li>There are two provider types for this tutorial:</li>
