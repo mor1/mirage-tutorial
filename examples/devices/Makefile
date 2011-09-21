@@ -1,8 +1,8 @@
 all: crunch fat # vbd 
 
 clean:
-	$(RM) vbd.img fat.img crunch.img filesystem_static.ml
 	mir-build -clean
+	$(RM) vbd.img fat.img crunch.img filesystem_static.ml myocamlbuild.ml
 
 .PHONY: all clean
 
