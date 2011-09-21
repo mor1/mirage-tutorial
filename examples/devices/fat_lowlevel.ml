@@ -16,44 +16,58 @@ let main () =
   printf "Block device ID: %s\n%!" blkif#id;
   printf "Connected block device\n%!";
 
-  let module M = struct
-    let page_size_bytes = 4096
-    let sector_size_bytes = 512
-    let sectors_per_page = page_size_bytes / sector_size_bytes
-    let read_sector x =
-      let page_no = x / sectors_per_page in
-      let sector_no = x mod sectors_per_page in
-      let offset = Int64.(mul (of_int page_size_bytes) (of_int page_no)) in
-      lwt page = blkif#read_page offset in
-      return (Bitstring.bitstring_clip page (sector_no * sector_size_bytes * 8) (sector_size_bytes * 8))
-    
-    let write_sector x bs =
-      failwith "Writing currently unimplemented"
-  end in
-
   let open Fs.Fat in
+  let module M = struct
+	let read_sector = read_sector blkif
+    let write_sector = write_sector blkif
+  end in
   let module FS = FATFilesystem(M) in
   lwt fs = FS.make () in
+
+  let handle_error f x =
+    match_lwt x with
+    | Error (Not_a_directory path) ->
+      printf "Not a directory (%s).\n%!" (Path.to_string path);
+	  return ()
+    | Error (Is_a_directory path) ->
+      printf "Is a directory (%s).\n%!" (Path.to_string path);
+	  return ()
+    | Error (Directory_not_empty path) ->
+      printf "Directory isn't empty (%s).\n%!" (Path.to_string path);
+	  return ()
+    | Error (No_directory_entry (path, name)) ->
+      printf "No directory %s in %s.\n%!" name (Path.to_string path);
+	  return ()
+    | Error (File_already_exists name) ->
+      printf "File already exists (%s).\n%!" name;
+	  return ()
+    | Error No_space ->
+      printf "Out of space.\n%!";
+	  return ()
+    | Success x -> f x in
+
+  let do_list path =
+    handle_error
+      (function Stat.Dir(_, ds) ->
+        printf "Directory for A:%s\n\n" (Path.to_string path);
+        List.iter
+          (fun x -> printf "%s\n" (Dir_entry.to_string x)) ds;
+        printf "%9d files\n%!" (List.length ds);
+		return ()
+      ) (FS.stat fs path);
+    return () in
+  let do_create path data =
+    handle_error
+      (fun () -> return ())
+      (FS.create fs path);
+    handle_error
+      (fun () -> return ())
+      (FS.write fs (FS.file_of_path fs path) 0 data);
+    return () in
+
+
   let path = Path.of_string "/" in
-  lwt listdir = FS.stat fs path in
-  (match listdir with
-  | Success(Stat.Dir(_, ds)) ->
-    printf "Directory for A:%s\n\n" (Path.to_string path);
-    List.iter
-      (fun x -> printf "%s\n" (Dir_entry.to_string x)) ds;
-    printf "%9d files\n%!" (List.length ds);
-  | Success(Stat.File _) ->
-    printf "Not a directory.\n%!"
-  | Error (Not_a_directory path) ->
-    printf "Not a directory (%s).\n%!" (Path.to_string path)
-  | Error (Is_a_directory path) ->
-    printf "Is a directory (%s).\n%!" (Path.to_string path)
-  | Error (Directory_not_empty path) ->
-    printf "Directory isn't empty (%s).\n%!" (Path.to_string path)
-  | Error (No_directory_entry (path, name)) ->
-    printf "No directory %s in %s.\n%!" name (Path.to_string path)
-  | Error (File_already_exists name) ->
-    printf "File already exists (%s).\n%!" name
-  | Error No_space ->
-    printf "Out of space.\n%!");
+
+  lwt () = do_list path in
+  lwt () = do_create (Path.of_string "/hello.txt") (Bitstring.bitstring_of_string "wassup?") in
   return ()
