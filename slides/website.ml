@@ -18,8 +18,24 @@ let slides = [
 {
   styles=[];
   content= <:html<
-    <h3>Provide a skeleton repository in mirage-tutorial that can be filled in</h3>
-    <p>Login details for laptops they can use with EC2 on them</p>
+    <h3>Skeleton HTTP Server</h3>
+    <p>Mirage has a rather hacked up HTTP implementation (but it does work!) in $github "lib/http" "Http"$.</p> 
+    <p>Take a shot at filling in your own website.</p>
+<pre class="noprettyprint">
+$str:dl$ cd mirage-tutorial/net/http
+$str:dl$ vi server.ml
+$str:dl$ vi dispatch.ml
+$str:dl$ make
+</pre>
+<table>
+<tr><th>Target</th><th>Backend</th><th>Storage</th><th>Network</th> </tr>
+<tr><td>run-socket_crunch</td><td>UNIX</td><td>Builtin</td><td>Sockets</td></tr>
+<tr><td>run-socket_fs</td><td>UNIX</td><td>UNIX filesystem</td><td>Sockets</td></tr>
+<tr><td>run-direct_crunch</td><td>UNIX</td><td>Builtin</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-direct_fs</td><td>UNIX</td><td>Disk image+OCaml</td><td>Tuntap+OCaml</td></tr>
+<tr><td>run-xen_crunch</td><td>Xen</td><td>Builtin</td><td>Xennet+OCaml</td></tr>
+<tr><td>run-xen_fs</td><td>Xen</td><td>Xenblock+OCaml</td><td>Xennet+OCaml</td></tr>
+</table>
   >>
 };
 ]

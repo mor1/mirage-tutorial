@@ -39,7 +39,7 @@ let slides = [
 {
   styles  =[];
   content = <:html<
-    <h3>Web Syntax Extension</h3>
+    <h3>Web Syntax extensions</h3>
     <ul>
       <li>Web expressions are written natively in Mirage (where they are called quotations):
       <pre>let x = $html$&#60;h1>Hello&#60;/h1>World!$cl$</pre></li>
@@ -57,7 +57,7 @@ let x = List.flatten [
 {
   styles = [];
   content = <:html<
-    <h3>Web Syntax extensions</h3>
+    <h3>Web Syntax extensions (ii)</h3>
     <ul>
       <li>One can use template-like (anti-quotations) to parameterize quotations:
       <pre>let x title = $html$&#60;h1>$dl$title$dl$&#60;/h1>content$cl$</pre></li>

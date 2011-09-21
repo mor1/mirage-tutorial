@@ -75,17 +75,33 @@ modules 4;
     <p><tt>mir-build</tt> is a wrapper over <tt>ocamlbuild</tt>.<br />
      Output files are in <tt>_build/</tt> and source is never modified.</p>
     <ul>
-      <li><tt>mir-build -clean</tt> will remove all built files</li>
-      <li><tt>mir-build -j 5</tt> runs a parallel build.</li>
+      <li><b><tt>mir-build -clean</tt></b> will remove all built files</li>
+      <li><b><tt>mir-build -j 5</tt></b> runs a parallel build.</li>
     </ul>
+    <ul>
+       <li><b><tt>mir-run -b <i>backend</i> <i>binary</i></tt></b> will execute it (or you can call it directly too).</li>
+       <li>We will cover the advanced options later!</li>
+    </ul>
+    <p>All of this build-time synthesis is wrapped by the powerful <tt>ocamlbuild</tt>, which supports dynamic dependencies.</p>
+  >>
+};
+{ styles=[];
+  content= <:html<
+    <h3>Try it Out</h3>
     <p>Mirage also has extra rules. Prepend the backend name to your target:</p>
     <section><pre class="noprettyprint">
-$str:dl$ mir-build xen/hello.xen
-$str:dl$ mir-build node/hello.js
+$str:dl$ cd mirage-tutorial/examples/hello
 $str:dl$ mir-build unix-direct/hello.bin
 $str:dl$ mir-build unix-socket/hello.bin
+$str:dl$ mir-build xen/hello.xen  # need Linux x86_64
+$str:dl$ mir-build node/hello.js  # need js_of_ocaml
+
+$str:dl$ mir-run -b unix-socket _build/unix-socket/hello.bin
+$str:dl$ mir-run -b unix-direct _build/unix-direct/hello.bin
+$str:dl$ mir-run -b node _build/node/hello.js
+$str:dl$ mir-run -b xen _build/xen/hello.xen
 </pre></section>
-     <p>All of this build-time synthesis is wrapped by the powerful <tt>ocamlbuild</tt>, which supports dynamic dependencies.</p>
+<p>Got a working system? Lets make sure we do before moving on.</p>
   >>
 };
 
