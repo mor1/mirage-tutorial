@@ -13,6 +13,5 @@ run-%:
 
 .PHONY:clean
 clean:
-	rm -f filesystem_static.ml
-	rm -f myocamlbuild.ml
+	$(RM) filesystem_static.ml myocamlbuild.ml static.img
 	ocamlbuild -clean

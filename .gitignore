@@ -3,3 +3,4 @@ _build
 *.img
 slides/myocamlbuild.ml
 slides/filesystem_static.ml
+examples/dns/filesystem_static.ml
