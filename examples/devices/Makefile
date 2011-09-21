@@ -14,7 +14,10 @@ vbd: vbd.bin ## XXX broken
 	./_build/unix-socket/vbd.bin -vbd static:vbd.img # ??? -kv_ro static:dummy
 
 fat: fat.bin
-	./_build/unix-socket/fat.bin -vbd dummy:fat.img
+	./_build/unix-socket/fat.bin -vbd dummy:fat.img -fat_kv_ro static:dummy
+
+fat_lowlevel: fat_lowlevel.bin
+	./_build/unix-socket/fat_lowlevel.bin -vbd dummy:fat.img
 
 # exec targets
 crunch.bin: crunch.mir kv_ro.ml crunch.img
@@ -25,6 +28,9 @@ vbd.bin: vbd.mir kv_ro.ml vbd.img
 
 fat.bin: fat.ml fat.img
 	mir-build unix-socket/fat.bin
+
+fat_lowlevel.bin: fat_lowlevel.ml fat.img
+	mir-build unix-socket/fat_lowlevel.bin
 
 # disk images
 vbd.img: rootdir
