@@ -6,6 +6,12 @@ open Slides
 let lt = "<"
 let gt = ">"
 let dl = "$"
+
+let rings num =
+{ styles=[];
+  content=svg (sprintf "rings%d.svg" num)
+}
+    
 let slides = [
 { styles=[];
   content= <:html<
@@ -14,6 +20,64 @@ let slides = [
      <small>reaching the outside world</small>
     </h1>
     <p>Anil Madhavapeddy and David Scott</p>
+  >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Bitstrings</h3>
+    <p>New concept is <tt>Bitstring.t</tt>, from the <a href="http://code.google.com/p/bitstring/">Bitstring</a> library by <a href="http://people.redhat.com/~rjones/">Richard Jones</a>. It lets us avoid copying strings.</p>
+    <pre>type bitstring = string * int * int</pre>
+<p>A <tt>bitstring</tt> is a tuple of the <tt>string</tt> and an offset (in bits) and length (in bits) into that string.</p>
+<p>I/O is often expressed as a stream of <tt>bitstring</tt> and can be converted to an OCaml string via <a href="http://github.com/avsm/mirage/tree/master/lib/std/bitstring_stream.ml"><tt>Bitstring_stream</tt></a>:</p>
+<pre>type bitstream = Bitstring.t Lwt_stream.t
+module Bitstring_stream : sig
+val string_of_stream : bitstream -> string Lwt.t</pre>
+>>
+};
+{ styles=[];
+  content= <:html<
+    <h3>Bitstring Patterns</h3>
+<p>Used in most protocols. Below is <a href="http://github.com/avsm/mirage/tree/master/lib/fs/fat.ml">FAT filesystem</a>:</p>
+<pre>bitmatch bits with
+  | { _: 24: string;
+      oem_name: (8 * 8): string;
+      bytes_per_sector: (2 * 8): littleendian;
+      sectors_per_cluster: (1 * 8): littleendian;
+      reserved_sectors: (2 * 8): littleendian;
+      number_of_fats: (1 * 8): littleendian;
+      number_of_root_dir_entries: (2 * 8): littleendian;
+      total_sectors_small: (2 * 8): littleendian;
+      media_descriptor: (1 * 8): littleendian;
+      sectors_per_fat: (2 * 8): littleendian;
+      sectors_per_track: (2 * 8): littleendian;
+      heads: (2 * 8): littleendian;
+      hidden_preceeding_sectors: (4 * 8): littleendian;
+      total_sectors_large: (4 * 8): littleendian;
+      0xaa55: 16: littleendian, offset(0x1fe * 8)
+    } -> ...</pre>
+  >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Getting Input</h3>
+    <p>I/O is platform-specific, and exposed via $github "lib/os/xen/blkif.mli" "OS.Blkif"$ and $github "lib/os/unix/netif.mli" "OS.Netif"$.
+ Each platform has a different low-level implementation behind the same signatures:</p>
+    <ul>
+      <li>UNIX uses sockets (via $github "lib/os/unix/socket.mli" "OS.Socket"$)</li>
+      <li>Xen uses shared memory ring buffers (via $github "lib/os/xen/ring.mli" "OS.Ring"$)</li>
+    </ul>
+  >>
+};
+rings 1;
+rings 2;
+rings 3;
+rings 4;
+rings 5;
+{ styles=[];
+  content= <:html<
+    <h3>Xen Shared Rings</h3>
   >>
 };
 {
@@ -28,9 +92,11 @@ let slides = [
     </ul>
   >>
 };
+
 { styles=[];
   content= <:html<
-<h3>Device Tree</h3>
+
+<h3>Device Tree (1)</h3>
 <p>Defined in <a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.ml"><tt>lib/os/unix/devices.ml</tt></a>:</p>
 <pre>
 type entry = {
@@ -38,7 +104,39 @@ type entry = {
   id : string;
   depends : entry list;
   node : device;
-} and device =
+}
+</pre>
+>>
+};
+{ styles=[];
+  content= <:html<
+<h3>Device Tree (2)</h3>
+<p>Defined in <a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.ml"><tt>lib/os/unix/devices.ml</tt></a>:</p>
+<pre>
+type entry = {
+  provider : provider;
+  id : string;
+  depends : entry list;
+  node : device;
+}
+and device =
+  | Blkif of blkif
+  | Kv_RO of kv_ro
+</pre>
+>>
+};
+{ styles=[];
+  content= <:html<
+<h3>Device Tree (3)</h3>
+<p>Defined in <a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.ml"><tt>lib/os/unix/devices.ml</tt></a>:</p>
+<pre>
+type entry = {
+  provider : provider;
+  id : string;
+  depends : entry list;
+  node : device;
+}
+and device =
   | Blkif of blkif
   | Kv_RO of kv_ro
 and provider =
@@ -52,9 +150,25 @@ $str:lt$ create : deps:entry list -> cfg:(string * string) list
 {
   styles=[];
   content= <:html<
-    <h3>type OS.Devices.blkif</h3>
-    <p>Similar to a Unix block device</p>
-    <p>Abstract object for read/write, with UNIX direct and Xen implementations, same signature.</p>
+    <h3>Providers</h3>
+    <ul>
+      <li>These are device managers that plugging and unplugging devices from the environment.</li>
+      <li>Each provider registers at application startup, and communicates with the device manager
+       (<a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.ml"><tt>lib/os/unix/devices.ml</tt></a>)
+       via <tt><a href="http://ocsigen.org/lwt/api/Lwt_mvar">Lwt_mvar</a></tt> mailboxes).</li>
+      <li>There are two provider types for this tutorial:</li>
+      <ul>
+         <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.mli"><tt>OS.Devices.blkif</tt></a> for r/w block devices</li>
+         <li><a href="http://github.com/avsm/mirage/tree/master/lib/os/unix/devices.mli"><tt>OS.Devices.kv_ro</tt></a> for r/o key/value store</li>
+      </ul>
+    </ul>
+  >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Block Devices</h3>
+    <p>Abstract object type for reading and writing sectors</p>
     <section><pre>
 type blkif = &lt;
   id: string;
@@ -64,7 +178,7 @@ type blkif = &lt;
   destroy: unit;
 &gt;
     </pre></section>
-  >>
+>>
 };
 {
   styles=[];
