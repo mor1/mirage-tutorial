@@ -154,7 +154,11 @@ $str:dl$ make install
 $str:dl$ cd mirage.git
 $str:dl$ make
 $str:dl$ make install
-// add $str:dl$HOME/mir-inst/bin to your PATH
+$str:dl$ export PATH=$str:dl$HOME/mir-inst/bin:$str:dl$PATH
+
+// if you are using emacs
+$str:dl$ make install-el
+// if you are using vim, re-install <a href="https://github.com/avsm/ocaml-annot">ocaml-annot</a>
 </pre>
 >>
 };
