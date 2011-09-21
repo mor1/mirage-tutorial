@@ -97,36 +97,70 @@ $str:dl$ mir-build unix-direct/kv_fs.bin
 $str:dl$ ./_build/unix-direct/kv_fs.bin -vbd myvbd:disk1.img \
   -simple_kv_ro myblock:myvbd
 </pre>
-<p>The <b><tt>-vbd</tt></b> flag maps in a block device, and the <b><tt>-simple_kv_ro</tt></b> flag now accepts a VBD ID to mount.</p>
+<p>The <b><tt>-vbd</tt></b> flag maps in a block device, and the <br />
+<b><tt>-simple_kv_ro</tt></b> flag now accepts a VBD ID to mount.</p>
 <p><b>Advanced? </b>Try <tt>hexdump</tt> on <tt>disk1.img</tt>.</p>
+
 >>
+
 };
+
 { styles=[];
+
   content= <:html<
+
    <h3>Standalone Xen</h3>
-   <p>With a RAMdisk (<tt>kv_crunch</tt>, the first example), the Xen microkernel with storage is trivial.</p>
+
+   <p>With a RAMdisk (<tt>kv_crunch</tt>, the first example), the Xen
+   microkernel with storage is trivial.</p>
+
 <pre class="noprettyprint">
 // Linux x86_64 only
 $str:dl$ mir-build xen/kv_crunch.xen
 $str:dl$ mir-run -b xen _build/xen/kv_crunch.xen
 </pre>
-<p>You can spend most of your time debugging using <tt>unix-direct</tt>, and only swap to Xen for wider testing and deployment.</p>
-<p>The rich development environment of UNIX, and the microkernel advantages in production, without changing a line of code!</p>
+
+<p>You can spend most of your time debugging using
+  <tt>unix-direct</tt>, and only swap to Xen for wider testing and
+      deployment.</p>
+
+<p>The rich development environment of UNIX, and the microkernel
+      advantages in production, without changing a line of code!</p>
+
   >>
+
 };
+
 { styles=[];
+
   content= <:html<
+
    <h3>FAT Filesystems</h3>
-   <p>Mirage has a succinct ML implementation of the FAT filesystem in $github "lib/fs" "Fs.Fat"$.</p>
+
+   <p>Mirage has a succinct ML implementation of the FAT filesystem in
+   $github "lib/fs" "Fs.Fat"$.</p>
+
 <pre class="noprettyprint">
 $str:dl$ cd mirage-tutorial/devices/fat
 $str:dl$ make
 </pre>
 
+
+
 <p>The command-line flag to map a FAT image is <br />
+
 <b><tt>-fat_kv_ro id:blkif_id</tt></b> just like the previous one.</p>
-<p>This is for advanced users, but see what you can do with it! MacOS has poor support for manipulating FAT volumes, so this will be easier on Linux.</p>
+
+<p>This is for advanced users, but see what you can do with it! MacOS
+    has poor support for manipulating FAT volumes, so this will be
+      easier on Linux.</p>
+
+
 
 >>
+
 };
+
 ]
+
+

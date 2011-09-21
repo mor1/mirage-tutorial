@@ -21,7 +21,7 @@ let slides = [
     <h3>Networking</h3>
     <ul>
       <li>Very similar to the block devices, except much more sensitive to latency.</li>
-      <li>Xen provides Ethernet frames to the $github "lib/os/xen/netif.mli" "OS.Netif"$ driver, just as <tt>blkif</tt> provides sector-level access</li>
+      <li>Xen provides Ethernet frames to the $github "lib/os/xen/netif.mli" "OS.Netif"$ driver, just as <tt>blkif</tt> provides sector-level access.</li>
       <li>There are two separate shared rings: one for transmit, other for receive, and hardware offload options:</li>
     </ul>
 <pre>

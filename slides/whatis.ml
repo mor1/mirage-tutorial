@@ -101,7 +101,7 @@ $str:dl$ mir-run -b unix-direct _build/unix-direct/hello.bin
 $str:dl$ mir-run -b node _build/node/hello.js
 $str:dl$ mir-run -b xen _build/xen/hello.xen
 </pre></section>
-<p>Got a working system? Lets make sure we do before moving on.</p>
+<p>Got a working system? Let's make sure we do before moving on.</p>
   >>
 };
 
