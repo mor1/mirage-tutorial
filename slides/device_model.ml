@@ -199,7 +199,7 @@ type blkif = &lt;
   styles=[];
   content= <:html<
     <h3>Device Types</h3>
-    <p>We define two for this tutorial: a block device to read and write sectors to a disk.</p>
+    <p>Block device to read and write sectors to a disk.</p>
 <pre>
 type blkif = &lt;
   id: string;
