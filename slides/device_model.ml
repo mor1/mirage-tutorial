@@ -101,10 +101,10 @@ end
 };
 { styles=[];
   content= <:html<
-    <h3>Building Xen Devices using Rings</h3>
-    <p>The $github "lib/os/xen/ring.ml" "OS.Ring"$ module is used to build the device drivers themselves,
-    such as the $github "lib/os/xen/blkif.ml" "OS.Blkif"$. The protocol is implemented in OCaml, so you can
-    read it quite easily.</p>
+    <h3>Typed Rings for Block Transfer</h3>
+    <p>The $github "lib/os/xen/ring.ml" "OS.Ring"$ module is generic, but specific devices have a defined
+    request/response protocol, such as $github "lib/os/xen/blkif.ml" "OS.Blkif"$ below.
+    In Mirage, the protocol is implemented in OCaml.</p>
 <pre>
 module Req : sig
   type op = Read | Write | Write_barrier | Flush | Unknown of int
@@ -122,6 +122,49 @@ module Res : sig
   type t = { op : Req.op; st : rsp; }
 end</pre>
   >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>Building a Xen Block Device</h3>
+    <ol>
+    <li>Payloads written to aligned pages; $github "lib/os/xen/io_page.mli" "OS.Io_page"$</li>
+    <li>Access granted to the other domain; $github "lib/os/xen/gnttab.mli" "OS.Gntab"$</li>
+    <li>RPCs are placed in the shared ring; $github "lib/os/xen/ring.mli" "OS.Ring"$</li>
+    <li>Event channels trigger processing; $github "lib/os/xen/activations.mli" "OS.Activations"$</li>
+    </ol>
+<section><pre>
+lib/os/xen/blkif.ml:
+Io_page.with_page (* allocate 4KiB page *)
+  (fun () ->
+    Gnttab.with_grant (* allow backend to read it *)
+      (fun () ->
+        Ring.Front.push_request...
+        Evtchn.notify ...
+        ...
+</pre></section>
+  >>
+};
+{
+  styles=[];
+  content= <:html<
+    <h3>A Generic Blkif</h3>
+    <p>Now that we can push block requests to the ring, we can wrap this in the $github "lib/os/xen/blkif.ml" "OS.Blkif"$ type, which is a generic block device used by many devices in the system:</p>
+<pre>
+type blkif = &lt;
+  id: string;
+  read_page: int64 -> Bitstring.t Lwt.t;
+  write_page: int64 -> Bitstring.t -> unit Lwt.t;
+  sector_size: int;
+  ppname: string;
+  destroy: unit;
+&gt;</pre>
+<p>So there you go, we have built up a Xen-compatible device, with much of it in OCaml!</p>
+>>
+};
+{
+  styles=[];
+  content= svg "xenblk.svg";
 };
 {
   styles=[];
@@ -155,17 +198,24 @@ end</pre>
 {
   styles=[];
   content= <:html<
-    <h3>Block Devices</h3>
-    <p>Abstract object type for reading and writing sectors</p>
-    <section><pre>
+    <h3>Device Types</h3>
+    <p>We define two for this tutorial: a block device to read and write sectors to a disk.</p>
+<pre>
 type blkif = &lt;
   id: string;
   read_page: int64 -> Bitstring.t Lwt.t;
   sector_size: int;
   ppname: string;
   destroy: unit;
+&gt;</pre>
+<p>And also a higher level read-only key-value store:</p>
+<pre>
+type kv_ro = &lt;
+  iter_s: (string -> unit Lwt.t) -> unit Lwt.t;
+  read: string -> Bitstring.t Lwt_stream.t option Lwt.t;
+  size: string -> int64 option Lwt.t;
 &gt;
-    </pre></section>
+</pre>
 >>
 };
 { styles=[];
@@ -222,43 +272,4 @@ $str:lt$ create : deps:entry list -> cfg:(string * string) list
   unplug : id Lwt_mvar.t $str:gt$</pre>
 >>
 };
-{
-  styles=[];
-  content= <:html<
-    <h3>Types of Block Devices</h3>
-    <p>To add a block device, we just need a provider that implements the <tt>blkif</tt> and <tt>provider</tt> object interfaces.  These providers are available:</p>
-    <ul>
-      <li>$github "lib/os/xen/blkif.ml" "OS(Xen).Blkif"$</li>
-      <li>$github "lib/os/unix/blkif.ml" "OS(UNIX).Blkif"$</li>
-    </ul>
-    <ul>
-      <li>$github "lib/block/socket/simpleKV.ml" "Block(Socket).SimpleKV"$</li>
-      <li>$github "lib/block/direct/simpleKV.ml" "Block(Direct).SimpleKV"$</li>
-      <li>built-in key-value store RAMdisk, via <tt>mir-crunch</tt>:</li>
-    </ul>
-  >>
-};
-{
-  styles=[];
-  content= <:html<
-    <h3>Xen Block Interface: data transfer</h3>
-    <ol>
-    <li>Payloads are written to 4KiB-aligned pages;</li>
-    <li>Access is granted to the other domain via the hypervisor;</li>
-    <li>Requests and responses are placed in a shared memory page (treated as a circular buffer or &quot;ring&quot;);</li>
-    <li>Event channels (virtual interrupts) trigger processing.</li>
-    </ol>
-<section><pre>
-lib/os/xen/blkif.ml:
-Io_page.with_page (* allocate 4KiB page *)
-  (fun () ->
-    Gnttab.with_grant (* allow backend to read it *)
-      (fun () ->
-        Ring.Front.push_request...
-        Evtchn.notify ...
-        ...
-</pre></section>
-  >>
-};
 ]
-
