@@ -20,7 +20,7 @@ let slides = [
        <div style="font-size: 80%">
        Senior Research Fellow,<br />
        Computer Laboratory, University of Cambridge.<br />
-       <a href="http://anil.recoil.org/">http://anil.recoil.org</a>
+       www: <a href="http://anil.recoil.org/">http://anil.recoil.org</a>&nbsp; &nbsp; twitter: <a href="http://twitter.com/avsm">avsm</a>
        </div>
      </li>
        
@@ -28,17 +28,17 @@ let slides = [
        <div style="font-size: 80%">
        XenServer Platform Architect,<br />
        Citrix and Xen.org.<br />
-       <a href="http://dave.recoil.org/">http://dave.recoil.org</a>
+       www: <a href="http://dave.recoil.org/">http://dave.recoil.org</a>&nbsp; &nbsp; twitter: <a href="http://twitter.com/mugofsoup">mugofsoup</a>
        </div>
      </li>
      <li><b>Dr. Thomas Gazagnaire</b>,
        <div style="font-size: 80%">
        CTO, OCamlPro.<br />
-       <a href="http://thomas.gazagnaire.org/">http://gazagnaire.org</a>
+       www: <a href="http://thomas.gazagnaire.org/">http://gazagnaire.org</a>&nbsp; &nbsp; twitter: <a href="http://twitter.com/samoht">samoht</a>
        </div>
      </li>
     </ul>
-    <p>With lots of contributions from Richard Mortier, Raphael Proust and Balraj Singh, who couldn't make it to Tokyo.</p>
+    <p>With <b>lots</b> of help from Richard Mortier, Raphael Proust and Balraj Singh, who couldn't make it to Tokyo.</p>
   >>
 };
 {
