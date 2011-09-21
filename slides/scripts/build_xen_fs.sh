@@ -1,5 +1,8 @@
 #!/bin/bash -ex
 
+# Switch to the directory with the 'static' subdir containing the slides
+cd $(git rev-parse --show-toplevel)/slides
+
 BIN=kv_ro_server
 MIR_RUN=$(which mir-run)
 
