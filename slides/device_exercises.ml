@@ -56,7 +56,7 @@ let main () =
 { styles=[];
   content= <:html<
    <h3>Using Key-Value Stores (3)</h3>
-   <p>Now we need to link in our fake block device <tt>Filesystem_static</tt> to our Mirage application. The <tt>server.mir</tt> file lets you control the build:</p>
+   <p>Now we need to link our fake block device <tt>Filesystem_static</tt> into our Mirage application. The <tt>server.mir</tt> file lets you control the build:</p>
 <pre class="noprettyprint">
 $str:dl$ echo Server.main &gt; kv_crunch.mir
 $str:dl$ echo Filesystem_static &gt;&gt; kv_crunch.mir
@@ -104,7 +104,7 @@ $str:dl$ ./_build/unix-direct/kv_fs.bin -vbd myvbd:disk1.img \
 { styles=[];
   content= <:html<
    <h3>Standalone Xen</h3>
-   <p>With a RAMdisk (the first example), the Xen microkernel with storage is trivial.</p>
+   <p>With a RAMdisk (<tt>kv_crunch</tt>, the first example), the Xen microkernel with storage is trivial.</p>
 <pre class="noprettyprint">
 // Linux x86_64 only
 $str:dl$ mir-build xen/kv_crunch.xen
@@ -123,7 +123,8 @@ $str:dl$ cd mirage-tutorial/devices/fat
 $str:dl$ make
 </pre>
 
-<p>The command-line flag to map in a FAT image is <b><tt>-fat_kv_ro id:blkif_id</tt></b> just like the previous one.</p>
+<p>The command-line flag to map a FAT image is <br />
+<b><tt>-fat_kv_ro id:blkif_id</tt></b> just like the previous one.</p>
 <p>This is for advanced users, but see what you can do with it! MacOS has poor support for manipulating FAT volumes, so this will be easier on Linux.</p>
 
 >>

@@ -173,7 +173,7 @@ type blkif = &lt;
     <ul>
       <li>So far, we can sleep and output to the console and have low-level devices (via sockets or pages).</li>
       <li>We need a generic way to plug in I/O devices.</li>
-      <li>Would like to do so both <i>statically</i> at compile-time, and <i>dynamically</i> from the environment</li>
+      <li>Would like to do so both <i>statically</i> at compile-time, and <i>dynamically</i> from the environment.</li>
       <li>A case where <b>OCaml Objects</b> are very useful!</li>
     </ul>
   >>
@@ -185,7 +185,7 @@ type blkif = &lt;
     <h3>Providers</h3>
     <ul>
       <li>These are device managers that manage plugging and unplugging devices from the environment.</li>
-      <li>Each provider registers at application startup, and communicates with the $github "os/unix/devices.ml" "device manager"$
+      <li>Each provider registers at application startup, and communicates with the $github "lib/os/unix/devices.ml" "device manager"$
        via <tt><a href="http://ocsigen.org/lwt/api/Lwt_mvar">Lwt_mvar</a></tt> mailboxes).</li>
       <li>There are two provider types for this tutorial:</li>
       <ul>
