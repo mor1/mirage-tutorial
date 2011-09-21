@@ -3,12 +3,8 @@ open Printf
 
 let main () =
   Log.info "Kv_ro" "Plugging device";
-  lwt kv_ro = 
-    match_lwt OS.Devices.find_kv_ro "static" with
-      | None   -> raise_lwt (Failure "no kv_ro")
-      | Some x -> return x
-  in
-  
+  lwt kv_ro = OS.Devices.with_kv_ro "static" return in
+
   Log.info "Kv_ro" "Reading first file";
   lwt () = 
     match_lwt kv_ro#read "HELLOWOR.LD" with
@@ -41,6 +37,7 @@ let main () =
       | Some s 
         -> (Lwt_stream.iter
               (fun bits -> 
-                printf "%s%!" (Bitstring.string_of_bitstring bits)) 
+                printf "%s\n%!" (Bitstring.string_of_bitstring bits)) 
               s)
+      | None -> printf "file not found\n%!"; return ()
   )
