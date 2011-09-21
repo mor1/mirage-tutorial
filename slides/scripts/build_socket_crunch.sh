@@ -1,5 +1,8 @@
 #!/bin/bash -ex
 
+# Switch to the directory with the 'static' subdir containing the slides
+cd $(git rev-parse --show-toplevel)/slides
+
 BIN=crunch_server
 MIR_RUN=$(which mir-run)
 
