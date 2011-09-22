@@ -32,7 +32,7 @@ $str:dl$ make mysleep
 <ul>
 <li><tt>OS.Time.sleep tm</tt> will sleep for <tt>tm</tt> seconds.</li>
 <li><tt>OS.Console.log</tt> and <tt>OS.Console.log_s</tt> (the Lwt version) print a string to console.</li>
-<li><a href="http://ocsigen.org/lwt/api/Lwt#VALchoose"><tt>Lwt.choose</tt></a> waits for multiple threads to finish.</li>
+<li><a href="http://ocsigen.org/lwt/api/Lwt#VALjoin"><tt>Lwt.join</tt></a> waits for multiple threads to finish.</li>
 </ul>
   >>
 };
