@@ -20,7 +20,7 @@ let slides = [
     <h3>Using Key-Value Stores</h3>
     <p>To add a key-value store, we just need a provider that implements the $github "lib/os/unix/devices.mli" "kv_ro"$ interface. The simplest provider is really simple. Lets try it now!</p>
 <pre class="noprettyprint">
-$str:dl$ cd mirage-tutorial/devices/crunch
+$str:dl$ cd mirage-tutorial/examples/devices/crunch
 $str:dl$ echo 12345 > static/foo
 $str:dl$ echo 67890 > static/bar
 $str:dl$ mir-crunch -name myblock static > filesystem_static.ml

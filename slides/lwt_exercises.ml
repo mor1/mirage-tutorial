@@ -51,8 +51,8 @@ $str:dl$ make myecho1
 <p>You can use this function as a traffic generator:</p>
 <pre>
 let read_line () =
-  OS.Time.sleep (OS.Random.float 1.5) $str:rt$
-  return (String.make (OS.Random.int 20) 'a')</pre>
+  OS.Time.sleep (Random.float 1.5) $str:rt$
+  Lwt.return (String.make (Random.int 20) 'a')</pre>
   >>
 }
 ]
