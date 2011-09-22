@@ -77,7 +77,7 @@ $(document).ready(function () {
                                     if (field.type.mutable) {
                                         s += "mutable";
                                     };
-                                    s += field.name + " : " + field.type + ";";
+                                    s += field.name + " : " + stripType(field.type) + ";";
                                 });
                             s += "<br/>}";
                         }
