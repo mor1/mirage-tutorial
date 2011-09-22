@@ -2,8 +2,8 @@ open Lwt
 open Printf
 
 let main () =
-  printf "Hello Mirage World!\n%!";
+  OS.Console.log "Hello Mirage World!";
   for_lwt i = 1 to 10 do
-    printf "Nap time %d\n%!" i;
+    OS.Console.log (sprintf "Nap time %d" i);
     OS.Time.sleep 1.0
   done

@@ -37,7 +37,7 @@ let slides = [
      <li><tt>Lwt</tt> wraps event callbacks to maintain the illusion of straight-line code.</li>
     </ul>
     <p>Let's look at some examples.
-    They are all in<br /> <a href="https://github.com/avsm/mirage-tutorial/tree/master/">mirage-tutorial/examples/01-lwt</a>, and you build them by:</p>
+    They are all in<br /> <a href="https://github.com/avsm/mirage-tutorial/tree/master/">mirage-tutorial/examples/lwt</a>, and you build them by:</p>
     <section><pre class="noprettyprint">
 $str:dl$ mir-build unix-socket/sleep.bin
 $str:dl$ ./_build/unix-socket/sleep.bin</pre></section> 
@@ -90,7 +90,7 @@ val join : unit Lwt.t list -> unit Lwt.t
   styles=[];
   content= <:html<
    <h3>Lwt syntax extension</h3>
-<p><tt>01-lwt/sleep.ml</tt> (<tt>make sleep</tt>)</p>
+<p><tt>lwt/sleep.ml</tt> (<tt>make sleep</tt>)</p>
 <pre>
   lwt () = OS.Time.sleep 1.0 in
   lwt () = OS.Time.sleep 2.0 in

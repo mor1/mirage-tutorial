@@ -70,4 +70,7 @@ let presentation = {
   articles;
 }
 
-let body = Xml.to_string (Slides.slides presentation)
+let body =
+  let slides = Slides.slides presentation in
+  printf "%d slides\n%!" (List.length articles);
+  Xml.to_string slides

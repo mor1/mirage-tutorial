@@ -81,3 +81,12 @@ let svg fname =
   <:html<
     <object class="centered" data=$str:fname$ type="image/svg+xml">&nbsp;</object>
   >>
+
+(* Helper function to href to github *)
+let github ml f =
+  let url = sprintf "http://github.com/avsm/mirage/tree/master/%s" ml in
+ <:html<
+   <a href=$str:url$><tt>$str:f$</tt></a>
+ >>
+
+

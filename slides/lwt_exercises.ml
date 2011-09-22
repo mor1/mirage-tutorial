@@ -24,7 +24,7 @@ let slides = [
               and the other "Tails".</p>
              <p>After both have finished, print "Finished" and exits.</p>
 <pre class="noprettyprint">
-$str:dl$ cd mirage-tutorial/examples/01-lwt
+$str:dl$ cd mirage-tutorial/examples/lwt
 $str:dl$ vim mysleep.ml
 $str:dl$ make mysleep
 # answer is in sleep.ml
@@ -43,7 +43,7 @@ $str:dl$ make mysleep
   <p>Write an echo server that reads from a dummy input generator and
   writes each input read to the console. The server should stop listening after 10 inputs are received.</p>
 <pre class="noprettyprint">
-$str:dl$ cd mirage-tutorial/examples/01-lwt
+$str:dl$ cd mirage-tutorial/examples/lwt
 $str:dl$ vim myecho1.ml
 $str:dl$ make myecho1
 # answer is in echo1.ml

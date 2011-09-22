@@ -20,9 +20,6 @@ let slides = [
   content= <:html<
     <h3>How Kernels Boot on Amazon</h3>
     <ul>
-      <li>PV, ignore HVM for now. </li>
-      <li>Explain pvgrub</li>
-      <li>some segway into XCP here?</li>
     </ul>
   >>
 };
