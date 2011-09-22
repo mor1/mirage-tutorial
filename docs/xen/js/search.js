@@ -70,6 +70,18 @@ $(document).ready(function () {
                                     if (con.description) s += "  (* " + con.description + " *)";
                                 });
                         }
+                        if (x.type.kind.type == "record") {
+                            s += " = {";
+                            $.each(x.type.kind.fields, function(k,field) {
+                                    s += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                                    if (field.type.mutable) {
+                                        s += "mutable";
+                                    };
+                                    s += field.name + " : " + field.type + ";";
+                                });
+                            s += "<br/>}";
+                        }
+
                         d.append($("<div />")
                                  .addClass('sig-type')
                                  .addClass("alert-message block-message success")
