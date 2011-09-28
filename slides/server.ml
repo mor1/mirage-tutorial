@@ -1,7 +1,7 @@
 open Lwt
 open Printf
 
-let port = 8000
+let port = 80
 
 let ip =
   let open Net.Nettypes in
