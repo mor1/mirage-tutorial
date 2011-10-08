@@ -56,7 +56,7 @@ val return : 'a -> 'a Lwt.t
 <section><pre>
 val bind : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
 </pre></section> 
-<p><tt><a href="http://ocsigen.org/lwt/api/Lwt#VALbind">Lwt.bind</a> t f</tt> creates a thread which waits for <tt>t</tt> to terminate, then pass the result to <tt>f</tt>. If <tt>t</tt> is a sleeping thread, then <tt>bind t f</tt> will sleep too, until <t>t terminates</t>.</p>
+<p><tt><a href="http://ocsigen.org/lwt/api/Lwt#VALbind">Lwt.bind</a> t f</tt> creates a thread which waits for <tt>t</tt> to terminate, then pass the result to <tt>f</tt>. If <tt>t</tt> is a sleeping thread, then <tt>bind t f</tt> will sleep too, until <tt>t</tt> terminates.</p>
 <section><pre>
 val join : unit Lwt.t list -> unit Lwt.t
 </pre></section> 
@@ -82,7 +82,7 @@ val join : unit Lwt.t list -> unit Lwt.t
 <pre>
   lwt () = OS.Time.sleep 1.0 in
   lwt () = OS.Time.sleep 2.0 in
-  OS.Console.log "Wake up sleep!\n";
+  OS.Console.log "Wake up sleepy!\n";
   Lwt.return ()</pre>
   >>
 };
@@ -94,7 +94,7 @@ val join : unit Lwt.t list -> unit Lwt.t
 <pre>
   lwt () = OS.Time.sleep 1.0 in
   lwt () = OS.Time.sleep 2.0 in
-  OS.Console.log "Wake up sleep!\n";
+  OS.Console.log "Wake up sleepy!\n";
   Lwt.return ()</pre>
 <p>After syntax transform: (<tt>make sleep.pp</tt>)</p>
 <pre>
@@ -102,7 +102,7 @@ val join : unit Lwt.t list -> unit Lwt.t
   Lwt.bind __pa_lwt_0 (fun () ->
     let __pa_lwt_0 = OS.Time.sleep 2.0 in
     Lwt.bind __pa_lwt_0 (fun () -> 
-      (OS.Console.log "Wake up sleep.ml!\n";
+      (OS.Console.log "Wake up sleepy!\n";
        Lwt.return ()
       )
     )
@@ -121,7 +121,7 @@ val join : unit Lwt.t list -> unit Lwt.t
     <pre>
 let t,u = Lwt.task () in // t sleeps forever
 Lwt.wakeup u "foo";      // and u can wake it up  
-t                        // value of t is "foo" </pre>
+t                        // value carried by t is "foo" </pre>
 <p>The outside world wakes up sleeping threads via the <tt><a href="http://ocsigen.org/lwt/api/Lwt#VALwakeup">Lwt.wakeup</a></tt> mechanism:</p>
 <ul>
 <li>Timeouts are stored in an efficient <a href="https://github.com/avsm/mirage/blob/master/lib/os/unix/time.ml">priority queue</a></li>

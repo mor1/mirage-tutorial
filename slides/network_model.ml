@@ -43,8 +43,8 @@ type features = {
     <p>The bridge should have IP <tt>10.0.0.1</tt> as the applications default to <tt>10.0.0.2</tt>. Try not to bridge to the outside network!</p>
 <pre class="noprettyprint">
 $str:dl$ cd mirage-tutorial/examples/net/ping
-$str:dl$ mir-build unix-direct/ping.ml
-$str:dl$ sudo ./_build/unix-direct/ping.ml
+$str:dl$ mir-build unix-direct/ping.bin
+$str:dl$ sudo ./_build/unix-direct/ping.bin
 // Another terminal
 $str:dl$ ping 10.0.0.2
 </pre>

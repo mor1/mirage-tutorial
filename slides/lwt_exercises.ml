@@ -32,7 +32,7 @@ $str:dl$ make mysleep
 <ul>
 <li><tt>OS.Time.sleep tm</tt> will sleep for <tt>tm</tt> seconds.</li>
 <li><tt>OS.Console.log</tt> and <tt>OS.Console.log_s</tt> (the Lwt version) print a string to console.</li>
-<li><a href="http://ocsigen.org/lwt/api/Lwt#VALchoose"><tt>Lwt.choose</tt></a> waits for multiple threads to finish.</li>
+<li><a href="http://ocsigen.org/lwt/api/Lwt#VALjoin"><tt>Lwt.join</tt></a> waits for multiple threads to finish.</li>
 </ul>
   >>
 };
@@ -51,8 +51,8 @@ $str:dl$ make myecho1
 <p>You can use this function as a traffic generator:</p>
 <pre>
 let read_line () =
-  OS.Time.sleep (OS.Random.float 1.5) $str:rt$
-  return (String.make (OS.Random.int 20) 'a')</pre>
+  OS.Time.sleep (Random.float 1.5) $str:rt$
+  Lwt.return (String.make (Random.int 20) 'a')</pre>
   >>
 }
 ]

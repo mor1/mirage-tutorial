@@ -13,6 +13,12 @@ let rec echo_server =
     Console.log s;
     echo_server (num_lines - 1)
 
+(* Imperative version *)
+let echo_server_2 num =
+  for_lwt i = 1 to num do
+     read_line ()  >>= Console.log_s 
+  done
+
 let main () =
   Random.self_init ();
   echo_server 10

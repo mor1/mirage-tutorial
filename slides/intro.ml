@@ -34,7 +34,7 @@ let slides = [
      <li><b>Dr. Thomas Gazagnaire</b>,
        <div style="font-size: 80%">
        CTO, OCamlPro.<br />
-       www: <a href="http://gazagnaire.org/">http://gazagnaire.org</a>&nbsp; &nbsp; twitter: <a href="http://twitter.com/samoht">samoht</a>
+       www: <a href="http://gazagnaire.org/">http://gazagnaire.org</a>&nbsp; &nbsp; twitter: <a href="http://twitter.com/eriangazag">eriangazag</a>
        </div>
      </li>
     </ul>
