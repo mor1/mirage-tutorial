@@ -3,4 +3,8 @@ _build
 *.img
 slides/myocamlbuild.ml
 slides/filesystem_static.ml
+slides/main.ml
+slides/setup.data
+slides/setup.log
+*.native
 examples/dns/filesystem_static.ml

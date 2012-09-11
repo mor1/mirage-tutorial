@@ -1,17 +1,13 @@
-# valid targets for various combinations :
-# run-socket_crunch
-# run-socket_fs
-# run-direct_crunch
-# run-direct_fs
-# run-xen_crunch
-# run-xen_fs
+ifeq ($(MIRAGE_OS),xen)
+FLAGS=--enable-xen --disable-unix
+else
+FLAGS=--enable-unix --disable-xen
+endif
 
-all: run-socket_crunch
-
-run-%:
-	./scripts/build_$*.sh
+all: 
+	ocaml setup.ml -configure $(FLAGS)
+	ocaml setup.ml -build
 
 .PHONY:clean
 clean:
-	$(RM) filesystem_static.ml myocamlbuild.ml static.img
 	ocamlbuild -clean

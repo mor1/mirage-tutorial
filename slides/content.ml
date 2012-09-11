@@ -6,7 +6,7 @@ let rt = ">>"
 
 let header =[ {
   styles=[Title];
-  content= <:html<
+  content= <:xml<
    <h1>Building a Functional Operating System</h1>
    <br />
    Tutorial T3<br />
@@ -17,7 +17,7 @@ let header =[ {
 
 let p2 = {
   styles=[Fill];
-  content= <:html<
+  content= <:xml<
 <h3>Code</h3>
 <section><pre>
 <![CDATA[
@@ -43,7 +43,7 @@ let main () =
 
 let footer = [{
   styles=[];
-  content= <:html<
+  content= <:xml<
     <h1>The End
     <br /><small>now stand around the watercooler and discuss things</small>
     </h1>
