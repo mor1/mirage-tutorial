@@ -1,2 +1,9 @@
 .DS_Store
 log
+
+src/_build
+src/*.native
+src/mir-tutorial
+src/tutorial.xl
+/src/Makefile
+/src/main.ml
