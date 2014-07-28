@@ -23,7 +23,7 @@ let slides = [
        www: <a href="http://anil.recoil.org/">http://anil.recoil.org</a>&nbsp; &nbsp; twitter: <a href="http://twitter.com/avsm">avsm</a>
        </div>
      </li>
-       
+
      <li><b>Dr. David Scott</b>,<br />
        <div style="font-size: 80%">
        XenServer Platform Architect,<br />

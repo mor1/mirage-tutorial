@@ -37,10 +37,10 @@ let style_to_string = function
  |No_background -> "nobackground"
  |Fill -> "fill"
 
-(** Render one slide 
+(** Render one slide
   * @param styles How to render the slide (title, normal, or smaller font)
   * @param title Main title string of slide
-  * @param subtitle Optional subtitle for slide 
+  * @param subtitle Optional subtitle for slide
   * @param content XHTML body of the slide
  **)
 let article_to_xhtml article =
@@ -64,7 +64,7 @@ let slides p =
     <title>$str:p.topic$</title>
     <script type="text/javascript" src="slides.js">&nbsp; </script>
   </head>
-  
+
   <style>
   </style>
 
@@ -88,5 +88,3 @@ let github ml f =
  <:html<
    <a href=$str:url$><tt>$str:f$</tt></a>
  >>
-
-
