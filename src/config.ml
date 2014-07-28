@@ -14,17 +14,11 @@ let fat_ro dir =
 
 (* In Unix mode, use the passthrough filesystem for files to avoid a huge
    crunch build time *)
-let fs =
+let static =
   match mode, get_mode () with
-  | `Fat,    _     -> fat_ro "../assets"
-  | `Crunch, `Xen  -> crunch "../assets"
-  | `Crunch, `Unix -> direct_kv_ro "../assets"
-
-let tmpl =
-  match mode, get_mode () with
-  | `Fat,    _     -> fat_ro "../slides"
-  | `Crunch, `Xen  -> crunch "../slides"
-  | `Crunch, `Unix -> direct_kv_ro "../slides"
+  | `Fat,    _     -> fat_ro "./static"
+  | `Crunch, `Xen  -> crunch "./static"
+  | `Crunch, `Unix -> direct_kv_ro "./static"
 
 let net =
   try match Sys.getenv "NET" with
@@ -52,9 +46,9 @@ let main =
   let libraries = [ "cow.syntax"; "cowabloga" ] in
   let packages = [ "cow";"cowabloga" ] in
   foreign ~libraries ~packages "Server.Main"
-    (console @-> kv_ro @-> kv_ro @-> http @-> job)
+    (console @-> kv_ro @-> http @-> job)
 
 let () =
   register "tutorial" [
-    main $ default_console $ fs $ tmpl $ server
+    main $ default_console $ static $ server
   ]

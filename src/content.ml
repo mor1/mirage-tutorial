@@ -21,7 +21,7 @@ let p2 = {
 <h3>Code</h3>
 <section><pre>
 <![CDATA[
-open Lwt 
+open Lwt
 open OS
 
 let main () =

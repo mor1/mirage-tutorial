@@ -1,48 +1,56 @@
 open Lwt
-open Printf
+open V1_LWT
 
-let port = 80
+module Main
+         (C: CONSOLE) (STATIC: KV_RO) (S: Cohttp_lwt.Server) = struct
 
-let ip =
-  let open Net.Nettypes in
-  ( ipv4_addr_of_tuple (10l,0l,0l,2l),
-    ipv4_addr_of_tuple (255l,255l,255l,0l),
-   [ipv4_addr_of_tuple (10l,0l,0l,1l)]
-  )
+  let start c static http =
+    let read_static name =
+      STATIC.size static name >>= function
+      | `Error (STATIC.Unknown_key _) ->
+        fail (Failure ("read_static_size " ^ name))
+      | `Ok size ->
+        STATIC.read static name 0 (Int64.to_int size) >>= function
+        | `Error (STATIC.Unknown_key _) ->
+          fail (Failure ("read_static " ^ name))
+        | `Ok bufs -> return (Cstruct.copyv bufs)
+    in
 
-let get_file filename =
-  OS.Devices.with_kv_ro "static" (fun kv_ro ->
-    match_lwt kv_ro#read filename with
-    |None -> return None
-    |Some s -> 
-      lwt x = Lwt_stream.to_list s >|= Cstruct.copy_buffers in
-      return (Some x)
-  )
+    let c_log s = C.log_s c s in
 
-module CL = Cohttp_lwt_mirage
-module C = Cohttp
- 
-let main () =
-  let callback conn_id ?body req =
-    printf "%s\n%!" (CL.Request.path req);
-    match_lwt get_file (CL.Request.path req) with
-    |Some body ->
-      CL.Server.respond_string ~status:`OK ~body ()
-    |None ->
-      if CL.Request.path req = "/" then (
-        let headers = C.Header.init_with "content-type" "text/html" in
-        let body = Content.body in
-        CL.Server.respond_string ~status:`OK ~body ~headers () 
-      ) else
-        CL.Server.respond_not_found ~uri:(CL.Request.uri req) ()
-  in 
-  let spec = {
-    CL.Server.callback;
-    conn_closed = (fun _ _ -> ());
-  } in
-  Net.Manager.create (fun mgr interface id ->
-    let src = None, port in
-    Net.Manager.configure interface (`IPv4 ip) >>
-    CL.listen mgr src spec
-  )
+    let callback conn_id req body =
+      let respond_ok body = S.respond_string ~status:`OK ~body () in
+      let dispatch ~c_log ~read_static ~conn_id ~req =
+        let path = req |> S.Request.uri |> Uri.path in
+        let cpts = path
+                   |> Re_str.(split_delim (regexp_string "/"))
+                   |> List.filter (fun e -> e <> "")
+        in
+        c_log (Printf.sprintf "URL: '%s'" path)
 
+        >>= fun () ->
+        try_lwt
+          read_static path >>= fun body ->
+          S.respond_string ~status:`OK ~body ()
+        with
+        | Failure m ->
+          Printf.printf "CATCH: '%s'\n%!" m;
+          match cpts with
+          | [] | [""] -> Content.body |> respond_ok
+          | x -> S.respond_not_found ~uri:(S.Request.uri req) ()
+      in
+      dispatch ~c_log ~read_static ~conn_id ~req
+    in
+    let conn_closed conn_id () =
+      (* XXX shouldn't i be able to use the Console logging here?
+            C.log_s c (sp "conn %s closed\n%!" (Cohttp.Connection.to_string conn_id))
+      *)
+      Printf.printf "conn %s closed\n%!" (Cohttp.Connection.to_string conn_id)
+    in
+
+    let spec = {
+      S.callback;
+      conn_closed;
+    } in
+    http spec
+end
