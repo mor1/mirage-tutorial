@@ -16,9 +16,9 @@ let fat_ro dir =
    crunch build time *)
 let static =
   match mode, get_mode () with
-  | `Fat,    _     -> fat_ro "./static"
-  | `Crunch, `Xen  -> crunch "./static"
-  | `Crunch, `Unix -> direct_kv_ro "./static"
+  | `Fat,    _     -> fat_ro "../static"
+  | `Crunch, `Xen  -> crunch "../static"
+  | `Crunch, `Unix -> direct_kv_ro "../static"
 
 let net =
   try match Sys.getenv "NET" with
