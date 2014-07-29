@@ -236,6 +236,7 @@ As easy as 1&mdash;2&mdash;3!
 
          $ make depend # install library dependencies
          $ make build  # build the unikernel
+         $ make run    # ==> sudo ./_build/main.native
 <!-- .element: class="no-highlight" -->
 
 
@@ -252,6 +253,7 @@ As easy as 1&mdash;2&mdash;3!
 
           $ mirage configure config.ml --xen
           $ make depend && make build
+          [ edit the .xl config and start your VM ] 
 <!-- .element: class="no-highlight" -->
 
    + All the magic happens via the OCaml module system.
@@ -294,8 +296,10 @@ Featuring blog posts by:
 and [Jeremy Yallop](https://github.com/yallop).
 
 <p style="font-size: 48px; font-weight: bold;
-          display: float; padding: 5ex 0; text-align: center">
-  Thanks for listening! Any questions before we dive into the exercises?
+          display: float; padding: 4ex 0; text-align: center">
+  Thanks for listening!
+  <br/>
+  Any questions before we continue?
 </p>
 
 
