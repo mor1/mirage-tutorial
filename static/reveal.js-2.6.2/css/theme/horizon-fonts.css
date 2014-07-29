@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(css/theme/horizon-fonts/PTS55F-webfont.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(css/theme/horizon-fonts/PTS75F-webfont.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Sans Italic'), local('PTSans-Italic'), url(css/theme/horizon-fonts/PTS56F-webfont.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url(css/theme/horizon-fonts/PTS76F-webfont.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'PT Sans Narrow';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans Narrow'), local('PTSans-Narrow'), url(css/theme/horizon-fonts/PTN57F-webfont.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'PT Sans Narrow';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Narrow Bold'), local('PTSans-NarrowBold'), url(css/theme/horizon-fonts/PTN77F-webfont.ttf) format('ttf');
+}
