@@ -253,7 +253,7 @@ As easy as 1&mdash;2&mdash;3!
 
           $ mirage configure config.ml --xen
           $ make depend && make build
-          [ edit the .xl config and start your VM ] 
+          [ edit the .xl config and start your VM ]
 <!-- .element: class="no-highlight" -->
 
    + All the magic happens via the OCaml module system.
