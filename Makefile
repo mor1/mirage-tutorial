@@ -24,7 +24,7 @@ depend:
 
 clean:
 	cd src && make clean
-	$(RM) src/mir-tutorial log
+	$(RM) log src/mir-tutorial src/main.ml
 
 docs:
 	cd docs && make run
