@@ -1,76 +1,63 @@
-open Cow
-open Printf
-open Slides
-
-let rt = ">>"
-
-let header =[ {
-  styles=[Title];
-  content= <:xml<
-   <h1>Building a Functional Operating System</h1>
-   <br />
-   Tutorial T3<br />
-   Commercial Users of Function Programming (CUFP),<br />
-   Tokyo, Japan
-  >>;
-}]
-
-let p2 = {
-  styles=[Fill];
-  content= <:xml<
-<h3>Code</h3>
-<section><pre>
-<![CDATA[
 open Lwt
-open OS
-
-let main () =
-  let heads =
-    Time.sleep 1.0 $str:rt$
-    return (Console.log "Heads");
-  in
-  let tails =
-    Time.sleep 2.0 $str:rt$
-    return (Console.log "Tails");
-  in
-  lwt () = heads <&> tails in
-  Console.log "Finished";
-  return ()
-]]>
-</pre></section>
-   >>
-}
-
-let footer = [{
-  styles=[];
-  content= <:xml<
-    <h1>The End
-    <br /><small>now stand around the watercooler and discuss things</small>
-    </h1>
-  >>
-}]
-let articles = List.flatten [
-  header;
-  Intro.slides;
-  Whatis.slides;
-  Lwt_tutorial.slides;
-  Lwt_exercises.slides;
-  Device_model.slides;
-  Device_exercises.slides;
-  Network_model.slides;
-  Miragep4.slides;
-  Website.slides;
-  Cloud.slides;
-  footer;
-]
-
-let presentation = {
-  topic="Mirage CUFP 2011 Tutorial";
-  layout=Regular;
-  articles;
-}
 
 let body =
-  let slides = Slides.slides presentation in
-  printf "%d slides\n%!" (List.length articles);
-  Xml.to_string slides
+  let preamble = "\
+<!DOCTYPE html>
+  <!--[if IE 8]><html class=\"no-js lt-ie9\" lang=\"en\" ><![endif]-->
+  <!--[if gt IE 8]><!--><html class=\"no-js\" lang=\"en\" ><!--<![endif]-->"
+  in
+  let page =
+  <:html<
+    <head>
+      <meta charset="utf-8" />
+      <title>The Mirage Tutorial</title>
+      <meta name="description" content="Mirage Tutorial" />
+      <meta name="author" content="The Mirage Team" />
+
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+      <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+      <link rel="stylesheet" href="/css/site.css" media="all"> </link>
+
+      <link rel="stylesheet" href="/reveal.js-2.6.2/css/reveal.min.css"> </link>
+      <link rel="stylesheet" href="/reveal.js-2.6.2/lib/css/zenburn.css"> </link>
+      <link rel="stylesheet" href="/reveal.js-2.6.2/css/theme/horizon.css"> </link>
+
+      <!--[if lt IE 9]>
+          <script src="/reveal.js-2.6.2/lib/js/html5shiv.js"> </script>
+      <![endif]-->
+
+      <base href="/content/" />
+  </head>
+
+    <body>
+      <div class="reveal">
+        <div class="slides">
+          <section data-markdown="intro.md"
+                   data-separator="^\n\n----\n"
+                   data-vertical="^\n\n"
+                   data-notes="^Note:"
+                   data-charset="iso-8859-15">
+          </section>
+
+          <div id="footer">
+            <a id="index" href="/"> <img src="/img/home.png" /> </a>
+            <a id="print-pdf" href="?print-pdf">
+              <img src="/img/print.png" />
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <script src="/js/vendor/jquery-2.0.3.min.js"> </script>
+      <script src="/reveal.js-2.6.2/lib/js/head.min.js"> </script>
+      <script src="/reveal.js-2.6.2/js/reveal.min.js"> </script>
+      <script src="/reveal.js-2.6.2/js/init.js"> </script>
+    </body>
+  >>
+  in
+  preamble ^ (Cow.Html.to_string page) ^ "</html>"

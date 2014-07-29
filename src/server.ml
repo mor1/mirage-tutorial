@@ -20,32 +20,28 @@ module Main
 
     let callback conn_id req body =
       let respond_ok body = S.respond_string ~status:`OK ~body () in
-      let dispatch ~c_log ~read_static ~conn_id ~req =
-        let path = req |> S.Request.uri |> Uri.path in
-        let cpts = path
-                   |> Re_str.(split_delim (regexp_string "/"))
-                   |> List.filter (fun e -> e <> "")
-        in
-        c_log (Printf.sprintf "URL: '%s'" path)
 
-        >>= fun () ->
-        try_lwt
-          read_static path >>= fun body ->
-          S.respond_string ~status:`OK ~body ()
-        with
-        | Failure m ->
-          Printf.printf "CATCH: '%s'\n%!" m;
-          match cpts with
-          | [] | [""] -> Content.body |> respond_ok
-          | x -> S.respond_not_found ~uri:(S.Request.uri req) ()
+      let path = req |> S.Request.uri |> Uri.path in
+      let cpts = path
+                 |> Re_str.(split_delim (regexp_string "/"))
+                 |> List.filter (fun e -> e <> "")
       in
-      dispatch ~c_log ~read_static ~conn_id ~req
+      c_log (Printf.sprintf "URL: '%s'" path)
+
+      >>= fun () ->
+      try_lwt
+        read_static path >>= fun body ->
+        S.respond_string ~status:`OK ~body ()
+      with
+      | Failure m ->
+        Printf.printf "CATCH: '%s'\n%!" m;
+        match cpts with
+        | [] | [""] -> Content.body |> respond_ok
+        | x -> S.respond_not_found ~uri:(S.Request.uri req) ()
+
     in
     let conn_closed conn_id () =
-      (* XXX shouldn't i be able to use the Console logging here?
-            C.log_s c (sp "conn %s closed\n%!" (Cohttp.Connection.to_string conn_id))
-      *)
-      Printf.printf "conn %s closed\n%!" (Cohttp.Connection.to_string conn_id)
+      C.log c (Printf.sprintf "conn %s closed\n%!" (Cohttp.Connection.to_string conn_id))
     in
 
     let spec = {

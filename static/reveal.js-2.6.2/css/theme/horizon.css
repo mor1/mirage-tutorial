@@ -14,7 +14,7 @@
 /** lose transparent padding from cloud background image */
 
 body {
-  background: url(/graphics/cloud-bg.png) 0 -50px repeat-x;
+  background: url(/img/cloud-bg.png) 0 -50px repeat-x;
 }
 
 /** fonts */
@@ -62,6 +62,13 @@ body {
 
 .reveal .slides ol {
     margin-left: 1.1em;
+}
+
+.reveal iframe {
+    min-height: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .reveal #footer {
