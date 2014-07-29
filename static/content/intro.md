@@ -20,6 +20,49 @@ Anil Madhavapeddy <small>University of Cambridge</small>
 
 ----
 
+## Before We Begin...
+
+If you would like to follow along with these examples (and we recommend you do!)
+you will need to:
+
++ install OCaml and the `opam` package manager, e.g.:
+
+      $ brew install ocaml opam
+      $ eval `opam config env`
+<!-- .element: class="no-highlight" -->
+
++ install Mirage:
+
+      $ opam install mirage
+<!-- .element: class="no-highlight" -->
+
+More details, including instructions for non-OSX platforms, can be found on the
+[OpenMirage website](http://openmirage.org/wiki/install).
+
+
+## Samples
+
+You can also grab copies of all the samples used in this tutorial by cloning the
+appropriate repositories:
+
+      $ git clone https://github.com/mirage/mirage-tutorial
+      $ git clone https://github.com/mirage/mirage-skeleton
+<!-- .element: class="no-highlight" -->
+
+The former contains this slide deck and the associated IOCaml notebooks; the
+latter contains extensive working sample code, including all the examples we
+will present, and more!
+
+If you wish to run the IOCaml notebooks yourself, you will also need to install
+IOCaml and point it to them:
+
+      $ opam install iocaml
+      $ iocaml -completion mirage-tutorial/notebooks
+<!-- .element: class="no-highlight" -->
+
+
+----
+
 ## Introducing [Mirage OS 2.0](http://openmirage.org/)
 
 These slides were written using Mirage on OSX:
