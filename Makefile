@@ -1,3 +1,5 @@
+IOCAML ?= iocaml -completion ./notebooks
+
 MODE  ?= unix
 NET   ?=
 MIRAGE = mirage
@@ -14,6 +16,7 @@ build:
 	cd src && make build
 
 run:
+#	$(IOCAML) &
 	cd src && sudo make run
 
 depend:
