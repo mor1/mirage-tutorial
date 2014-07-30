@@ -355,4 +355,594 @@ We'll now take you through several core components of Mirage, specifically:
 + `Lwt`, the co-operative threading library used throughout Mirage;
 + `config.ml`, specifying a unikernel;
 + __Networking__, from a simple static website to a custom networking stack;
-+ __Irmin__, the Mirage versioned Git-like filesystem.
+
+
+----
+
+## Monads
+
+```
+module type MONAD = sig
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+* A monad is a box that contains an abstract value.
+* Put values in the box with `return`
+* Transform them into other values with `bind`
+
+
+## The Option Monad
+
+Let's implement a monad that expresses optional values, starting in the OCaml interactive toplevel.
+
+```
+# Some "apple" ;;
+- : string option = Some "apple"
+
+# None ;;
+- : 'a option = None
+
+# let return x = Some x ;;
+val return : 'a -> 'a option = <fun>
+
+# let maybe u f =
+ match u with
+ | Some c -> f c
+ | None   -> None ;;
+val maybe : 'a option -> ('a -> 'b option) -> 'b option = <fun>
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Option Monad: definition
+
+```
+module OptionMonad = struct
+  type 'a t = 'a option
+
+  let bind u f =
+   match f with
+   | Some x -> f x
+   | None   -> None
+
+  let return u = Some u
+end
+```
+<!-- .element: class="no-highlight" -->
+
+The toplevel will report the following type:
+
+```
+module OptionMonad = sig
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Option Monad: definition
+
+```
+module OptionMonad = struct
+  type 'a t = 'a option
+
+  let bind u f =
+   match f with
+   | Some x -> f x
+   | None   -> None
+
+  let return u = Some u
+end
+```
+<!-- .element: class="no-highlight" -->
+
+- The value in the box may not exist: `type 'a option`
+- `return` places a concrete value in the box.
+- `bind` applies a function if it exists or does nothing.
+
+- Note: `f x` application in `bind` is *not* wrapped in `Some`.
+
+
+## Option Monad: examples
+
+Some simple uses of these definitions:
+
+```
+open OptionMonad ;;
+bind
+ (return 1)
+ (fun c -> return (c+1)) ;;
+- : int option = Some 2
+
+bind
+  None
+  (fun c -> return (c+1)) ;;
+- : int option = None
+```
+<!-- .element: class="no-highlight" -->
+
+Binds can be chained to link the results.
+
+```
+bind (
+ bind
+  (Some 1)
+  (fun c -> return (c+1))
+ ) (fun c -> return (c+1)) ;;
+- : int option = Some 3
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Option Monad: infix
+
+Infix operators make chaining `bind` more natural:
+
+```
+let (>>=) = bind ;;
+val ( >>= ) : 'a option -> ('a -> 'b option) -> 'b option = <fun>
+
+return 1 >>= fun c ->
+return (c+1) >>= fun c ->
+return (c+1) ;;
+- : int option = Some 3
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Option Monad: infix 
+
+Infix operators make chaining `bind` more natural:
+
+```
+let (>>=) = bind ;;
+val ( >>= ) : 'a option -> ('a -> 'b option) -> 'b option = <fun>
+
+return 1 >>= fun c ->
+return (c+1) >>= fun c ->
+return (c+1) ;;
+- : int option = Some 3
+```
+<!-- .element: class="no-highlight" -->
+
+Or define a `maybe_add` function to be even more succinct.
+
+```
+let maybe_add c = return c + 1 ;;
+val maybe_add : int -> int option = <fun>
+
+return 1
+>>= maybe_add
+>>= maybe_add
+- : int option = Some 3
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Monad Laws
+
+```
+module type MONAD = sig
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+* Monad implementations must satisfy some laws.
+
+
+## Monad Laws: left identity
+
+```
+module type MONAD = sig
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+`return` is a left identity for `bind`
+
+```
+return x >>= f
+f x
+```
+<!-- .element: class="no-highlight" -->
+
+Using the OptionMonad:
+
+```
+# return 1 >>= maybe_add ;;
+- : int option = Some 2
+
+# maybe_add 1;;
+- : int option = Some 2
+
+# return (Some 1) >>= maybe_add
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Monad Laws: right identity
+
+```
+module type MONAD = sig
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+`return` is a right identity for `bind`
+
+```
+m >>= return
+m
+```
+<!-- .element: class="no-highlight" -->
+
+Using the OptionMonad:
+
+```
+# Some 1 >>= return
+- : int option = Some 1
+
+# None >>= return
+- : 'a option = None
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Monad Laws: associativity
+
+```
+module type MONAD = sig
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+`bind` is associative (in an odd way).
+
+```
+(u >>= f) >>= g
+u >>= (fun x -> f x) >>= g
+```
+<!-- .element: class="no-highlight" -->
+
+Using the OptionMonad:
+
+```
+# Some 3 >>= maybe_add >>= maybe_add ;;
+- : int option = Some 5
+
+# Some 3 >>= (fun x -> maybe_add x >>= maybe_add) ;;
+- : int option = Some 5
+```
+<!-- .element: class="no-highlight" -->
+
+
+----
+
+## Cooperative Concurrency
+
+There are quite a few uses for monads; we'll use this to build a cooperative concurrency model for our OS.
+
+```
+module Lwt = struct
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+The `Lwt` (Light Weight Thread) monad signature above represents a *future computation* that is held in the box.
+
+Can construct *futures* and compute using them by using `bind` to operate over its eventual value.
+
+
+## Constant threads
+
+```
+open Lwt ;;
+let future_int = return 1 ;;
+val future_int : int Lwt.t = <abstr>
+```
+<!-- .element: class="no-highlight" -->
+
+Build a constant thread by using `return`.
+
+```
+let future_fruit = return "apple" ;;
+val future_fruit : string Lwt.t = <abstr>
+
+let future_lang = return `OCaml ;;
+val future_lang : [> `OCaml] Lwt.t = <abstr>
+```
+<!-- .element: class="no-highlight" -->
+
+Threads are first-class OCaml values and parametric polymorphism lets you
+distinguish different types of threads.
+
+No system threads are involved at all; this is sequential code.
+
+
+## Concurrency: executing
+
+```
+module OS = struct
+ val sleep : float -> unit Lwt.t
+ val run : 'a Lwt.t -> 'a
+end
+```
+<!-- .element: class="no-highlight" -->
+
+The monad needs to be *executed* to retrieve the future contents.
+
+
+## Concurrency: executing
+
+```
+module OS = struct
+ val sleep : float -> unit Lwt.t
+ val run : 'a Lwt.t -> 'a
+end
+```
+<!-- .element: class="no-highlight" -->
+
+The monad needs to be *executed* to retrieve the future contents.
+
+```
+let t =
+ OS.sleep 1.0 >>= fun () ->
+ print_endline ">> start";
+ OS.sleep 2.0 >>= fun () ->
+ print_endline ">> woken up";
+ return () ;;
+val t : unit Lwt.t = <abstr>
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Concurrency: executing
+
+```
+module OS = struct
+ val sleep : float -> unit Lwt.t
+ val run : 'a Lwt.t -> 'a
+end
+```
+<!-- .element: class="no-highlight" -->
+
+The monad needs to be *executed* to retrieve the future contents.
+
+```
+let t =
+ OS.sleep 1.0 >>= fun () ->
+ print_endline ">> start";
+ OS.sleep 2.0 >>= fun () ->
+ print_endline ">> woken up";
+ return () ;;
+val t : unit Lwt.t = <abstr>
+
+OS.run t ;;
+>> start
+>> woken up
+```
+<!-- .element: class="no-highlight" -->
+
+The `run` function takes a future and unpacks the real value.
+
+
+## Joinad: not quite a monad
+
+```
+module Lwt = struct
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+
+ val join : unit t list -> unit t
+ val choose : 'a t list -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+We extend the `MONAD` signature with:
+
+- `join` to wait for a list of threads to terminate.
+- `choose` to return as soon as one thread of a list completes.
+- `join` aliased to `<&>` operator and `choose` as `<?>`.
+
+<br/>
+*(see [tomasp.net](http://tomasp.net) and [tryjoinads.org](http://tryjoinads.org) for more background)*
+
+
+## Example: flip a coin
+
+```
+module Lwt = struct
+ type 'a t
+ val bind : 'a t -> ('a -> 'b t) -> 'b t
+ val return :  'a -> 'a t
+
+ val join : unit t list -> unit t
+ val choose : 'a t list -> 'a t
+end
+```
+<!-- .element: class="no-highlight" -->
+
+Using `choose` to pick the first thread in a coin flip:
+
+```
+let flip_a_coin () =
+ let heads =
+  OS.sleep 1.0 >>= fun () ->
+  return (OS.log "Heads") in
+ let tails =
+  OS.sleep 2.0 >>= fun () ->
+  return (OS.log "Tails") in
+ heads <&> tails
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Thread representation
+
+```
+type 'a t = {
+ | Return of 'a
+ | Fail of exn
+ | Sleep of 'a sleeper
+}
+and sleeper = {
+ waiters : 'a waiter_set;
+ <...etc>
+}
+```
+<!-- .element: class="no-highlight" -->
+
+Thread has three main states:
+
+- It has **completed** and contains a concrete `Return` value.
+- It has **failed** and contains a concrete `Fail` exception.
+- It is **blocked** and waiting on another thread.
+
+
+## Wakeners and tasks
+
+Each thread executes until it needs to wait on a resource.  It creates
+a *task* to let it be woken up in the future.
+
+```
+type 'a t  (* thread *)
+type 'a u  (* wakener *)
+val wait : unit -> 'a t * 'a u
+val wakeup : 'a u -> 'a -> unit
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Wakeners and tasks
+
+Each thread executes until it needs to wait on a resource.  It creates
+a *task* to let it be woken up in the future.
+
+```
+type 'a t  (* thread *)
+type 'a u  (* wakener *)
+val wait : unit -> 'a t * 'a u
+val wakeup : 'a u -> 'a -> unit
+```
+<!-- .element: class="no-highlight" -->
+
+Tasks are a pair: a thread that sleeps until it is fulfilled via its wakener by calling `wakeup` on it.
+
+```
+let t1 =
+ t >>= fun x ->
+ print_endline x;
+ return ()
+and t2 =
+ OS.sleep 2.0 >>= fun () ->
+ wakeup u "x";
+ return ()
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Wakeners: building a timer
+
+Wakeners are enough to build our `OS.sleep` function:
+
+- Call `sleep` with `t` seconds as an argument.
+- Create a thread `t` and a wakener `u`.
+- Insert `u` into a priority queue ordered by timeout duration.
+- Sleep on `t` until `u` is invoked by the scheduler.
+
+Priority queue is a standard data structure ordered by duration.
+
+```
+module Sleep_queue =
+ Lwt_pqueue.Make(struct
+  type t = sleeper
+  let compare { time = t1 } { time = t2 } = compare t1 t2
+ end)
+end
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Wakeners: running in Unix
+
+`OS.main` runs until all threads are blocked,
+and then drops into the `select` function to wait for the next timeout.
+
+```
+run main thread (threads register timeouts)
+if result is Blocked then
+ T = head of priority queue
+ select() for T seconds
+ wakeup timeouts
+repeat until main thread result is Done or Fail
+```
+<!-- .element: class="no-highlight" -->
+
+- This lets our sequential code be fully concurrent, without preemptive system threads.
+- Number of threads limited only by OCaml heap size.
+
+
+## Wakeners: running in Xen
+
+Lwt uses the `select` system call in Unix, which blocks the process until some IO event (or a timeout) occurs.
+
+**But how does this translate to Xen?**
+
+
+## Wakeners: running in Xen
+
+Lwt uses the `select` system call in Unix, which blocks the process until some IO event (or a timeout) occurs.
+
+Xen has an equivalent *VM block instruction* which suspends the whole VM until a device interrupt or timeout.
+
+> **processes in Unix** <=> **Virtual Machines in Xen**
+
+> **`select` in Unix** <=> **block entire virtual machine in Xen**
+
+```
+module OS = struct
+ val sleep : float -> unit Lwt.t
+ val run : 'a Lwt.t -> 'a
+end
+```
+<!-- .element: class="no-highlight" -->
+
+
+## Wakeners: running in Xen
+
+Lwt uses the `select` system call in Unix, which blocks the process until some IO event (or a timeout) occurs.
+
+Xen has an equivalent *VM block instruction* which suspends the whole VM until a device interrupt or timeout.
+
+> **processes in Unix** <=> **Virtual Machines in Xen**
+
+> **`select` in Unix** <=> **block entire virtual machine in Xen**
+
+Our Xen VM can use this abstraction for all its I/O and timing.
+
+**Question: What is the major downside of this approach?**
+
+----
