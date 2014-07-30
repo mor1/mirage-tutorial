@@ -368,7 +368,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 * A monad is a box that contains an abstract value.
 * Put values in the box with `return`
@@ -395,7 +394,6 @@ val return : 'a -> 'a option = <fun>
  | None   -> None ;;
 val maybe : 'a option -> ('a -> 'b option) -> 'b option = <fun>
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: definition
@@ -412,7 +410,6 @@ module OptionMonad = struct
   let return u = Some u
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The toplevel will report the following type:
 
@@ -423,7 +420,6 @@ module OptionMonad = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: definition
@@ -440,7 +436,6 @@ module OptionMonad = struct
   let return u = Some u
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 - The value in the box may not exist: `type 'a option`
 - `return` places a concrete value in the box.
@@ -465,7 +460,6 @@ bind
   (fun c -> return (c+1)) ;;
 - : int option = None
 ```
-<!-- .element: class="no-highlight" -->
 
 Binds can be chained to link the results.
 
@@ -477,7 +471,6 @@ bind (
  ) (fun c -> return (c+1)) ;;
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: infix
@@ -493,7 +486,6 @@ return (c+1) >>= fun c ->
 return (c+1) ;;
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: infix 
@@ -509,7 +501,6 @@ return (c+1) >>= fun c ->
 return (c+1) ;;
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 Or define a `maybe_add` function to be even more succinct.
 
@@ -522,7 +513,6 @@ return 1
 >>= maybe_add
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Monad Laws
@@ -534,12 +524,11 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 * Monad implementations must satisfy some laws.
 
 
-## Monad Laws: left identity
+## Laws: left identity
 
 ```
 module type MONAD = sig
@@ -548,7 +537,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 `return` is a left identity for `bind`
 
@@ -556,7 +544,6 @@ end
 return x >>= f
 f x
 ```
-<!-- .element: class="no-highlight" -->
 
 Using the OptionMonad:
 
@@ -569,10 +556,9 @@ Using the OptionMonad:
 
 # return (Some 1) >>= maybe_add
 ```
-<!-- .element: class="no-highlight" -->
 
 
-## Monad Laws: right identity
+## Laws: right identity
 
 ```
 module type MONAD = sig
@@ -581,7 +567,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 `return` is a right identity for `bind`
 
@@ -589,7 +574,6 @@ end
 m >>= return
 m
 ```
-<!-- .element: class="no-highlight" -->
 
 Using the OptionMonad:
 
@@ -600,7 +584,6 @@ Using the OptionMonad:
 # None >>= return
 - : 'a option = None
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Monad Laws: associativity
@@ -612,7 +595,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 `bind` is associative (in an odd way).
 
@@ -620,7 +602,6 @@ end
 (u >>= f) >>= g
 u >>= (fun x -> f x) >>= g
 ```
-<!-- .element: class="no-highlight" -->
 
 Using the OptionMonad:
 
@@ -631,7 +612,6 @@ Using the OptionMonad:
 # Some 3 >>= (fun x -> maybe_add x >>= maybe_add) ;;
 - : int option = Some 5
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ----
@@ -647,7 +627,6 @@ module Lwt = struct
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The `Lwt` (Light Weight Thread) monad signature above represents a *future computation* that is held in the box.
 
@@ -661,7 +640,6 @@ open Lwt ;;
 let future_int = return 1 ;;
 val future_int : int Lwt.t = <abstr>
 ```
-<!-- .element: class="no-highlight" -->
 
 Build a constant thread by using `return`.
 
@@ -672,7 +650,6 @@ val future_fruit : string Lwt.t = <abstr>
 let future_lang = return `OCaml ;;
 val future_lang : [> `OCaml] Lwt.t = <abstr>
 ```
-<!-- .element: class="no-highlight" -->
 
 Threads are first-class OCaml values and parametric polymorphism lets you
 distinguish different types of threads.
@@ -688,7 +665,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -701,7 +677,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -714,7 +689,6 @@ let t =
  return () ;;
 val t : unit Lwt.t = <abstr>
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Concurrency: executing
@@ -725,7 +699,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -742,7 +715,6 @@ OS.run t ;;
 >> start
 >> woken up
 ```
-<!-- .element: class="no-highlight" -->
 
 The `run` function takes a future and unpacks the real value.
 
@@ -759,7 +731,6 @@ module Lwt = struct
  val choose : 'a t list -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 We extend the `MONAD` signature with:
 
@@ -783,7 +754,6 @@ module Lwt = struct
  val choose : 'a t list -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 Using `choose` to pick the first thread in a coin flip:
 
@@ -797,7 +767,6 @@ let flip_a_coin () =
   return (OS.log "Tails") in
  heads <&> tails
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Thread representation
@@ -813,7 +782,6 @@ and sleeper = {
  <...etc>
 }
 ```
-<!-- .element: class="no-highlight" -->
 
 Thread has three main states:
 
@@ -833,7 +801,6 @@ type 'a u  (* wakener *)
 val wait : unit -> 'a t * 'a u
 val wakeup : 'a u -> 'a -> unit
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners and tasks
@@ -847,7 +814,6 @@ type 'a u  (* wakener *)
 val wait : unit -> 'a t * 'a u
 val wakeup : 'a u -> 'a -> unit
 ```
-<!-- .element: class="no-highlight" -->
 
 Tasks are a pair: a thread that sleeps until it is fulfilled via its wakener by calling `wakeup` on it.
 
@@ -861,7 +827,6 @@ and t2 =
  wakeup u "x";
  return ()
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: building a timer
@@ -883,7 +848,6 @@ module Sleep_queue =
  end)
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: running in Unix
@@ -899,7 +863,6 @@ if result is Blocked then
  wakeup timeouts
 repeat until main thread result is Done or Fail
 ```
-<!-- .element: class="no-highlight" -->
 
 - This lets our sequential code be fully concurrent, without preemptive system threads.
 - Number of threads limited only by OCaml heap size.
@@ -920,7 +883,7 @@ Xen has an equivalent *VM block instruction* which suspends the whole VM until a
 
 > **processes in Unix** <=> **Virtual Machines in Xen**
 
-> **`select` in Unix** <=> **block entire virtual machine in Xen**
+> **`select` in Unix** <=> **block entire VM in Xen**
 
 ```
 module OS = struct
@@ -928,7 +891,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: running in Xen
@@ -939,10 +901,8 @@ Xen has an equivalent *VM block instruction* which suspends the whole VM until a
 
 > **processes in Unix** <=> **Virtual Machines in Xen**
 
-> **`select` in Unix** <=> **block entire virtual machine in Xen**
+> **`select` in Unix** <=> **block entire VM in Xen**
 
 Our Xen VM can use this abstraction for all its I/O and timing.
 
 **Question: What is the major downside of this approach?**
-
-----
