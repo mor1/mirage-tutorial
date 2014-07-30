@@ -1114,3 +1114,114 @@ Use the modules created above to construct concrete instances of the interfaces:
        | _ -> None
      )
 ```
+
+
+----
+
+## Orchestration
+
+Deploying unikernels on the cloud is much like starting binaries in Unix.
+
++ Contain a *precise* manifest of source code dependencies.
++ Type-checking compiler sits between the source code and the cloud.
+
+
+## Compiler in the Middle
+
+<p class="stretch center">
+  <img src="uniarch1a.png" height="700" />
+</p>
+
+
+## Compiler in the Middle
+
+<p class="stretch center">
+  <img src="uniarch1b.png" height="700" />
+</p>
+
+
+## Compiler in the Middle
+
+<p class="stretch center">
+  <img src="uniarch1c.png" height="700" />
+</p>
+
+
+## Compiler in the Middle
+
+<p class="stretch center">
+  <img src="uniarch1d.png" height="710" />
+</p>
+
+
+## Git Your Own Cloud
+
+Unikernels are **small enough to be tracked in GitHub**. For example, for the
+[Mirage website](http://openmirage.org/):
+
+1. Source code updates are merged to **[mirage/mirage-www](https://github.com/mirage/mirage-www)**;
+
+2. Repository is continuously rebuilt by
+  **[Travis CI](https://travis-ci.org/mirage/mirage-www)**; if successful:
+
+3. Unikernel pushed to  **[mirage/mirage-www-deployment](https://github.com/mirage/mirage-www-deployment)**;
+  and our
+
+4. Cloud toolstack spawns VMs based on pushes there.
+
+**Our *entire* cloud-facing deployment is version-controlled from the source code
+up**!
+
+
+## Implications
+
+**Historical tracking of source code and built binaries in Git(hub)**.
+
++ `git tag` to link code and binary across repositories.
++ `git log` to view deployment changelog.
++ `git pull` to deploy new version.
++ `git checkout` to go back in time to any point.
++ `git bisect` to pin down deployment failures.
+
+
+## Implications
+
+Historical tracking of source code and built binaries in Git(hub).
+
+**Low latency deployment of security updates**.
+
++ No need for Linux distro to pick up and build the new version.
++ Updated binary automatically built and pushed.
++ Pick up latest binary directly from repository.
++ Statically type-checked language prevents classes of attack.
+
+
+## Implications
+
+Historical tracking of source code and built binaries in Git(hub).
+
+Low latency deployment of security updates.
+
+**Unified development for cloud and embedded environments**.
+
++ Write application code once.
++ Recompile to swap in different versions of system libraries.
++ Use compiler optimisations for exotic environments.
+
+
+## Wrapping Up
+
+Mirage OS 2.0 is an important step forward, supporting **more**, and **more
+diverse**, **backends** with much **greater modularity**.
+
+For information about the many components we could not cover here, see
+[openmirage.org](http://openmirage.org/blog/):
+
++ __[Irmin](http://openmirage.org/blog/introducing-irmin)__, Git-like
+  distributed branchable storage.
++ __[OCaml-TLS](http://openmirage.org/blog/introducing-ocaml-tls)__, a
+  from-scratch native OCaml TLS stack.
++ __[Vchan](http://openmirage.org/blog/update-on-vchan)__, for low-latency
+  inter-VM communication.
++ __[Ctypes](http://openmirage.org/blog/modular-foreign-function-bindings)__,
+  modular C foreign function bindings.
