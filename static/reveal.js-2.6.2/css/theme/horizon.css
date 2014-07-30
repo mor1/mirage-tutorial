@@ -260,6 +260,13 @@ body {
 
 /** code */
 
+.reveal section code {
+    font-size: 85%;
+    line-height: 120%;
+}
+
+/*
+
 .reveal section pre {
     box-shadow: none;
 }
@@ -271,6 +278,14 @@ body {
     padding: 0 1ex;
     margin: 0 0.5ex;
 }
+
+.reveal section pre.dark > code {
+    font-size: 90%;
+    background: #fff;
+    padding: 0 1ex;
+    margin: 0 0.5ex;
+}
+*/
 
 /** quotes */
 
