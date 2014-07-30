@@ -1,7 +1,7 @@
 IOCAML ?= iocaml -completion ./notebooks
 
 MODE  ?= unix
-NET   ?=
+NET   ?= socket
 MIRAGE = mirage
 
 .PHONY: all configure build run depend clean docs
