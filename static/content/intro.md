@@ -353,8 +353,9 @@ and [Jeremy Yallop](https://github.com/yallop).
 We'll now take you through several core components of Mirage, specifically:
 
 + __`Lwt`__, the co-operative threading library used throughout Mirage;
-+ __`config.ml`__, specifying a unikernel; and
-+ __Networking__, from a simple static website to a custom networking stack.
++ __`config.ml`__, specifying a unikernel;
++ __Networking__, from a simple static website to a custom networking stack; and
++ __Workflow__, how we use `git`, GitHub and Travis CI to automate management of our unikernels.
 
 
 ----
