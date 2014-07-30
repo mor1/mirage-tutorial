@@ -22,6 +22,8 @@ let body =
 
       <link rel="stylesheet" href="/css/site.css" media="all"> </link>
 
+      <link rel="stylesheet" href="/css/highlight.js/solarized_light.css"> </link>
+
       <link rel="stylesheet" href="/reveal.js-2.6.2/css/reveal.min.css"> </link>
       <link rel="stylesheet" href="/reveal.js-2.6.2/lib/css/zenburn.css"> </link>
       <link rel="stylesheet" href="/reveal.js-2.6.2/css/theme/horizon.css"> </link>
@@ -45,7 +47,7 @@ let body =
 
           <div id="footer">
             <a id="index" href="/"> <img src="/img/home.png" /> </a>
-            <a id="print-pdf" href="?print-pdf">
+            <a id="print-pdf" href="/?print-pdf">
               <img src="/img/print.png" />
             </a>
           </div>

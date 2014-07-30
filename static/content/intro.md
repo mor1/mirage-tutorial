@@ -352,9 +352,9 @@ and [Jeremy Yallop](https://github.com/yallop).
 
 We'll now take you through several core components of Mirage, specifically:
 
-+ `Lwt`, the co-operative threading library used throughout Mirage;
-+ `config.ml`, specifying a unikernel;
-+ __Networking__, from a simple static website to a custom networking stack;
++ __`Lwt`__, the co-operative threading library used throughout Mirage;
++ __`config.ml`__, specifying a unikernel; and
++ __Networking__, from a simple static website to a custom networking stack.
 
 
 ----
@@ -368,7 +368,7 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
+<!-- .element: class="ocaml" -->
 
 * A monad is a box that contains an abstract value.
 * Put values in the box with `return`
@@ -395,7 +395,6 @@ val return : 'a -> 'a option = <fun>
  | None   -> None ;;
 val maybe : 'a option -> ('a -> 'b option) -> 'b option = <fun>
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: definition
@@ -412,7 +411,6 @@ module OptionMonad = struct
   let return u = Some u
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The toplevel will report the following type:
 
@@ -423,7 +421,6 @@ module OptionMonad = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: definition
@@ -440,7 +437,6 @@ module OptionMonad = struct
   let return u = Some u
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 - The value in the box may not exist: `type 'a option`
 - `return` places a concrete value in the box.
@@ -465,7 +461,6 @@ bind
   (fun c -> return (c+1)) ;;
 - : int option = None
 ```
-<!-- .element: class="no-highlight" -->
 
 Binds can be chained to link the results.
 
@@ -477,7 +472,6 @@ bind (
  ) (fun c -> return (c+1)) ;;
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Option Monad: infix
@@ -493,10 +487,9 @@ return (c+1) >>= fun c ->
 return (c+1) ;;
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 
-## Option Monad: infix 
+## Option Monad: infix
 
 Infix operators make chaining `bind` more natural:
 
@@ -509,7 +502,6 @@ return (c+1) >>= fun c ->
 return (c+1) ;;
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 Or define a `maybe_add` function to be even more succinct.
 
@@ -522,7 +514,6 @@ return 1
 >>= maybe_add
 - : int option = Some 3
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Monad Laws
@@ -534,12 +525,11 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 * Monad implementations must satisfy some laws.
 
 
-## Monad Laws: left identity
+## Laws: left identity
 
 ```
 module type MONAD = sig
@@ -548,7 +538,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 `return` is a left identity for `bind`
 
@@ -556,7 +545,6 @@ end
 return x >>= f
 f x
 ```
-<!-- .element: class="no-highlight" -->
 
 Using the OptionMonad:
 
@@ -569,10 +557,9 @@ Using the OptionMonad:
 
 # return (Some 1) >>= maybe_add
 ```
-<!-- .element: class="no-highlight" -->
 
 
-## Monad Laws: right identity
+## Laws: right identity
 
 ```
 module type MONAD = sig
@@ -581,7 +568,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 `return` is a right identity for `bind`
 
@@ -589,7 +575,6 @@ end
 m >>= return
 m
 ```
-<!-- .element: class="no-highlight" -->
 
 Using the OptionMonad:
 
@@ -600,7 +585,6 @@ Using the OptionMonad:
 # None >>= return
 - : 'a option = None
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Monad Laws: associativity
@@ -612,7 +596,6 @@ module type MONAD = sig
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 `bind` is associative (in an odd way).
 
@@ -620,7 +603,6 @@ end
 (u >>= f) >>= g
 u >>= (fun x -> f x) >>= g
 ```
-<!-- .element: class="no-highlight" -->
 
 Using the OptionMonad:
 
@@ -631,7 +613,6 @@ Using the OptionMonad:
 # Some 3 >>= (fun x -> maybe_add x >>= maybe_add) ;;
 - : int option = Some 5
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ----
@@ -647,7 +628,6 @@ module Lwt = struct
  val return :  'a -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The `Lwt` (Light Weight Thread) monad signature above represents a *future computation* that is held in the box.
 
@@ -661,7 +641,6 @@ open Lwt ;;
 let future_int = return 1 ;;
 val future_int : int Lwt.t = <abstr>
 ```
-<!-- .element: class="no-highlight" -->
 
 Build a constant thread by using `return`.
 
@@ -672,7 +651,6 @@ val future_fruit : string Lwt.t = <abstr>
 let future_lang = return `OCaml ;;
 val future_lang : [> `OCaml] Lwt.t = <abstr>
 ```
-<!-- .element: class="no-highlight" -->
 
 Threads are first-class OCaml values and parametric polymorphism lets you
 distinguish different types of threads.
@@ -688,7 +666,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -701,7 +678,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -714,7 +690,6 @@ let t =
  return () ;;
 val t : unit Lwt.t = <abstr>
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Concurrency: executing
@@ -725,7 +700,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -742,7 +716,6 @@ OS.run t ;;
 >> start
 >> woken up
 ```
-<!-- .element: class="no-highlight" -->
 
 The `run` function takes a future and unpacks the real value.
 
@@ -759,7 +732,6 @@ module Lwt = struct
  val choose : 'a t list -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 We extend the `MONAD` signature with:
 
@@ -783,7 +755,6 @@ module Lwt = struct
  val choose : 'a t list -> 'a t
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 Using `choose` to pick the first thread in a coin flip:
 
@@ -797,7 +768,6 @@ let flip_a_coin () =
   return (OS.log "Tails") in
  heads <&> tails
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Thread representation
@@ -813,7 +783,6 @@ and sleeper = {
  <...etc>
 }
 ```
-<!-- .element: class="no-highlight" -->
 
 Thread has three main states:
 
@@ -833,7 +802,6 @@ type 'a u  (* wakener *)
 val wait : unit -> 'a t * 'a u
 val wakeup : 'a u -> 'a -> unit
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners and tasks
@@ -847,7 +815,6 @@ type 'a u  (* wakener *)
 val wait : unit -> 'a t * 'a u
 val wakeup : 'a u -> 'a -> unit
 ```
-<!-- .element: class="no-highlight" -->
 
 Tasks are a pair: a thread that sleeps until it is fulfilled via its wakener by calling `wakeup` on it.
 
@@ -861,7 +828,6 @@ and t2 =
  wakeup u "x";
  return ()
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: building a timer
@@ -883,7 +849,6 @@ module Sleep_queue =
  end)
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: running in Unix
@@ -899,7 +864,6 @@ if result is Blocked then
  wakeup timeouts
 repeat until main thread result is Done or Fail
 ```
-<!-- .element: class="no-highlight" -->
 
 - This lets our sequential code be fully concurrent, without preemptive system threads.
 - Number of threads limited only by OCaml heap size.
@@ -920,7 +884,7 @@ Xen has an equivalent *VM block instruction* which suspends the whole VM until a
 
 > **processes in Unix** <=> **Virtual Machines in Xen**
 
-> **`select` in Unix** <=> **block entire virtual machine in Xen**
+> **`select` in Unix** <=> **block entire VM in Xen**
 
 ```
 module OS = struct
@@ -928,7 +892,6 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
-<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: running in Xen
@@ -939,10 +902,214 @@ Xen has an equivalent *VM block instruction* which suspends the whole VM until a
 
 > **processes in Unix** <=> **Virtual Machines in Xen**
 
-> **`select` in Unix** <=> **block entire virtual machine in Xen**
+> **`select` in Unix** <=> **block entire VM in Xen**
 
 Our Xen VM can use this abstraction for all its I/O and timing.
 
 **Question: What is the major downside of this approach?**
 
+
 ----
+
+## A Simple Static Website
+
+Following the console example, building a simple static website adds a couple of extra devices:
+
++ a __filesystem__, storing the data to be served; and
++ a __web server__, using a high-level abstraction over the network stack.
+
+We'll now walk through the simple example from `mirage-skeleton/static_website`.
+
+
+## `config.ml`: Filesystem
+
+First, we determine the required filesystem configuration:
+
+```
+let fs =
+  let mode = try match String.lowercase (Unix.getenv "FS") with
+    | "fat" -> `Fat
+    | _     -> `Crunch
+    with Not_found -> `Crunch
+  in
+  let fat_ro dir = kv_ro_of_fs (fat_of_files ~dir ()) in
+  match mode with
+  | `Fat    -> fat_ro "./htdocs"
+  | `Crunch -> crunch "./htdocs"
+```
+
+
+## `config.ml`: Network
+
+Next we determine the network stack configuration:
+
+```
+let stack console =
+  let net =
+    try match Sys.getenv "NET" with
+      | "direct" -> `Direct
+      | "socket" -> `Socket
+      | _        -> `Direct
+    with Not_found -> `Direct
+  in
+  let dhcp =
+    try match Sys.getenv "DHCP" with
+      | "" -> false
+      | _  -> true
+    with Not_found -> false
+  in
+  match net, dhcp with
+  | `Direct, true  -> direct_stackv4_with_dhcp console tap0
+  | `Direct, false -> direct_stackv4_with_default_ipv4 console tap0
+  | `Socket, _     -> socket_stackv4 console [Ipaddr.V4.any]
+```
+
+
+## `config.ml`: Server
+
+Then we construct the `server` instance:
+
+```
+let port =
+  try match Sys.getenv "PORT" with
+    | "" -> 80
+    | s  -> int_of_string s
+  with Not_found -> 80
+
+let server =
+  http_server port (stack default_console)
+```
+
+
+## `config.ml`: Unikernel
+
+Finally we stitch things together:
+
+```
+let main =
+  foreign "Unikernel.Main" (console @-> kv_ro @-> http @-> job)
+
+let () =
+  add_to_ocamlfind_libraries ["re.str"];
+  add_to_opam_packages ["re"];
+
+  register "www" [
+    main $ default_console $ fs $ server
+  ]
+```
+
+Resulting in:
+
+    $ NET={socket|direct} FS={fat|crunch} DHCP={true|false} PORT={n} \
+        make configure
+    $ make build
+    $ make run
+<!-- .element: class="no-highlight" -->
+
+
+----
+
+## Customising Your Stack
+
+The static website example uses a high-level abstraction over the network stack (`STACKV4`).
+
+Mirage's modularity means that you can construct customised network stacks easily too using the `direct` network stack!
+
+
+## A More Complex Signature
+
+```
+module Main (C: CONSOLE) (N: NETWORK) = struct
+
+  module E = Ethif.Make(N)
+  module I = Ipv4.Make(E)
+  module U = Udpv4.Make(I)
+  module T = Tcpv4.Flow.Make(I)(OS.Time)(Clock)(Random)
+  module D = Dhcp_clientv4.Make(C)(OS.Time)(Random)(E)(I)(U)
+```
+
+Also define a simple error handler:
+```
+  let or_error c name fn t =
+    fn t
+    >>= function
+    | `Error e -> fail (Failure ("Error starting " ^ name))
+    | `Ok t -> return t
+```
+
+
+## Constructing the Stack
+
+Use the modules created above to construct concrete instances of the interfaces:
+```
+  let start c net =
+    or_error c "Ethif" E.connect net
+    >>= fun e ->
+
+    or_error c "Ipv4" I.connect e
+    >>= fun i ->
+    I.set_ipv4 i (Ipaddr.V4.of_string_exn "10.0.0.2")
+    >>= fun () ->
+    I.set_ipv4_netmask i (Ipaddr.V4.of_string_exn "255.255.255.0")
+    >>= fun () ->
+    I.set_ipv4_gateways i [Ipaddr.V4.of_string_exn "10.0.0.1"]
+    >>= fun () ->
+
+    or_error c "UDPv4" U.connect i
+    >>= fun udp ->
+
+    let dhcp (* main thread *), offers (* async stream of offers *) = D.create c i udp in
+
+    or_error c "TCPv4" T.connect i
+    >>= fun tcp ->
+```
+
+
+## Handling Packets
+
+```
+    N.listen net (
+      E.input e
+        ~ipv4:(
+          I.input i
+            ~tcp:(
+              T.input tcp ~listeners:
+                (function
+                  ...
+                ))
+            ~udp:(
+              U.input udp ~listeners:
+                (fun ~dst_port ->
+                   C.log c (blue "udp packet on port %d" dst_port);
+                   D.listen dhcp ~dst_port)
+            )
+            ~default:(fun ~proto ~src ~dst _ -> return ())
+        )
+        ~ipv6:(fun b -> C.log_s c (yellow "ipv6"))
+    )
+```
+
+
+## Handling TCP Packets
+
+```
+   T.input tcp ~listeners:
+     (function
+       | 80 -> Some (fun flow ->
+           let dst, dst_port = T.get_dest flow in
+           C.log_s c
+             (green "new tcp from %s %d" (Ipaddr.V4.to_string dst) dst_port)
+           >>= fun () ->
+
+           T.read flow
+           >>= function
+           | `Ok b ->
+             C.log_s c
+               (yellow "read: %d\n%s" (Cstruct.len b) (Cstruct.to_string b))
+             >>= fun () ->
+             T.close flow
+           | `Eof -> C.log_s c (red "read: eof")
+           | `Error e -> C.log_s c (red "read: error"))
+       | _ -> None
+     )
+```

@@ -35,6 +35,7 @@ Reveal.initialize({
           callback: function() {
               hljs.initHighlightingOnLoad();
               $('pre.no-highlight>code').removeClass().addClass("no-highlight");
+              $('pre.ocaml>code').removeClass("fsharp").addClass("ocaml");
           }
         },
     ]
