@@ -9,6 +9,7 @@ Anil Madhavapeddy <small>University of Cambridge</small>
 [@avsm](http://twitter.com/avsm)
 
 [http://openmirage.org/](http://openmirage.org/)<br/>
+[http://tutorial.openmirage.org/](http://tutorial.openmirage.org/)<br/>
 
 <small>
   Press &lt;esc&gt; to view the slide index, and the &lt;arrow&gt; keys to
