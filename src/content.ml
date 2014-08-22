@@ -19,6 +19,7 @@ let body =
 
       <meta name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <base href="/content/" />
 
       <link rel="stylesheet" href="/css/site.css" media="all"> </link>
 
@@ -26,13 +27,13 @@ let body =
 
       <link rel="stylesheet" href="/reveal.js-2.6.2/css/reveal.min.css"> </link>
       <link rel="stylesheet" href="/reveal.js-2.6.2/lib/css/zenburn.css"> </link>
-      <link rel="stylesheet" href="/reveal.js-2.6.2/css/theme/horizon.css"> </link>
+      <link rel="stylesheet" href="/reveal.js-2.6.2/css/theme/horizon.css" id="theme"
+            media="all"> </link>
 
       <!--[if lt IE 9]>
           <script src="/reveal.js-2.6.2/lib/js/html5shiv.js"> </script>
       <![endif]-->
 
-      <base href="/content/" />
   </head>
 
     <body>

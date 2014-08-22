@@ -81,7 +81,7 @@ These slides were written using Mirage on OSX:
 ## Introducing [Mirage OS 2.0](http://openmirage.org/)
 
 <p class="stretch center">
-  <img src="decks-on-arm.jpg" />
+  <img src="decks-on-arm.png" />
 </p>
 
 
@@ -1129,28 +1129,28 @@ Deploying unikernels on the cloud is much like starting binaries in Unix.
 ## Compiler in the Middle
 
 <p class="stretch center">
-  <img src="uniarch1a.png" height="700" />
+  <img src="uniarch1a.png" />
 </p>
 
 
 ## Compiler in the Middle
 
 <p class="stretch center">
-  <img src="uniarch1b.png" height="700" />
+  <img src="uniarch1b.png" />
 </p>
 
 
 ## Compiler in the Middle
 
 <p class="stretch center">
-  <img src="uniarch1c.png" height="700" />
+  <img src="uniarch1c.png" />
 </p>
 
 
 ## Compiler in the Middle
 
 <p class="stretch center">
-  <img src="uniarch1d.png" height="710" />
+  <img src="uniarch1d.png" />
 </p>
 
 
