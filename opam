@@ -1,0 +1,20 @@
+opam-version: "1.2"
+maintainer:   "mort@cantab.net"
+authors:      "Richard Mortier"
+homepage:     "https://github.com/mirage/mirage-tutorial"
+license:      "ISC"
+dev-repo:     "https://github.com/mirage/mirage-tutorial.git"
+bug-reports:  "https://github.com/mirage/mirage-tutorial/issues"
+tags: [
+  "org:mirage"
+]
+build: [
+  [make "configure"]
+  [make]
+]
+depends: [
+  "cowabloga" {build}
+  "cohttp" {test}
+]
+depopts: [
+]
