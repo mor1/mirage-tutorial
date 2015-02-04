@@ -10,7 +10,7 @@ all: build
 	@ :
 
 configure:
-	$(MIRAGE) configure src/config.ml --$(MODE)
+	NET=$(NET) $(MIRAGE) configure src/config.ml --$(MODE)
 
 build:
 	cd src && make build
@@ -23,8 +23,8 @@ depend:
 	cd src && make depend
 
 clean:
-	cd src && make clean
-	$(RM) log src/mir-tutorial src/main.ml
+	[ -r src/Makefile ] && ( cd src && make clean ) || true
+	$(RM) log src/mir-tutorial src/main.ml src/Makefile
 
 docs:
 	cd docs && make run
