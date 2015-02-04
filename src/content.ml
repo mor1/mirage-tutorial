@@ -39,7 +39,7 @@ let body =
     <body>
       <div class="reveal">
         <div class="slides">
-          <section data-markdown="intro.md"
+          <section data-markdown="content.md"
                    data-separator="^\n\n----\n"
                    data-vertical="^\n\n"
                    data-notes="^Note:"
