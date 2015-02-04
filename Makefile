@@ -2,6 +2,7 @@ IOCAML ?= iocaml -completion ./notebooks
 
 MODE  ?= unix
 NET   ?= socket
+PORT  ?= 80
 MIRAGE = mirage
 
 .PHONY: all configure build run depend clean docs
@@ -10,7 +11,7 @@ all: build
 	@ :
 
 configure:
-	NET=$(NET) $(MIRAGE) configure src/config.ml --$(MODE)
+	NET=$(NET) PORT=$(PORT) $(MIRAGE) configure src/config.ml --$(MODE)
 
 build:
 	cd src && make build
