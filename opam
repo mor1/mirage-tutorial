@@ -13,8 +13,9 @@ build: [
   [make]
 ]
 depends: [
-  "cowabloga" {build}
-  "cohttp" {test}
+  "mirage"
+  "cowabloga"
+  "cohttp"
 ]
 depopts: [
 ]
