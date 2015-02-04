@@ -1,9 +1,10 @@
 .DS_Store
 log
-
-src/_build
-src/*.native
+src/Makefile
+src/_build/
+src/main.ml
+src/main.native
 src/mir-tutorial
 src/tutorial.xl
-/src/Makefile
-/src/main.ml
+src/tutorial.xe
+src/tutorial_libvirt.xml
