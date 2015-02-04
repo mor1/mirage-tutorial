@@ -1,9 +1,8 @@
-IOCAML ?= iocaml -completion ./notebooks
+MIRAGE = mirage
 
 MODE  ?= unix
 NET   ?= socket
 PORT  ?= 80
-MIRAGE = mirage
 
 .PHONY: all configure build run depend clean docs
 
@@ -17,7 +16,6 @@ build:
 	cd src && make build
 
 run:
-#	$(IOCAML) &
 	cd src && sudo make run
 
 depend:
