@@ -1,5 +1,5 @@
 .DS_Store
-
+log
 src/Makefile
 src/_build/
 src/main.ml
