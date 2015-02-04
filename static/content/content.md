@@ -12,7 +12,7 @@ Anil Madhavapeddy <small>University of Cambridge</small>
 [http://tutorial.openmirage.org/](http://tutorial.openmirage.org/)<br/>
 
 <small>Work funded in part by the EU FP7 User-Centric Networking project.</small>
-<img src="ucn-logo.png" width="400px" style="margin: 0px"/>
+<img src="ucn-logo.png" width="400px" style="margin: 0px" />
 
 <small>
   Press &lt;esc&gt; to view the slide index, and the &lt;arrow&gt; keys to
