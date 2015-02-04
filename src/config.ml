@@ -42,7 +42,7 @@ let https =
     with Not_found -> 80
   in
   let server = conduit_direct (stack default_console) in
-  let mode = `TCP (`Port 80) in
+  let mode = `TCP (`Port port) in
   http_server mode server
 
 let main =
