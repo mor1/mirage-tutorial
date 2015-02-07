@@ -3,7 +3,8 @@ install: wget https://raw.githubusercontent.com/mor1/ocaml-travisci-skeleton/mas
 script: bash -ex .travis-mirage.sh
 env:
   matrix:
-  - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix
+  - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix MIRAGE_NET=socket
+  - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix MIRAGE_NET=direct
   - OCAML_VERSION=4.02 MIRAGE_BACKEND=xen DEPLOY=1
   global:
   - secure: PnSgp+7/hBw7ota60fcBwr1WiVD3qMVjlMGl7BI4ntjqtm8rbktFIbZ7KirrdtJXObRMvBp45UVb6pJALDof05ccjCB29VVQdxaq9KaIROSxre121nRaWNEhElh9PTT/DKFqVhPVTwq6JaaOiksw39258abEhStVZdCpXPfEYmM=
