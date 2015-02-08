@@ -27,15 +27,14 @@ let staticip = mkip "46.43.42.142" "255.255.255.128" [ "46.43.42.129" ]
 let https =
   let net =
     try match Sys.getenv "NET" with
-      | "direct" -> `Direct
       | "socket" -> `Socket
       | _        -> `Direct
     with Not_found -> `Direct
   in
   let dhcp =
     try match Sys.getenv "DHCP" with
-      | "" -> false
-      | _  -> true
+      | "1" | "true" | "yes" -> true
+      | _  -> false
     with Not_found -> false
   in
   let deploy =
