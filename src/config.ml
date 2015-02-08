@@ -40,8 +40,8 @@ let https =
   in
   let deploy =
     try match Sys.getenv "DEPLOY" with
-      | "1" -> true
-      | _   -> false
+      | "1" | "true" | "yes" -> true
+      | _ -> false
     with Not_found -> false
   in
   let stack console =
