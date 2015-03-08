@@ -590,6 +590,7 @@ module Lwt = struct
  val return :  'a -> 'a t
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 The `Lwt` (Light Weight Thread) monad signature above represents a *future computation* that is held in the box.
 
@@ -603,6 +604,7 @@ open Lwt ;;
 let future_int = return 1 ;;
 val future_int : int Lwt.t = <abstr>
 ```
+<!-- .element: class="no-highlight" -->
 
 Build a constant thread by using `return`.
 
@@ -613,6 +615,7 @@ val future_fruit : string Lwt.t = <abstr>
 let future_lang = return `OCaml ;;
 val future_lang : [> `OCaml] Lwt.t = <abstr>
 ```
+<!-- .element: class="no-highlight" -->
 
 Threads are first-class OCaml values and parametric polymorphism lets you
 distinguish different types of threads.
@@ -628,6 +631,7 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -640,6 +644,7 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -652,6 +657,7 @@ let t =
  return () ;;
 val t : unit Lwt.t = <abstr>
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Concurrency: executing
@@ -662,6 +668,7 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 The monad needs to be *executed* to retrieve the future contents.
 
@@ -678,6 +685,7 @@ OS.run t ;;
 >> start
 >> woken up
 ```
+<!-- .element: class="no-highlight" -->
 
 The `run` function takes a future and unpacks the real value.
 
@@ -694,6 +702,7 @@ module Lwt = struct
  val choose : 'a t list -> 'a t
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 We extend the `MONAD` signature with:
 
@@ -717,6 +726,7 @@ module Lwt = struct
  val choose : 'a t list -> 'a t
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 Using `choose` to pick the first thread in a coin flip:
 
@@ -730,6 +740,7 @@ let flip_a_coin () =
   return (OS.log "Tails") in
  heads <&> tails
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Thread representation
@@ -745,6 +756,7 @@ and sleeper = {
  <...etc>
 }
 ```
+<!-- .element: class="no-highlight" -->
 
 Thread has three main states:
 
@@ -792,6 +804,7 @@ and t2 =
  wakeup u "x";
  return ()
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: building a timer
@@ -813,6 +826,7 @@ module Sleep_queue =
  end)
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: running in Unix
@@ -856,6 +870,7 @@ module OS = struct
  val run : 'a Lwt.t -> 'a
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Wakeners: running in Xen
@@ -931,6 +946,7 @@ module type DEVICE = sig
 
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 Generic interface to any device driver...
 
@@ -952,6 +968,7 @@ module type FLOW = sig
 
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 ...or IO flow
 
@@ -974,6 +991,7 @@ module type TCPV4 = sig
   and  type buffer := buffer
   and  type flow   := flow
 ```
+<!-- .element: class="no-highlight" -->
 
 ...and they can be composed together into other module types, avoiding the
 diamond problem
@@ -1000,6 +1018,7 @@ module type ENTROPY = sig
   val handler : t -> handler -> unit io
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 Complex driver models can be expressed abstractly (see
 [V1.ml](https://github.com/mirage/mirage/tree/master/types/))
@@ -1061,6 +1080,7 @@ module Main (C:CONSOLE) (FS:KV_RO) (H:HTTP.Server) = struct
 
 end
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Deployment Options
@@ -1154,6 +1174,7 @@ let slide_deck = foreign "Dispatch.Main"
 let () =
   register "www" [ slide_deck $ default_console $ fs $ server ]
 ```
+<!-- .element: class="no-highlight" -->
 
 The configuration is evaluated at compilation time to generate a main entry
 point for that _particular_ setup
@@ -1171,6 +1192,7 @@ let server =
 let main = foreign "Dispatch.Main"
   (console @-> kv_ro @-> http @-> job)
 ```
+<!-- .element: class="no-highlight" -->
 
 Application Code:
 
@@ -1179,6 +1201,7 @@ module Main (C:CONSOLE) (FS:KV_RO) (H:HTTP.Server) = struct
 
   let start c fs http = ...
 ```
+<!-- .element: class="no-highlight" -->
 
 
 ## Codegen: Unix
@@ -1189,6 +1212,7 @@ module Conduit1 = Conduit_mirage.Make(Stackv41)
 module Http1 = HTTP.Make(Conduit1)
 module M1 = Dispatch.Main(Console)(Static1)(Http1.Server)
 ```
+<!-- .element: class="no-highlight" -->
 
 Fairly simple application where:
 
@@ -1221,6 +1245,7 @@ module M1 = Dispatch.Main(Console)(Static1)(Http1.Server)
 let () =
   OS.Main.run (join [t1 ()])
 ```
+<!-- .element: class="no-highlight" -->
 
 In Xen, we build the network stack "by hand" starting with the Ethernet device,
 as we have no kernel sockets
@@ -1239,6 +1264,7 @@ val direct_tcpv4:
   ?time:time impl ->
   ipv4 impl -> tcpv4 impl
 ```
+<!-- .element: class="no-highlight" -->
 
 Can select default module implementations for CLOCK, RANDOM and TIME to save manual work.
 

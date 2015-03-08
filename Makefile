@@ -2,7 +2,7 @@ MIRAGE = mirage
 
 MODE  ?= unix
 NET   ?= socket
-PORT  ?= 8080
+PORT  ?= 80
 
 .PHONY: all configure build run depend clean docs
 
