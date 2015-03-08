@@ -2,7 +2,7 @@ MIRAGE = mirage
 
 MODE  ?= unix
 NET   ?= socket
-PORT  ?= 80
+PORT  ?= 8080
 
 .PHONY: all configure build run depend clean docs
 
@@ -16,7 +16,7 @@ build:
 	cd src && make build
 
 run:
-	cd src && sudo make run
+	cd src && make run
 
 depend:
 	cd src && make depend
