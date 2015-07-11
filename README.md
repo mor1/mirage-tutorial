@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/mirage/mirage-tutorial.svg?branch=master)](https://travis-ci.org/mirage/mirage-tutorial)
 
-This is tutorial content for Mirage OS, written as a self-hosting slide deck.
+This is tutorial content for MirageOS, written as a self-hosting slide deck.
 
 To view the content:
 
