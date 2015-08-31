@@ -59,6 +59,7 @@ let fs = get "FS" ~default:"crunch" fs_of_env
 let deploy = get "DEPLOY" ~default:"false" bool_of_env
 let net = get "NET" ~default:"socket" net_of_env
 let dhcp = get "DHCP" ~default:"false" bool_of_env
+let image = get "XENIMG" ~default:"tutorial" string_of_env
 
 let blocks = ref 0
 let mkfs fs path =
@@ -104,6 +105,6 @@ let main =
     (console @-> kv_ro @-> http @-> job)
 
 let () =
-  register "tutorial" [
+  register image [
     main $ default_console $ staticfs $ httpsvr
   ]
