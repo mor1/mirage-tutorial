@@ -1,13 +1,13 @@
 language: c
-install: wget https://raw.githubusercontent.com/mor1/ocaml-travisci-skeleton/master/.travis-mirage.sh
+install: wget https://raw.githubusercontent.com/ocaml/ocaml-travisci-skeleton/master/.travis-mirage.sh
 script: bash -ex .travis-mirage.sh
 env:
   matrix:
   - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix MIRAGE_NET=socket
   - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix MIRAGE_NET=direct
   - OCAML_VERSION=4.02 MIRAGE_BACKEND=xen
-    MIRAGE_ADDR="46.43.42.142" MIRAGE_MASK="255.255.255.128" MIRAGE_GWS="46.43.42.129"
-    DEPLOY=1
+    IP="46.43.42.142" NETMASK="255.255.255.128" GATEWAYS="46.43.42.129"
+    DEPLOY=1 XENIMG="tutorial.openmirage.org" UPDATE_GCC_BINUTILS=1
   global:
   - secure: PnSgp+7/hBw7ota60fcBwr1WiVD3qMVjlMGl7BI4ntjqtm8rbktFIbZ7KirrdtJXObRMvBp45UVb6pJALDof05ccjCB29VVQdxaq9KaIROSxre121nRaWNEhElh9PTT/DKFqVhPVTwq6JaaOiksw39258abEhStVZdCpXPfEYmM=
   - secure: kj17OCiIeK7sOKT8uQaqBvN7jOnG0y4ul2aL7onOSNJSexuc4WzfrYxORf0FieJ9Y6sh1tMkj0q0knR8F5yz4N4dScw6XLri3LAWh6DgN0pailrKSiA5lVinhgkuRrTimVfEOc8f6H9Ip9T1Li3Iyw1lVJFGeMQKbSpvuk+2Pxw=
