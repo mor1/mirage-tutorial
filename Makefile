@@ -30,8 +30,8 @@ configure:
 		mirage configure src/config.ml --$(MODE)
 
 build:
-	mirage build src/config.ml
+	cd src && make build
 
 clean:
-	[ -r src/Makefile ] && mirage clean src/config.ml || true
+	cd src && make clean
 	$(RM) log
