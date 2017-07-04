@@ -13,7 +13,7 @@ before_install:
   - export PATH=$PATH:$PWD/
 
 script:
-  - make site configure build
+  - make configure build
   - dommage-deploy
 
 env:
