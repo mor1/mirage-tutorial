@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013-2015 Richard Mortier <mort@cantab.net>
+# Copyright (c) 2013-2017 Richard Mortier <mort@cantab.net>
 #
 # Permission to use, copy, modify, and distribute this software for any purpose
 # with or without fee is hereby granted, provided that the above copyright
@@ -14,24 +14,32 @@
 # PERFORMANCE OF THIS SOFTWARE.
 #
 
-MODE   ?= unix
-FS     ?= direct
-DEPLOY ?= false
-NET    ?= socket
-DHCP   ?= false
-
-.PHONY: all configure build clean
-
+.PHONY: configure clean build publish destroy run
 all: build
 	@ :
 
-configure:
-	FS=$(FS) DEPLOY=$(DEPLOY) NET=$(NET) DHCP=$(DHCP) \
-		mirage configure src/config.ml --$(MODE)
+PORT ?= 8080
 
-build:
-	cd src && make build
+MIRAGE = cd src && DOCKER_FLAGS="$$DOCKER_FLAGS -p $(PORT)" dommage
+
+FLAGS ?= -vv --net socket -t unix --port $(PORT)
+
+configure:
+	$(MIRAGE) configure $(FLAGS)
 
 clean:
-	cd src && make clean
-	$(RM) log
+	$(RM) -r _mirage/_build
+	$(MIRAGE) clean || true
+	$(MIRAGE) destroy || true
+
+build:
+	$(MIRAGE) build
+
+publish:
+	$(MIRAGE) publish mor1/mirage-tutorial
+
+destroy:
+	$(MIRAGE) destroy
+
+run:
+	$(MIRAGE) run ./tutorial
