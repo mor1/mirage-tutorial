@@ -1,10 +1,12 @@
-.DS_Store
-log
+# mirage droppings
+src/_build
+src/key_gen.ml
+src/myocamlbuild.ml
+src/*.opam
 src/Makefile
-src/_build/
-src/main.ml
-src/main.native
-src/mir-tutorial
-src/tutorial.xl
-src/tutorial.xe
-src/tutorial_libvirt.xml
+src/.mirage.container
+src/.mirage.config
+src/static*.ml
+src/static*.mli
+src/main.*
+src/tutorial*
