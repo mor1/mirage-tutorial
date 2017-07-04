@@ -22,12 +22,12 @@ env:
     - FLAGS="-t unix -vv --net direct"
     - FLAGS="-t xen  -vv --net direct --dhcp false --interface 0
         --ipv4 46.43.42.142/28 --ipv4-gateway 46.43.42.129"
-      DEPLOY=1 XENIMG="tutorial.openmirage.org" MIRDIR="_mirage"
-      UPDATE_GCC_BINUTILS=1
+      DEPLOY=1 XENIMG="tutorial" MIRDIR="src" UPDATE_GCC_BINUTILS=1
 
   global:
     - OCAMLRUNPARAM=b
     - DOCKER_FLAGS="--user $(id -u):$(id -g)"
+    - DOMMAGE_DEBUG=true
     - secure: PnSgp+7/hBw7ota60fcBwr1WiVD3qMVjlMGl7BI4ntjqtm8rbktFIbZ7KirrdtJXObRMvBp45UVb6pJALDof05ccjCB29VVQdxaq9KaIROSxre121nRaWNEhElh9PTT/DKFqVhPVTwq6JaaOiksw39258abEhStVZdCpXPfEYmM=
     - secure: kj17OCiIeK7sOKT8uQaqBvN7jOnG0y4ul2aL7onOSNJSexuc4WzfrYxORf0FieJ9Y6sh1tMkj0q0knR8F5yz4N4dScw6XLri3LAWh6DgN0pailrKSiA5lVinhgkuRrTimVfEOc8f6H9Ip9T1Li3Iyw1lVJFGeMQKbSpvuk+2Pxw=
     - secure: aclAV1ogsKEyGRa8Vmaqndh/0MpwCuGbjjHtcSKxV4WFZ2MhnqP+OBREgllLU7hqKeOgQt15mRx9Svlsf60KR2FnsmE33sIHj93KoFUMb4wPcfNlAFu3vjfFAnquMjoJZnkCfyC+KIyBXPr6hFTIDA7/5HunWTmBE1TFjPxgEE4=
