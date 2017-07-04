@@ -1,24 +1,43 @@
+sudo: required
+services:
+  - docker
 language: c
-install: wget https://raw.githubusercontent.com/ocaml/ocaml-travisci-skeleton/master/.travis-mirage.sh
-script: bash -ex .travis-mirage.sh
+cache: false
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y realpath # needed on ubuntu 14.04.5 LTS / trusty
+  - wget https://raw.githubusercontent.com/mor1/dommage/master/dommage
+  - wget https://raw.githubusercontent.com/mor1/dommage/master/dommage-deploy
+  - chmod +x dommage dommage-deploy
+  - export PATH=$PATH:$PWD/
+
+script:
+  - make site configure build
+  - dommage-deploy
+
 env:
   matrix:
-  - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix MIRAGE_NET=socket
-  - OCAML_VERSION=4.02 MIRAGE_BACKEND=unix MIRAGE_NET=direct
-  - OCAML_VERSION=4.02 MIRAGE_BACKEND=xen
-    IP="46.43.42.142" NETMASK="255.255.255.128" GATEWAYS="46.43.42.129"
-    DEPLOY=1 XENIMG="tutorial.openmirage.org" UPDATE_GCC_BINUTILS=1
+    - FLAGS="-t unix -vv --net socket"
+    - FLAGS="-t unix -vv --net direct"
+    - FLAGS="-t xen  -vv --net direct --dhcp false --interface 0
+        --ipv4 46.43.42.142/28 --ipv4-gateway 46.43.42.129"
+      DEPLOY=1 XENIMG="tutorial.openmirage.org" MIRDIR="_mirage"
+      UPDATE_GCC_BINUTILS=1
+
   global:
-  - secure: PnSgp+7/hBw7ota60fcBwr1WiVD3qMVjlMGl7BI4ntjqtm8rbktFIbZ7KirrdtJXObRMvBp45UVb6pJALDof05ccjCB29VVQdxaq9KaIROSxre121nRaWNEhElh9PTT/DKFqVhPVTwq6JaaOiksw39258abEhStVZdCpXPfEYmM=
-  - secure: kj17OCiIeK7sOKT8uQaqBvN7jOnG0y4ul2aL7onOSNJSexuc4WzfrYxORf0FieJ9Y6sh1tMkj0q0knR8F5yz4N4dScw6XLri3LAWh6DgN0pailrKSiA5lVinhgkuRrTimVfEOc8f6H9Ip9T1Li3Iyw1lVJFGeMQKbSpvuk+2Pxw=
-  - secure: aclAV1ogsKEyGRa8Vmaqndh/0MpwCuGbjjHtcSKxV4WFZ2MhnqP+OBREgllLU7hqKeOgQt15mRx9Svlsf60KR2FnsmE33sIHj93KoFUMb4wPcfNlAFu3vjfFAnquMjoJZnkCfyC+KIyBXPr6hFTIDA7/5HunWTmBE1TFjPxgEE4=
-  - secure: PhA5O/hnJcMPZgFDU5jw6EtcDcA6S7VMzuiKd8ilLvAquKIagj1OAkRmsd3/e+iBh8tlCa65hnE+nwo92LTXClaZvH//mKPu7XwTLAjMBfGRGzHe4XzE+cjgAfcpnyPl4uEb2lQJqxF0XbMZRYmRVCFrHmKygR7UrqZjd5dmANo=
-  - secure: MQ0IxKMICr8hAQpUwfK0z0BogFplg0Cup8/QVlhran5/bAgYLm/ecB9ZyqQvKrLQB6QgZjf2d/AoCF9aqNJjaZ3ho+nh+4fDS6NHIqJzBqkkYJwlYmPStfq7LrCnji7cy121zcD9EAHnNcDv1Ul2w9BvBp/LWhBkXSyaZXnSqGM=
-  - secure: cPCZO6G5Qf7h4e2zDKG2QIvg2W5F+raUKhq4jEVYzeSlyxAv8sMvA/aMEz0GD8ZWRy6DDBP4bRViH6byP57E4LzOQBTANKj0jlLaMIz0X6ZQV/53tCxCQXkSMkdw+B6KDEtVumUGBPUo4qKN632/rk62niCTGT/zmKZeVnbIGyw=
-  - secure: NDpIYrVt9S6wAIa6dFc2UQNLWxmNj536n6u/vbB7bfNKs9VoUPh7HJ9mNmfxYMlRxrv8tJ2zUQiFjs43AOEB3qs+Gd659ew+FoMzIVhRae/PXxMCzaGdNdeCxSibZM1jyraOvcEBbcVBYP4AVkt8rqL/mE1MtiVv3ww6fZ3YtIc=
-  - secure: IoATAEnVeiZzvVocj2ny6OYuDr1JASxb1g2OWimI6z9eydzFuF1aL7LmxMyyilvtostf9U9xIO2fyWeD/2ZYt89if3POKfr4X0KvteSRmOZ38u3z3Raq3RVMuNE31PJYYTjQGlJX7YukzbCnvkD6IZTUUZbiQUozAJ3h7JNYLgM=
-  - secure: iXDE6EJaEuxjk6i14sLnnHCV2XR8BZagAW0c9MPAXXWFjQ66UkWkXGGeGhg+NI7e7Ym2Kq6LIzlSrw0+Qwma4dtXe8qcKy4jF57ZH7kzaiJXpN7TBEw40xLs+lvLYNgdSGTYk1ZbYqkYiSJEeu9ixO+Ewmdd1jHJvU++68aY9Kg=
-  - secure: CsctpxEAKs2YWRnei2/nxTlbiaOr/TAtoRLDpd+ne9ys3/tHyp09fVwi4w1abmONy2l7lMV27iVlMcBiDsK0yAOdALDNBj3OAUrrrvO54MeXnmBjjASl3p8VOKKpTd03sMohUkGaCh9T2TiKFLEoq6c6tomDdY/kcrMy4zwjwTM=
-  - secure: DSXsyxaLq1EFYkJfWKWKzRSFhnvGs+EZYIf2OagWelXOtGtURsXZ/HUCZwjhS3+cV7SZaTD5uT/cEuj2nupy5PS2NpBL1HgKJ7I3tvDlbPJb8sCsiXz5rq6xgzd60t3QxuApnDmKAJVB18p54hgeJ88LzYS8zjTK6JbGBcSn+Cc=
-  - secure: AculTx1Hmm1xaKna9oo5eYMwHUVVSSjJaSW4BhCqesGC27zY4ryRi1oK+z1WbeThkytrby+mjc4AlaGhs08asnvqw2yYQGlpQAdf+lfmKNpFIwR2YNxmTINwRnFR5SMsKZVTM/Si8Y6Anf9AZ1B/aGEtREfhHci3CVIMY4QwlyI=
-  - secure: OnkEU0lgTv2mW4jg96PkJoVAIHhSzLSS+kVySk6Dh/RuHc9swKh0JFTF0x5kkH57XY6LSe99ma0aKlIlNibhhtkh7lcf60JqTJt9e41ho6xcTuvC4NFkfABgICiAH391382NzLfpVjGG5Xr+yhA9bITZGdhBv1m97cl3X2yvVus=
+    - OCAMLRUNPARAM=b
+    - DOCKER_FLAGS="--user $(id -u):$(id -g)"
+    - secure: PnSgp+7/hBw7ota60fcBwr1WiVD3qMVjlMGl7BI4ntjqtm8rbktFIbZ7KirrdtJXObRMvBp45UVb6pJALDof05ccjCB29VVQdxaq9KaIROSxre121nRaWNEhElh9PTT/DKFqVhPVTwq6JaaOiksw39258abEhStVZdCpXPfEYmM=
+    - secure: kj17OCiIeK7sOKT8uQaqBvN7jOnG0y4ul2aL7onOSNJSexuc4WzfrYxORf0FieJ9Y6sh1tMkj0q0knR8F5yz4N4dScw6XLri3LAWh6DgN0pailrKSiA5lVinhgkuRrTimVfEOc8f6H9Ip9T1Li3Iyw1lVJFGeMQKbSpvuk+2Pxw=
+    - secure: aclAV1ogsKEyGRa8Vmaqndh/0MpwCuGbjjHtcSKxV4WFZ2MhnqP+OBREgllLU7hqKeOgQt15mRx9Svlsf60KR2FnsmE33sIHj93KoFUMb4wPcfNlAFu3vjfFAnquMjoJZnkCfyC+KIyBXPr6hFTIDA7/5HunWTmBE1TFjPxgEE4=
+    - secure: PhA5O/hnJcMPZgFDU5jw6EtcDcA6S7VMzuiKd8ilLvAquKIagj1OAkRmsd3/e+iBh8tlCa65hnE+nwo92LTXClaZvH//mKPu7XwTLAjMBfGRGzHe4XzE+cjgAfcpnyPl4uEb2lQJqxF0XbMZRYmRVCFrHmKygR7UrqZjd5dmANo=
+    - secure: MQ0IxKMICr8hAQpUwfK0z0BogFplg0Cup8/QVlhran5/bAgYLm/ecB9ZyqQvKrLQB6QgZjf2d/AoCF9aqNJjaZ3ho+nh+4fDS6NHIqJzBqkkYJwlYmPStfq7LrCnji7cy121zcD9EAHnNcDv1Ul2w9BvBp/LWhBkXSyaZXnSqGM=
+    - secure: cPCZO6G5Qf7h4e2zDKG2QIvg2W5F+raUKhq4jEVYzeSlyxAv8sMvA/aMEz0GD8ZWRy6DDBP4bRViH6byP57E4LzOQBTANKj0jlLaMIz0X6ZQV/53tCxCQXkSMkdw+B6KDEtVumUGBPUo4qKN632/rk62niCTGT/zmKZeVnbIGyw=
+    - secure: NDpIYrVt9S6wAIa6dFc2UQNLWxmNj536n6u/vbB7bfNKs9VoUPh7HJ9mNmfxYMlRxrv8tJ2zUQiFjs43AOEB3qs+Gd659ew+FoMzIVhRae/PXxMCzaGdNdeCxSibZM1jyraOvcEBbcVBYP4AVkt8rqL/mE1MtiVv3ww6fZ3YtIc=
+    - secure: IoATAEnVeiZzvVocj2ny6OYuDr1JASxb1g2OWimI6z9eydzFuF1aL7LmxMyyilvtostf9U9xIO2fyWeD/2ZYt89if3POKfr4X0KvteSRmOZ38u3z3Raq3RVMuNE31PJYYTjQGlJX7YukzbCnvkD6IZTUUZbiQUozAJ3h7JNYLgM=
+    - secure: iXDE6EJaEuxjk6i14sLnnHCV2XR8BZagAW0c9MPAXXWFjQ66UkWkXGGeGhg+NI7e7Ym2Kq6LIzlSrw0+Qwma4dtXe8qcKy4jF57ZH7kzaiJXpN7TBEw40xLs+lvLYNgdSGTYk1ZbYqkYiSJEeu9ixO+Ewmdd1jHJvU++68aY9Kg=
+    - secure: CsctpxEAKs2YWRnei2/nxTlbiaOr/TAtoRLDpd+ne9ys3/tHyp09fVwi4w1abmONy2l7lMV27iVlMcBiDsK0yAOdALDNBj3OAUrrrvO54MeXnmBjjASl3p8VOKKpTd03sMohUkGaCh9T2TiKFLEoq6c6tomDdY/kcrMy4zwjwTM=
+    - secure: DSXsyxaLq1EFYkJfWKWKzRSFhnvGs+EZYIf2OagWelXOtGtURsXZ/HUCZwjhS3+cV7SZaTD5uT/cEuj2nupy5PS2NpBL1HgKJ7I3tvDlbPJb8sCsiXz5rq6xgzd60t3QxuApnDmKAJVB18p54hgeJ88LzYS8zjTK6JbGBcSn+Cc=
+    - secure: AculTx1Hmm1xaKna9oo5eYMwHUVVSSjJaSW4BhCqesGC27zY4ryRi1oK+z1WbeThkytrby+mjc4AlaGhs08asnvqw2yYQGlpQAdf+lfmKNpFIwR2YNxmTINwRnFR5SMsKZVTM/Si8Y6Anf9AZ1B/aGEtREfhHci3CVIMY4QwlyI=
+    - secure: OnkEU0lgTv2mW4jg96PkJoVAIHhSzLSS+kVySk6Dh/RuHc9swKh0JFTF0x5kkH57XY6LSe99ma0aKlIlNibhhtkh7lcf60JqTJt9e41ho6xcTuvC4NFkfABgICiAH391382NzLfpVjGG5Xr+yhA9bITZGdhBv1m97cl3X2yvVus=
