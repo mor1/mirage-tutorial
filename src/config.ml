@@ -10,7 +10,7 @@ let port =
 let keys = Key.([ abstract port ])
 
 let fs_key = Key.(value @@ kv_ro ())
-let staticfs = generic_kv_ro ~key:fs_key "./static"
+let staticfs = generic_kv_ro ~key:fs_key "../static"
 
 let httpsvr =
   let stack = generic_stackv4 default_network in

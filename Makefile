@@ -20,7 +20,8 @@ all: build
 
 PORT ?= 8080
 
-MIRAGE = cd src && DOCKER_FLAGS="$$DOCKER_FLAGS -p $(PORT)" dommage
+MIRAGE = DOCKER_FLAGS="$$DOCKER_FLAGS -p $(PORT)" \
+    dommage --dommage-chdir src
 
 FLAGS ?= -vv --net socket -t unix --port $(PORT)
 
@@ -35,11 +36,8 @@ clean:
 build:
 	$(MIRAGE) build
 
-publish:
-	$(MIRAGE) publish mor1/mirage-tutorial
-
 destroy:
 	$(MIRAGE) destroy
 
 run:
-	$(MIRAGE) run ./tutorial
+	$(MIRAGE) run sudo ./tutorial
