@@ -14,24 +14,22 @@
 # PERFORMANCE OF THIS SOFTWARE.
 #
 
-.PHONY: configure clean build publish destroy run
-all: build
-	@ :
-
-PORT ?= 8080
+PORT  ?= 8080
+FLAGS ?= -vv --net socket -t unix --port $(PORT)
 
 MIRAGE = DOCKER_FLAGS="$$DOCKER_FLAGS -p $(PORT)" \
     dommage --dommage-chdir src
 
-FLAGS ?= -vv --net socket -t unix --port $(PORT)
+.PHONY: clean configure build destroy run
+
+all: build
+	@ :
+
+clean:
+	$(MIRAGE) clean || true
 
 configure:
 	$(MIRAGE) configure $(FLAGS)
-
-clean:
-	$(RM) -r _mirage/_build
-	$(MIRAGE) clean || true
-	$(MIRAGE) destroy || true
 
 build:
 	$(MIRAGE) build
