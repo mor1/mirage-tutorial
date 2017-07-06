@@ -31,6 +31,6 @@ let main =
     (http @-> kv_ro @-> job)
 
 let () =
-  register ~packages "tutorial" [
+  register ~packages "tutorial.openmirage.org" [
     main $ httpsvr $ staticfs
   ]
