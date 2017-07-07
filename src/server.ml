@@ -1,45 +1,67 @@
-open Lwt
-open V1_LWT
+open Lwt.Infix
 
-module Main (C: CONSOLE) (STATIC: KV_RO) (S: Cohttp_lwt.Server) = struct
+let err fmt = Fmt.kstrf failwith fmt
 
-  let start c static http =
-    let read_static name =
-      STATIC.size static name >>= function
-      | `Error (STATIC.Unknown_key _) ->
-        fail (Failure ("read_static_size " ^ name))
-      | `Ok size ->
-        STATIC.read static name 0 (Int64.to_int size) >>= function
-        | `Error (STATIC.Unknown_key _) ->
-          fail (Failure ("read_static " ^ name))
-        | `Ok bufs -> return (Cstruct.copyv bufs)
+module Main
+    (S: Cohttp_lwt.Server)
+    (STATIC: Mirage_types_lwt.KV_RO)
+= struct
+
+  let http_src = Logs.Src.create "http" ~doc:"HTTP server"
+  module Http_log = (val Logs.src_log http_src : Logs.LOG)
+
+  let size_then_read ~pp_error ~size ~read device name =
+    size device name >>= function
+    | Error e -> err "%a" pp_error e
+    | Ok size ->
+      read device name 0L size >>= function
+      | Error e -> err "%a" pp_error e
+      | Ok bufs -> Lwt.return (Cstruct.copyv bufs)
+
+  let static_read =
+    size_then_read ~pp_error:STATIC.pp_error ~size:STATIC.size ~read:STATIC.read
+
+  let respond path body =
+    let mime_type = Magic_mime.lookup path in
+    let headers = Cohttp.Header.init () in
+    let headers = Cohttp.Header.add headers "content-type" mime_type in
+    S.respond_string ~status:`OK ~body ~headers ()
+
+  let rec dispatcher static uri =
+      let path = Uri.path uri in
+      Http_log.info (fun f -> f "request '%s'" path);
+
+      match path with
+      | "" | "/" -> dispatcher static (Uri.with_path uri "index.html")
+      | path ->
+        let tail = Astring.String.head ~rev:true path in
+        match tail with
+        | Some '/' ->
+          dispatcher static (Uri.with_path uri (path ^ "index.html"))
+        | Some _ | None ->
+          Lwt.catch
+            (fun () ->
+               static_read static path >>= fun body -> respond path body
+            )
+            (fun _exn -> S.respond_not_found ())
+
+  let start http static =
+    Logs.(set_level (Some Info));
+
+    let callback (_, conn_id) request _body =
+      let uri = Cohttp.Request.uri request in
+      let conn_id = Cohttp.Connection.to_string conn_id in
+
+      Http_log.info (fun f -> f "[%s] serving %s" conn_id (Uri.to_string uri));
+      dispatcher static uri
     in
-
-    let callback conn_id req body =
-      let path = req |> Cohttp.Request.uri |> Uri.path in
-      C.log c (Printf.sprintf "URL: '%s'" path);
-
-      try_lwt
-        read_static path >>= fun body ->
-        S.respond_string ~status:`OK ~body ()
-      with
-      | Failure m ->
-        Printf.printf "CATCH: '%s'\n%!" m;
-        let cpts = path
-                   |> Re_str.(split_delim (regexp_string "/"))
-                   |> List.filter (fun e -> e <> "")
-        in
-        match cpts with
-        | [] | [""] -> S.respond_string ~status:`OK ~body:Content.body ()
-        | x -> S.respond_not_found ~uri:(Cohttp.Request.uri req) ()
-    in
-
     let conn_closed (_, conn_id) =
       let cid = Cohttp.Connection.to_string conn_id in
-      C.log c (Printf.sprintf "conn %s closed" cid)
+      Http_log.info (fun f -> f "[%s] closing" cid);
     in
+    let port = Key_gen.port () in
+    Http_log.info (fun f -> f "listening on %d/TCP" port);
 
-    let spec = S.make ~callback ~conn_closed () in
-    http (`TCP 80) spec
+    http (`TCP port) @@ S.make ~conn_closed ~callback ()
 
 end

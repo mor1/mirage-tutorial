@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013-2015 Richard Mortier <mort@cantab.net>
+# Copyright (c) 2013-2017 Richard Mortier <mort@cantab.net>
 #
 # Permission to use, copy, modify, and distribute this software for any purpose
 # with or without fee is hereby granted, provided that the above copyright
@@ -14,24 +14,28 @@
 # PERFORMANCE OF THIS SOFTWARE.
 #
 
-MODE   ?= unix
-FS     ?= direct
-DEPLOY ?= false
-NET    ?= socket
-DHCP   ?= false
+PORT  ?= 8080
+FLAGS ?= -vv --net socket -t unix --port $(PORT)
 
-.PHONY: all configure build clean
+MIRAGE = DOCKER_FLAGS="$$DOCKER_FLAGS -p $(PORT)" \
+    dommage --dommage-chdir src
+
+.PHONY: clean configure build destroy run
 
 all: build
 	@ :
 
+clean:
+	$(MIRAGE) clean || true
+
 configure:
-	FS=$(FS) DEPLOY=$(DEPLOY) NET=$(NET) DHCP=$(DHCP) \
-		mirage configure src/config.ml --$(MODE)
+	$(MIRAGE) configure $(FLAGS)
 
 build:
-	cd src && make build
+	$(MIRAGE) build
 
-clean:
-	cd src && make clean
-	$(RM) log
+destroy:
+	$(MIRAGE) destroy
+
+run:
+	$(MIRAGE) run sudo ./tutorial

@@ -1,1 +1,3 @@
-REC
+PKG lwt mirage mirage-types mirage-types-lwt cohttp magic-mime cow cowabloga
+S ./
+B _build/**
