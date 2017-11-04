@@ -20,22 +20,39 @@ FLAGS ?= -vv --net socket -t unix --port $(PORT)
 MIRAGE = DOCKER_FLAGS="$$DOCKER_FLAGS -p $(PORT)" \
     dommage --dommage-chdir src
 
-.PHONY: clean configure build destroy run
-
+.PHONY: all
 all: build
 	@ :
 
+.PHONY: clean
 clean:
 	$(MIRAGE) clean || true
+	$(RM) src/*.img
 
+.PHONY: configure
 configure:
 	$(MIRAGE) configure $(FLAGS)
 
+.PHONY: build
 build:
 	$(MIRAGE) build
 
+.PHONY: destroy
 destroy:
 	$(MIRAGE) destroy
 
+.PHONY: update
+update:
+	$(MIRAGE) update
+
+.PHONY: publish
+publish:
+	$(MIRAGE) publish mor1/mirage-tutorial
+
+.PHONY: run
 run:
-	$(MIRAGE) run sudo ./tutorial
+	$(MIRAGE) run sudo ./decksopenmirageorg
+
+.PHONY: shell
+shell:
+	$(MIRAGE) run /bin/bash
