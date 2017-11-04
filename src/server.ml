@@ -3,7 +3,7 @@ open Lwt.Infix
 let err fmt = Fmt.kstrf failwith fmt
 
 module Main
-    (S: Cohttp_lwt.Server)
+    (S: Cohttp_lwt.S.Server)
     (STATIC: Mirage_types_lwt.KV_RO)
 = struct
 
